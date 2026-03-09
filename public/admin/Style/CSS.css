@@ -1,0 +1,102 @@
+body{
+    background:#f4f6fb;
+}
+
+.admin-wrapper{
+    display:flex;
+}
+
+/* Sidebar */
+
+.sidebar{
+    width:240px;
+    height:100vh;
+    background:#ffffff;
+    border-right:1px solid #e5e7eb;
+    padding:20px;
+}
+
+.logo{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.menu{
+    list-style:none;
+    padding:0;
+}
+
+.menu li{
+    margin-bottom:5px;
+}
+
+.menu a{
+    text-decoration:none;
+    color:#374151;
+    padding:10px;
+    display:block;
+    border-radius:8px;
+}
+
+.menu a:hover{
+    background:#f1f5f9;
+}
+
+/* Main */
+
+.main-content{
+    flex:1;
+}
+
+/* Table */
+
+.table img{
+    border-radius:6px;
+}
+
+/* Click vào mục trên sidebar */
+.menu a{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    text-decoration:none;
+    padding:12px 14px;
+    border-radius:10px;
+    color:#374151;
+    transition:0.2s;
+}
+
+/* hover */
+.menu a:hover{
+    background:#f1f5f9;
+}
+
+/* active giống ảnh */
+.menu a.active{
+    background:#eef2f2;
+    color:#10b981;
+    border-left:4px solid #10b981;
+    font-weight:500;
+}
+
+/* icon khi active */
+.menu a.active i{
+    color:#10b981;
+}
+
+/* Phân vùng menu */
+.menu-title{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-top:18px;
+    margin-bottom:6px;
+    font-size:12px;
+    font-weight:600;
+    color:#9ca3af;
+    text-transform:uppercase;
+}
+
+.menu-title i{
+    font-size:14px;
+}

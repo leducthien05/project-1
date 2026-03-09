@@ -1,0 +1,48 @@
+.sidebar
+
+  h4.logo ADMIN
+
+  ul.menu
+    // ===== Tổng quan =====
+    li.menu-title
+      i(class="bi bi-speedometer2")
+      |  Tổng quan
+
+    li(class="menu-item")
+      a(href=`${prefixAdmin}/dashboard`
+        
+      )
+        i(class="bi bi-speedometer2")
+        |  Dashboard
+    // ===== Quản lý =====
+    li.menu-title
+      i(class="bi bi-folder2-open")
+      |  Quản lý
+
+    li(class="menu-item")
+      a(href=`${prefixAdmin}/products`)
+        i(class="bi bi-box")
+        |  Sản phẩm
+
+    li(class="menu-item")
+      a(href=`${prefixAdmin}/categorys`)
+        i(class="bi bi-tags")
+        |  Danh mục sản phẩm
+
+    li(class="menu-item")
+      a(href=`${prefixAdmin}/orders`)
+        i(class="bi bi-cart")
+        |  Đơn hàng
+
+
+    li(class="menu-item")
+      a(href=`${prefixAdmin}/users`)
+        i(class="bi bi-people")
+        |  Khách hàng
+
+    // ===== Hệ thống =====
+    li.menu-title
+      i(class="bi bi-gear")
+      |  Hệ thống
+      
+  script(src="/admin/JS/sidebar.js") 

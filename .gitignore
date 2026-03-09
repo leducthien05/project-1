@@ -1,0 +1,10 @@
+# Bỏ qua thư mục node_modules
+node_modules/
+
+# Bỏ qua file môi trường
+.env
+
+# Bỏ qua các file hệ thống của VS Code, Windows, v.v.
+.vscode/
+.DS_Store
+Thumbs.db

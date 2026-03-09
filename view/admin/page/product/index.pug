@@ -1,0 +1,67 @@
+extends ../../layout/default.pug
+
+block main
+    .card.shadow-sm
+        .card-header.d-flex.justify-content-between.align-items-center
+            h5.mb-0 Danh sách sản phẩm
+            button.btn.btn-primary + Thêm sản phẩm
+
+        .card-body
+
+            table(class="table table-hover")
+                thead
+                    tr
+                    th STT
+                    th Hình
+                    th Tên sản phẩm
+                    th Giá
+                    th Vị trí
+                    th Trạng thái
+                    //- th Danh mục
+                    th Hành động
+
+                tbody
+                    each item, index in product
+                        tr
+                            td #{index + 1}
+                            td
+                                img(
+                                    src=item.image
+                                    alt=item.name
+                                    hight= "auto"
+                                    width = "100px"
+                                    loading="lazy"
+                                )
+                            td #{item.name}
+                            td #{item.newPrice}
+                            td 
+                                input(
+                                    position-input 
+                                    value = item.position 
+                                    min = 1
+                                    max = item.stock 
+                                    type="number"
+                                )
+                            td 
+                                if(item.status == "active")
+                                    a(
+                                        href="javascript:;"
+                                        class="badge bg-success"
+                                        change-status
+                                        status=item.status
+                                        id=item.id
+                                    ) Hoạt động
+                                else
+                                    a(
+                                        href="javascript:;"
+                                        class="badge bg-danger"
+                                        change-status
+                                        status=item.status
+                                        id=item.id
+                                    ) Ngừng hoạt động
+                            //- td Laptop
+                            td
+                                button(class="btn btn-warning btn-sm") Sửa
+                                button(class="btn btn-danger btn-sm") Xóa
+
+                        
