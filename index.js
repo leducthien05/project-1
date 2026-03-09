@@ -9,6 +9,9 @@ const port = process.env.PORT;
 //Connect DB
 const connectDB = require("./config/database");
 connectDB.connect();
+//Method-override
+const methodOverride = require('method-override');
+app.use(methodOverride('_method'));
 //Cấu hình PUG 
 app.set("views", "./view");
 app.set("view engine", 'pug'); 
