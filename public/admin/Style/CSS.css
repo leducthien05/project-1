@@ -4,6 +4,7 @@ body{
 
 .admin-wrapper{
     display:flex;
+   
 }
 
 /* Sidebar */
@@ -99,4 +100,16 @@ body{
 
 .menu-title i{
     font-size:14px;
+}
+
+.card-body h5{
+    font-weight:600;
+}
+
+.btn{
+    border-radius:6px;
+}
+
+.card.shadow-sm{
+    margin-bottom:20px;
 }

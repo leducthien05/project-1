@@ -2,9 +2,32 @@ extends ../../layout/default.pug
 
 block main
     .card.shadow-sm
+        .card-body
+            h5.mb-3 Bộ lọc và Tìm kiếm
+                .row.align-items-center
+                    // Bộ lọc trạng thái
+                    .col-md-6
+                        each item in listStatus
+                            button(
+                                type="button"
+                                class=`btn btn-sm me-1 btn-outline-success ${item.class}`
+                                data-status=item.status
+                                button-status
+                            ) #{item.name}
+                    .col-md-6
+                        form(action="/admin/products" method="GET")
+                            .input-group
+                                input.form-control(
+                                    type="text"
+                                    name="keyword"
+                                    placeholder="Nhập từ khóa"
+                                    value=keyword
+                                )
+                                button.btn.btn-success(type="submit") Tìm
+    .card.shadow-sm
         .card-header.d-flex.justify-content-between.align-items-center
             h5.mb-0 Danh sách sản phẩm
-            button.btn.btn-primary + Thêm sản phẩm
+            button(class = "btn btn-primary") + Thêm sản phẩm
 
         .card-body
 
@@ -64,4 +87,5 @@ block main
                                 button(class="btn btn-warning btn-sm") Sửa
                                 button(class="btn btn-danger btn-sm") Xóa
 
+    script(src="/admin/JS/product.js") 
                         
