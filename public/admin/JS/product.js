@@ -14,3 +14,19 @@ if(btnStatus.length > 0){
         });
     });
 }
+
+//Tìm kiếm
+const formSearch = document.querySelector("[form-search]");
+if(formSearch){
+    formSearch.addEventListener("submit", (e)=>{
+        e.preventDefault();
+        const url = new URL(window.location.href);
+        const value = e.target.elements.keyword.value;
+        if(value){
+            url.searchParams.set("keyword", value);
+        }else{
+            url.searchParams.delete("keyword");
+        }
+        window.location.href = url.href;
+    })
+}
