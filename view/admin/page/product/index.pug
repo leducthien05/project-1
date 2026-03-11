@@ -1,4 +1,6 @@
 extends ../../layout/default.pug
+include ../../mixin/filterStatus.pug
+include ../../mixin/search.pug
 
 block main
     .card.shadow-sm
@@ -7,30 +9,9 @@ block main
                 .row.align-items-center
                     // Bộ lọc trạng thái
                     .col-md-6
-                        each item in listStatus
-                            button(
-                                type="button"
-                                class=`btn btn-sm me-1 btn-outline-success ${item.class}`
-                                data-status=item.status
-                                button-status
-                            ) #{item.name}
+                        +filterStatus(listStatus)
                     .col-md-6
-                        form(
-                            action="" 
-                            method="GET"
-                            form-search 
-                        )
-                            .input-group
-                                input(class ="form-control")(
-                                    type="text"
-                                    name="keyword"
-                                    placeholder="Nhập từ khóa"
-                                    value=keyword
-                                    input-search
-                                )
-                                button(class="btn.btn-success")(
-                                    type="submit"
-                                ) Tìm
+                        +search(keyword)
     .card.shadow-sm
         .card-header.d-flex.justify-content-between.align-items-center
             h5.mb-0 Danh sách sản phẩm

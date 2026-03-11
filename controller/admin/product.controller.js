@@ -19,7 +19,6 @@ module.exports.index = async (req, res)=>{
     if(req.query.keyword){
         find.name = objectKeyword.regex;
     }
-    console.log(objectKeyword);
     const product = await Product.find(find);
     const newProduct = helprPriceNew.newPriceArray(product);
     res.render("admin/page/product/index", {
