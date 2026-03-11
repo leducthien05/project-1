@@ -1,6 +1,7 @@
 extends ../../layout/default.pug
 include ../../mixin/filterStatus.pug
 include ../../mixin/search.pug
+include ../../mixin/pagination.pug
 
 block main
     .card.shadow-sm
@@ -74,26 +75,12 @@ block main
                             td
                                 button(class="btn btn-warning btn-sm") Sửa
                                 button(class="btn btn-danger btn-sm") Xóa
-    nav
-        ul(class="pagination justify-content-center")
-            - if(pagination.currentPage > 1)
-                li(class=`page-item`)
-                    button(
-                        class="page-link"
-                        number-page=`${pagination.currentPage - 1}`
-                    ) Trang trước
-            - for(var i = 1; i <= pagination.totalPage; i ++)
-                li(class=`page-item ${pagination.currentPage == i ? "active" : ""}`)
-                    button(
-                        class="page-link"
-                        number-page=`${i}`
-                    ) #{i}
-            - if(pagination.currentPage < pagination.totalPage)
-                li(class=`page-item`)
-                    button(
-                        class="page-link"
-                        number-page=`${pagination.currentPage + 1}`
-                    ) Tiếp theo
+    +pagination(objectPage)
+    form(
+        action=`${prefixAdmin}/products/change-status`, 
+        method="post",
+        form-change-status
+    ) 
 
     script(src="/admin/JS/product.js") 
                         

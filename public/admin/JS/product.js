@@ -48,3 +48,20 @@ if(btnPage.length > 0){
         });
     });
 }
+
+//Thay đổi trạng thái một sản phẩm
+const formChangeStatus = document.querySelector("[form-change-status]");
+if(formChangeStatus){
+    const btnStatus = document.querySelectorAll("[change-status]");
+    const path = formChangeStatus.getAttribute("action");
+    btnStatus.forEach(btn =>{
+        btn.addEventListener("click", ()=>{
+            const value = btn.getAttribute("status");
+            const id = btn.getAttribute("id");
+            const status = value == "active" ? "inactive" : "active";
+            const action = path + `/${status}/${id}?_method=PATCH`;
+            formChangeStatus.action = action;
+            formChangeStatus.submit();
+        });
+    })
+}

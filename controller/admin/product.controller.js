@@ -32,3 +32,13 @@ module.exports.index = async (req, res)=>{
         pagination: objectPage
     });
 }
+
+//[PATCH] /admin/products/change-status/:status/:id
+module.exports.changeStatus = async (req, res)=>{
+    const id = req.params.id;
+    const status = req.params.status;
+    await Product.updateOne({
+        _id: id
+    }, {status: status});
+    res.redirect(req.get("referer") || "/");
+}
