@@ -30,5 +30,21 @@ if(formSearch){
             url.searchParams.delete("keyword");
         }
         window.location.href = url.href;
-    })
+    });
+}
+
+//Phân trang
+const btnPage = document.querySelectorAll("[number-page]");
+if(btnPage.length > 0){
+    btnPage.forEach(btn =>{
+        const url = new URL(window.location.href);
+        btn.addEventListener("click", ()=>{
+            const value = btn.getAttribute("number-page");
+            url.searchParams.set("page", value);
+            if(value === "1"){
+                url.searchParams.delete("page");
+            }
+            window.location.href = url.href;
+        });
+    });
 }

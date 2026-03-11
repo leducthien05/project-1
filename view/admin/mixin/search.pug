@@ -5,13 +5,15 @@ mixin search(keyword)
         form-search 
     )
         .input-group
-            input(class="form-control")(
+            input(
+                class="form-control"
                 type="text"
                 name="keyword"
                 placeholder="Nhập từ khóa"
                 value=keyword
                 input-search
             )
-            button(class="btn btn-success")(
+            button(
+                class="btn btn-success"
                 type="submit"
             ) Tìm

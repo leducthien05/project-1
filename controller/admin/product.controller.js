@@ -3,6 +3,7 @@ const Product = require("../../model/product.model");
 const helprPriceNew = require("../../helper/newPrice.helper");
 const filterStatus = require("../../helper/filterStatus.helper");
 const search = require("../../helper/search.helper");
+const pagination = require("../../helper/pagination.helper");
 
 //[GET] /admin/products
 module.exports.index = async (req, res)=>{
@@ -19,12 +20,15 @@ module.exports.index = async (req, res)=>{
     if(req.query.keyword){
         find.name = objectKeyword.regex;
     }
-    const product = await Product.find(find);
+    //Phân trang
+    const objectPage = await pagination.pagination(req.query, find);
+    const product = await Product.find(find).limit(objectPage.limit).skip(objectPage.skipProduct);
     const newProduct = helprPriceNew.newPriceArray(product);
     res.render("admin/page/product/index", {
         titlePage: "Sản phẩm",
         product: newProduct,
         listStatus: listStatus,
-        keyword: objectKeyword.keyword
+        keyword: objectKeyword.keyword,
+        pagination: objectPage
     });
 }
