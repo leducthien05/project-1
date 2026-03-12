@@ -63,5 +63,77 @@ if(formChangeStatus){
             formChangeStatus.action = action;
             formChangeStatus.submit();
         });
-    })
+    });
+}
+
+//Change-multi status
+const checkboxAll = document.querySelector("[checkbox-all]");
+if(checkboxAll){
+    const checkboxItem = document.querySelectorAll("[checkbox-item]");
+    checkboxAll.addEventListener("click", ()=>{
+        checkboxItem.forEach(item =>{
+            if(checkboxAll.checked == true){
+                item.checked = true;
+            }else{
+                item.checked = false;
+            }         
+        });
+    });
+    checkboxItem.forEach(item =>{
+        item.addEventListener("click", ()=>{
+            const countChecked = document.querySelectorAll("input[name='id']:checked").length;
+            if(countChecked == checkboxItem.length){
+                checkboxAll.checked = true;
+            }else{
+                checkboxAll.checked = false;
+            }
+        });
+    });
+}
+
+//form-change-multi
+const formChangeMulti = document.querySelector("[form-change-multi]");
+if(formChangeMulti){
+    formChangeMulti.addEventListener("submit", (e)=>{
+        e.preventDefault();
+        // const checkboxAll = document.querySelector("[checkbox-all]");
+        const checkboxItem = document.querySelectorAll("input[checkbox-item]:checked");
+        const value = e.target.elements.status.value;//Tìm phần tử có tên là status rồi lấy giá trị
+        const sum = checkboxItem.length;
+        if(value == "delete-all"){
+            const isconFirm = alert(`Bạn có chắc muốn xóa ${sum} sản phẩm chứ?`);
+            if(!isconFirm){
+                retrun;
+            }
+        }
+
+        if(value == "active" || value == "inactive"){
+            const ids = [];
+            checkboxItem.forEach(item =>{
+                const id = item.value;
+                ids.push(id);
+            });
+        }
+
+        if(checkboxItem.length > 0){
+            const inputForm = document.querySelector("input[name='ids']");
+            const ids = [];
+            checkboxItem.forEach(item =>{
+                const id = item.value;
+                if(value == "position"){
+                    const position = item.closest("tr").querySelector("input[name='position']").value;
+                    const string = `${id}-${position}`;
+                    ids.push(string);
+                }else{
+                    ids.push(id);
+                }
+            });
+            inputForm.value = ids.join(", ");
+        }
+        
+        formChangeMulti.submit();
+    });
+   
+    
+    
 }

@@ -2,6 +2,7 @@ extends ../../layout/default.pug
 include ../../mixin/filterStatus.pug
 include ../../mixin/search.pug
 include ../../mixin/pagination.pug
+include ../../mixin/OptionChangeMulti.pug
 
 block main
     .card.shadow-sm
@@ -15,27 +16,50 @@ block main
                         +search(keyword)
     .card.shadow-sm
         .card-header.d-flex.justify-content-between.align-items-center
-            h5.mb-0 Danh sách sản phẩm
+            //- h5.mb-0 Danh sách sản phẩm
+            // Select hành động
+            form(
+                action=`${prefixAdmin}/products/change-multi-status?_method=PATCH` 
+                method="POST" 
+                form-change-multi
+                class="d-flex gap-2"
+            )
+                +selectOption()
             button(class = "btn btn-primary") + Thêm sản phẩm
 
         .card-body
 
-            table(class="table table-hover")
+            table(
+                class="table table-hover"
+                checkbox-multi
+            )
                 thead
                     tr
-                    th STT
-                    th Hình
-                    th Tên sản phẩm
-                    th Giá
-                    th Vị trí
-                    th Trạng thái
-                    //- th Danh mục
-                    th Hành động
+                        th 
+                            input(
+                                type="checkbox"
+                                checkbox-all
+                            )
+                        th STT
+                        th Hình
+                        th Tên sản phẩm
+                        th Giá
+                        th Vị trí
+                        th Trạng thái
+                        //- th Danh mục
+                        th Hành động
 
                 tbody
                     each item, index in product
                         tr
-                            td #{index + 1}
+                            td 
+                                input(
+                                    type="checkbox"
+                                    checkbox-item
+                                    name="id"
+                                    value = item.id
+                                )
+                            td #{item.indexProduct}
                             td
                                 img(
                                     src=item.image
@@ -51,8 +75,9 @@ block main
                                     position-input 
                                     value = item.position 
                                     min = 1
-                                    max = item.stock 
                                     type="number"
+                                    name = "position"
+                                    style="width:70px"
                                 )
                             td 
                                 if(item.status == "active")

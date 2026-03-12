@@ -9,8 +9,9 @@ module.exports.pagination = async (query, find)=>{
     objectPage.totalPage = Math.ceil(countProduct / objectPage.limit);
     if(query.page){
         objectPage.currentPage = parseInt(query.page);
-        const skipProduct = (objectPage.currentPage - 1) * objectPage.limit;
-        objectPage.skipProduct = skipProduct;
     }
+    const skipProduct = (objectPage.currentPage - 1) * objectPage.limit;
+    objectPage.skipProduct = skipProduct;
+    
     return objectPage;
 }

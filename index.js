@@ -12,6 +12,9 @@ connectDB.connect();
 //Method-override
 const methodOverride = require('method-override');
 app.use(methodOverride('_method'));
+//body-parse
+const bodyParser = require('body-parser');
+app.use(express.urlencoded({ extended: true }));
 //Cấu hình PUG 
 app.set("views", "./view");
 app.set("view engine", 'pug'); 
