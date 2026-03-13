@@ -14,6 +14,11 @@ module.exports.filter = (query)=>{
             name: "Ngừng hoạt động",
             status: "inactive",
             class: ""
+        },
+        {
+            name:"Xóa mềm",
+            status: "deleted",
+            class: ""
         }
     ];
 

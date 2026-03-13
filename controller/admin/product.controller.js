@@ -13,7 +13,11 @@ module.exports.index = async (req, res)=>{
     //Lọc sản phẩm theo status
     const listStatus = filterStatus.filter(req.query);
     if(req.query.status){
-        find.status= req.query.status;
+        if(req.query.status == "deleted"){
+            find.deleted = true;
+        }else{
+            find.status= req.query.status;
+        }
     }
     //Tìm kiếm sản phẩm
     const objectKeyword = search.search(req.query);
@@ -69,6 +73,16 @@ module.exports.changeMulti = async (req, res)=>{
                     _id: ids
                 }, {deleted: true});
                 break;
+            case "delete-hard":
+                await Product.deleteMany({
+                    _id: ids
+                });
+                break;
+            case "un-delete":
+                await Product.updateMany({
+                    _id: ids
+                }, {deleted: false});
+                break;
             case "position":
                 for(item of ids){
                     let [id, position] = item.split("-");
@@ -85,5 +99,18 @@ module.exports.changeMulti = async (req, res)=>{
     } catch (error) {
         console.log(error);
     }
+    res.redirect(req.get("referer") || "/");
+}
+
+// [DELETE] admin/products/delete/:id
+module.exports.delete = async (req, res)=>{
+    const id = req.params.id;
+    // await Product.deleteOne({
+    //     _id: id
+    // });
+    await Product.updateOne({
+        _id: id
+    }, {deleted: true});
+
     res.redirect(req.get("referer") || "/");
 }

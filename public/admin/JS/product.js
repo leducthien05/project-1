@@ -91,6 +91,19 @@ if(checkboxAll){
     });
 }
 
+//Select action
+const selectOpton = document.querySelector("[select-option]");
+if(selectOpton){
+    const url = new URL(window.location.href);
+    const status = url.searchParams.get("status");
+    if(status == "deleted"){
+        selectOpton.add(new Option("Khôi phục", "un-delete"));
+        const optionDelete = selectOpton.querySelector("option[value='delete-all']");
+        optionDelete.value="delete-hard";
+        optionDelete.text="Xóa hoàn toàn";
+    }
+}
+
 //form-change-multi
 const formChangeMulti = document.querySelector("[form-change-multi]");
 if(formChangeMulti){
@@ -100,7 +113,7 @@ if(formChangeMulti){
         const checkboxItem = document.querySelectorAll("input[checkbox-item]:checked");
         const value = e.target.elements.status.value;//Tìm phần tử có tên là status rồi lấy giá trị
         const sum = checkboxItem.length;
-        if(value == "delete-all"){
+        if(value == "delete-all" || value == "deleted-hard"){
             const isconFirm = alert(`Bạn có chắc muốn xóa ${sum} sản phẩm chứ?`);
             if(!isconFirm){
                 retrun;
@@ -130,10 +143,22 @@ if(formChangeMulti){
             });
             inputForm.value = ids.join(", ");
         }
-        
         formChangeMulti.submit();
     });
-   
-    
-    
 }
+
+const formDelete = document.querySelector("[form-delete]");
+if(formDelete){
+    const btnDelete = document.querySelectorAll("[btn-delete]");
+    const path = formDelete.getAttribute("action");
+        btnDelete.forEach((btn)=>{
+            btn.addEventListener("click", ()=>{
+            const id = btn.getAttribute("btn-id");
+            const action = `${path}/${id}?_method=DELETE`;
+            console.log(action);
+            formDelete.action = action;
+            formDelete.submit();
+        }); 
+    });
+}
+

@@ -98,14 +98,25 @@ block main
                                     ) Ngừng hoạt động
                             //- td Laptop
                             td
-                                button(class="btn btn-warning btn-sm") Sửa
-                                button(class="btn btn-danger btn-sm") Xóa
+                                button(
+                                    class="btn btn-warning btn-sm"
+                                ) Sửa
+                                button(
+                                    class="btn btn-danger btn-sm"
+                                    btn-delete
+                                    btn-id = item.id
+                                ) Xóa
     +pagination(objectPage)
     form(
         action=`${prefixAdmin}/products/change-status`, 
         method="post",
         form-change-status
     ) 
+    form(
+        action = `${prefixAdmin}/products/delete`
+        method="post"
+        form-delete
+    )
 
     script(src="/admin/JS/product.js") 
                         
