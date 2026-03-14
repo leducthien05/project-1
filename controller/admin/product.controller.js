@@ -30,7 +30,9 @@ module.exports.index = async (req, res)=>{
     const newProduct = helprPriceNew.newPriceArray(product);
     newProduct.forEach((item, index) => {
         item.indexProduct = index + 1 + objectPage.skipProduct;
-        item.image = item.image + "?w=300&auto=format&fit=crop";
+        if(item.image){
+            item.image = item.image + "?w=300&auto=format&fit=crop";
+        }
     });
     
     res.render("admin/page/product/index", {
@@ -120,4 +122,18 @@ module.exports.delete = async (req, res)=>{
     }, {deleted: true});
     req.flash("success", `Xóa thành công sản phẩm`);
     res.redirect(req.get("referer") || "/");
+}
+
+//[GET] /admin/products/create
+module.exports.create = async (req, res)=>{
+    res.render("admin/page/product/create", {
+        titlePage: "Thêm sản phẩm"
+    })
+}
+
+//[POST] /admin/products/create
+module.exports.createPost = async (req, res)=>{
+    const product = new Product(req.body);
+    await product.save();
+    res.redirect("/admin/product");
 }

@@ -1,0 +1,108 @@
+extends ../../layout/default.pug
+include ../../mixin/filterStatus.pug
+include ../../mixin/search.pug
+include ../../mixin/pagination.pug
+include ../../mixin/OptionChangeMulti.pug
+include ../../mixin/alert.pug
+
+block main 
+    .card.shadow-sm
+        .card-header
+            h5.mb-0 Thêm sản phẩm
+
+    .card-body
+        form(
+            action="/admin/products/create" 
+            method="POST" 
+            enctype="multipart/form-data"
+        )
+
+            .row
+
+                // Tên sản phẩm
+                .col-md-6.mb-3
+                    label(class="form-label") Tên sản phẩm
+                    input(
+                        class="form-control"
+                        type="text"
+                        name="name"
+                        placeholder="Nhập tên sản phẩm"
+                        required
+                    )
+
+                // Giá
+                .col-md-3.mb-3
+                    label(class="form-label") Giá
+                    input(
+                        class="form-control"
+                        type="number"
+                        name="price"
+                        placeholder="0"
+                    )
+
+                // Giảm giá
+                .col-md-3.mb-3
+                    label(class="form-label") Giảm giá (%)
+                    input(
+                        class="form-control"
+                        type="number"
+                        name="discountPercentage"
+                        value="0"
+                    )
+
+                // Mô tả
+                .mb-3
+                    label(class="form-label") Mô tả
+                    textarea(
+                        class="form-control"
+                        name="description"
+                        rows="4"
+                        placeholder="Nhập mô tả sản phẩm"
+                    )
+
+            .row
+
+                // Ảnh
+                .col-md-6.mb-3
+                    label(class="form-label") Ảnh sản phẩm
+                    input(
+                        class="form-control"
+                        type="file"
+                        name="image"
+                    )
+
+                //- // Danh mục
+                //- .col-md-3.mb-3
+                //-     label(class="form-label") Danh mục
+                //-     select(class="form-select"name="category")
+                //-         option(value="laptop") Laptop
+                //-         option(value="phone") Phone
+                //-         option(value="tablet") Tablet
+
+                // Trạng thái
+                .col-md-3.mb-3
+                    label(class="form-label") Trạng thái
+                    select(class="form-select" name="status")
+                        option(value="active") Hoạt động
+                        option(value="inactive") Ngừng hoạt động
+
+            // Position
+            .mb-3
+                label(class="form-label") Vị trí
+                input(
+                    class="form-control"
+                    type="number"
+                    name="position"
+                    value="1"
+                )
+
+            // Button
+            .mt-3
+                button(
+                    class="btn btn-success"
+                    type="submit"
+                ) Lưu sản phẩm
+                a(
+                    class="btn btn-secondary ms-2"
+                    href="/admin/products"
+                ) Quay lại

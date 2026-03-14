@@ -27,7 +27,10 @@ block main
                 class="d-flex gap-2"
             )
                 +selectOption()
-            button(class = "btn btn-primary") + Thêm sản phẩm
+            a(
+                class = "btn btn-primary"
+                href=`${prefixAdmin}/products/create`
+            ) + Thêm sản phẩm
 
         .card-body
 
