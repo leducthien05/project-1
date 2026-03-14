@@ -162,3 +162,15 @@ if(formDelete){
     });
 }
 
+//Alert
+const Alert = document.querySelector(".alert");
+if(Alert){
+    const time = parseInt(Alert.getAttribute("data-time"));
+    const btnAlert = Alert.querySelector(".btn-close");
+    btnAlert.addEventListener("click", ()=>{
+        Alert.classList.add("hidden");
+    });
+    setTimeout(()=>{
+        Alert.classList.add("hidden");
+    }, time);
+}

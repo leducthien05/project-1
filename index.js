@@ -23,6 +23,23 @@ const systemPrefix = require("./config/system");
 app.locals.prefixAdmin = systemPrefix.prefixAdmin; 
 //Cấu hình file tĩnh
 app.use(express.static(`${__dirname}/public/`));
+//Cấu hình cookie-parse
+const cookieParser = require('cookie-parser');
+app.use(cookieParser('Thienle'));
+// Session
+const session = require('express-session');
+app.use(session({
+    secret: 'Thienle',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { 
+        secure: false,  // local dùng HTTP nên phải để false
+        maxAge: 60000
+    }
+}));
+//Cấu hình express-flash
+const flash = require('express-flash');
+app.use(flash());;
 //Cấu hình router
 const router = require("./router/admin/index.router");
 // const routerClient = require("./router/client/index.router")

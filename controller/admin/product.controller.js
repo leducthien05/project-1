@@ -30,6 +30,7 @@ module.exports.index = async (req, res)=>{
     const newProduct = helprPriceNew.newPriceArray(product);
     newProduct.forEach((item, index) => {
         item.indexProduct = index + 1 + objectPage.skipProduct;
+        item.image = item.image + "?w=300&auto=format&fit=crop";
     });
     
     res.render("admin/page/product/index", {
@@ -48,6 +49,7 @@ module.exports.changeStatus = async (req, res)=>{
     await Product.updateOne({
         _id: id
     }, {status: status});
+    req.flash("success", "Thay đổi trạng thái thành công");
     res.redirect(req.get("referer") || "/");
 }
 
@@ -62,26 +64,31 @@ module.exports.changeMulti = async (req, res)=>{
                 await Product.updateMany({
                     _id: ids
                 }, {status: status});
+                req.flash("success", `Thay đổi thành công ${ids.length} sản phẩm`);
                 break;
             case "inactive":
                 await Product.updateMany({
                     _id: ids
                 }, {status: status});
+                req.flash("success", `Thay đổi thành công ${ids.length} sản phẩm`);
                 break;
             case "delete":
                 await Product.updateMany({
                     _id: ids
                 }, {deleted: true});
+                req.flash("success", `Thay đổi thành công ${ids.length} sản phẩm`);
                 break;
             case "delete-hard":
                 await Product.deleteMany({
                     _id: ids
                 });
+                req.flash("success", `Xóa hoàn toàn thành công ${ids.length} sản phẩm`);
                 break;
             case "un-delete":
                 await Product.updateMany({
                     _id: ids
                 }, {deleted: false});
+                req.flash("success", `Thay đổi thành công ${ids.length} sản phẩm`);
                 break;
             case "position":
                 for(item of ids){
@@ -91,7 +98,7 @@ module.exports.changeMulti = async (req, res)=>{
                         _id: id
                     }, {position: position});
                 }
-                
+                req.flash("success", `Thay đổi thành công vị trí của ${ids.lenght}`);
                 break;
             default:
                 break;
@@ -111,6 +118,6 @@ module.exports.delete = async (req, res)=>{
     await Product.updateOne({
         _id: id
     }, {deleted: true});
-
+    req.flash("success", `Xóa thành công sản phẩm`);
     res.redirect(req.get("referer") || "/");
 }

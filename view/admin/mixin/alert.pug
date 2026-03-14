@@ -1,0 +1,19 @@
+mixin success(time)
+    if (messages.success)
+        div(
+            class="alert alert-success"
+            data-time=time
+            data-alert
+        )
+            | #{messages.success}
+            button.btn-close(type="button" data-bs-dismiss="alert")
+
+mixin error(time)
+    if (messages.error)
+        div(
+            class="alert alert-danger"
+            data-time=time
+            data-alert
+        )
+            | #{messages.error}
+            button.btn-close(type="button" data-bs-dismiss="alert")

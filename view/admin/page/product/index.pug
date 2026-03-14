@@ -3,8 +3,10 @@ include ../../mixin/filterStatus.pug
 include ../../mixin/search.pug
 include ../../mixin/pagination.pug
 include ../../mixin/OptionChangeMulti.pug
+include ../../mixin/alert.pug
 
 block main
+    +success(3000)
     .card.shadow-sm
         .card-body
             h5.mb-3 Bộ lọc và Tìm kiếm
