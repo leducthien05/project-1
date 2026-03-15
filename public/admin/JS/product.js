@@ -174,3 +174,13 @@ if(Alert){
         Alert.classList.add("hidden");
     }, time);
 }
+
+//Show Image 
+const imgShow = document.querySelector("[img-preview]");
+if(imgShow){
+    const inputImg = document.querySelector("input[name='image']");
+    inputImg.addEventListener("change", (e)=>{
+        const file = e.target.files[0];
+        imgShow.src = URL.createObjectURL(file);
+    });
+}
