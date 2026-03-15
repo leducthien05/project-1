@@ -103,8 +103,11 @@ block main
                                     ) Ngừng hoạt động
                             //- td Laptop
                             td
-                                button(
+                                a(
+                                    href=`${prefixAdmin}/products/edit/${item.id}`
                                     class="btn btn-warning btn-sm"
+                                    id = item.id 
+                                    button-update
                                 ) Sửa
                                 button(
                                     class="btn btn-danger btn-sm"

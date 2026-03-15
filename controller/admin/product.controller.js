@@ -4,6 +4,7 @@ const helprPriceNew = require("../../helper/newPrice.helper");
 const filterStatus = require("../../helper/filterStatus.helper");
 const search = require("../../helper/search.helper");
 const pagination = require("../../helper/pagination.helper");
+const prefixAdmin = require("../../config/system");
 
 //[GET] /admin/products
 module.exports.index = async (req, res)=>{
@@ -141,4 +142,31 @@ module.exports.createPost = async (req, res)=>{
     const product = new Product(req.body);
     await product.save();
     res.redirect("/admin/products");
+}
+
+//[GET] /admin/products/edit/:id
+module.exports.edit = async (req, res)=>{
+    const id = req.params.id;
+    const product = await Product.findOne({
+        _id: id
+    });
+    res.render("admin/page/product/edit", {
+        titlePage: "Chỉnh sửa sản phẩm",
+        product: product
+    });
+}
+
+//[PÂTCH] /admin/products/edit/:id
+module.exports.editPatch = async (req, res)=>{
+    const id = req.params.id;
+    console.log(req.body);
+    try {
+        await Product.updateOne({
+            _id: id
+        }, req.body);
+    } catch (error) {
+        console.log(error)
+    }
+    req.flash("success", "Chỉnh sửa sản phẩm thành công");
+    res.redirect(`${prefixAdmin.prefixAdmin}/products`);
 }

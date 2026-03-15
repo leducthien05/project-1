@@ -7,13 +7,14 @@ include ../../mixin/alert.pug
 
 block main 
     +error(3000)
+    +success(3000)
     .card.shadow-sm
         .card-header
-            h5.mb-0 Thêm sản phẩm
+            h5.mb-0 Chỉnh sửa sản phẩm
 
     .card-body
         form(
-            action="/admin/products/create" 
+            action=`${prefixAdmin}/products/edit/${product.id}?_method=PATCH`
             method="POST" 
             enctype="multipart/form-data"
         )
@@ -28,7 +29,7 @@ block main
                         type="text"
                         name="name"
                         placeholder="Nhập tên sản phẩm"
-                        
+                        value=product.name
                     )
 
                 // Giá
@@ -39,6 +40,7 @@ block main
                         type="number"
                         name="price"
                         placeholder="0"
+                        value=product.price
                     )
 
                 // Giảm giá
@@ -48,8 +50,8 @@ block main
                         class="form-control"
                         type="number"
                         name="discountPercentage"
-                        value="0"
-                    )
+                        value=product.discountPercentage
+                    ) 
 
                 // Mô tả
                 .mb-3
@@ -59,7 +61,8 @@ block main
                         name="description"
                         rows="4"
                         placeholder="Nhập mô tả sản phẩm"
-                    )
+                        
+                    ) #{product.description}
 
             .row
 
@@ -72,9 +75,10 @@ block main
                         name="image"
                     )
                     img(
-                        src=""
+                        src=product.image
                         alt=""
                         img-preview
+                        width="200"
                     )
 
                 //- // Danh mục
@@ -89,8 +93,14 @@ block main
                 .col-md-3.mb-3
                     label(class="form-label") Trạng thái
                     select(class="form-select" name="status")
-                        option(value="active") Hoạt động
-                        option(value="inactive") Ngừng hoạt động
+                        option(
+                            value="active"
+                            selected = (product.status == "active" ? true : false)
+                        ) Hoạt động
+                        option(
+                            value="inactive"
+                            selected = (product.status == "inactive" ? true : false)
+                        ) Ngừng hoạt động
 
             // Position
             .mb-3
@@ -99,7 +109,7 @@ block main
                     class="form-control"
                     type="number"
                     name="position"
-                    value="1"
+                    value=product.position
                 )
 
             // Button
@@ -107,7 +117,7 @@ block main
                 button(
                     class="btn btn-success"
                     type="submit"
-                ) Lưu sản phẩm
+                ) Cập nhật
                 a(
                     class="btn btn-secondary ms-2"
                     href="/admin/products"
