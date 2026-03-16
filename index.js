@@ -42,8 +42,10 @@ const flash = require('express-flash');
 app.use(flash());;
 //Cấu hình router
 const router = require("./router/admin/index.router");
+const routerClient = require("./router/client/index.router");
 // const routerClient = require("./router/client/index.router")
 //Gọi hàm sử dụng router
+routerClient(app);
 router(app);
 //Lắng nghe port
 app.listen(port, ()=>{

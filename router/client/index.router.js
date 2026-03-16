@@ -1,4 +1,4 @@
 const homeRouter = require("../client/home.router");
 module.exports = (app)=>{
-    app.use("/", dashboardRouter);
+    app.use("/", homeRouter);
 }
