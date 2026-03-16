@@ -16,7 +16,7 @@ app.use(methodOverride('_method'));
 const bodyParser = require('body-parser');
 app.use(express.urlencoded({ extended: true }));
 //Cấu hình PUG 
-app.set("views", "./view");
+app.set("views", `${__dirname}/view`);
 app.set("view engine", 'pug'); 
 //Biến local
 const systemPrefix = require("./config/system");
