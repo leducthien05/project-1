@@ -104,6 +104,12 @@ block main
                             //- td Laptop
                             td
                                 a(
+                                    href=`${prefixAdmin}/products/detail/${item.id}`
+                                    class="btn btn btn-info btn-sm"
+                                    id = item.id 
+                                    detail
+                                ) Chi tiết
+                                a(
                                     href=`${prefixAdmin}/products/edit/${item.id}`
                                     class="btn btn-warning btn-sm"
                                     id = item.id 

@@ -170,3 +170,15 @@ module.exports.editPatch = async (req, res)=>{
     req.flash("success", "Chỉnh sửa sản phẩm thành công");
     res.redirect(`${prefixAdmin.prefixAdmin}/products`);
 }
+
+// [GET] /admin/products/detail/:id
+module.exports.detail = async (req, res)=>{
+    const id = req.params.id;
+    const product = await Product.findOne({
+        deleted: false
+    });
+    res.render("admin/page/product/detail", {
+        titlePage: product.name,
+        product: product
+    });
+}

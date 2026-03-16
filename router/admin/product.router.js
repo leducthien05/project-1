@@ -23,4 +23,5 @@ router.patch("/edit/:id",
     uploadMiddleware.uploadStorage().single("image"),
     validate.create, 
     controller.editPatch);
+router.get("/detail/:id", controller.detail);
 module.exports = router;
