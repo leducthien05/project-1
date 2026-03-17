@@ -134,11 +134,7 @@ module.exports.create = async (req, res)=>{
 
 //[POST] /admin/products/create
 module.exports.createPost = async (req, res)=>{
-    if(req.file){
-        req.body.image = `/admin/uploads/${req.file.filename}`;
-    }
-    console.log(req.file);
-    console.log(req.body.image);
+    
     const product = new Product(req.body);
     await product.save();
     res.redirect("/admin/products");

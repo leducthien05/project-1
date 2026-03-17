@@ -14,14 +14,17 @@ router.delete("/delete/:id", controller.delete);
 router.get("/create", controller.create);
 router.post(
     "/create",
-    uploadMiddleware.uploadStorage().single("image"),
+    upload.single("image"),
+    uploadMiddleware.uploadCloudinary,
     validate.create,
     controller.createPost
 );
 router.get("/edit/:id", controller.edit);
 router.patch("/edit/:id",
-    uploadMiddleware.uploadStorage().single("image"),
+    upload.single("image"),
+    uploadMiddleware.uploadCloudinary,
     validate.create, 
-    controller.editPatch);
+    controller.editPatch
+);
 router.get("/detail/:id", controller.detail);
 module.exports = router;
