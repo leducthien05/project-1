@@ -184,3 +184,35 @@ if(imgShow){
         imgShow.src = URL.createObjectURL(file);
     });
 }
+
+//Sort
+const selectSort = document.querySelector("[sort-select]");
+if(selectSort){
+    const url = new URL(window.location.href);
+    selectSort.addEventListener("change", (e)=>{
+        const option = selectSort.value;
+        if(option){
+            const [key, value] = option.split("-");
+            url.searchParams.set("sortKey", key);
+            url.searchParams.set("sortValue", value);
+        }
+        window.location.href = url.href;
+    });
+    const btnClear = document.querySelector("[sort-clear]");
+    if(btnClear){
+        btnClear.addEventListener("click", ()=>{
+            url.searchParams.delete("sortKey");
+            url.searchParams.delete("sortValue");
+            window.location.href = url.href;
+        }); 
+    }
+    const key = url.searchParams.get("sortKey");
+    const value = url.searchParams.get("sortValue");
+    const string = `${key}-${value}`;
+    if(string){
+        const option = document.querySelector(`option[value='${string}']`);
+        option.selected = true;
+    }
+    
+}
+

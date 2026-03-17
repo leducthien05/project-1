@@ -4,9 +4,15 @@ include ../../mixin/search.pug
 include ../../mixin/pagination.pug
 include ../../mixin/OptionChangeMulti.pug
 include ../../mixin/alert.pug
+include ../../mixin/sort.pug
 
 block main
     +success(3000)
+    .card.shadow-sm
+        .card-body
+                .row
+                    .col-4
+                        +sort
     .card.shadow-sm
         .card-body
             h5.mb-3 Bộ lọc và Tìm kiếm

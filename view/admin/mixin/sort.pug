@@ -1,0 +1,18 @@
+mixin sort  
+    .sort-box.d-flex.align-items-center.gap-2
+        select(
+            class = "form-select sort-select ",
+            name="sort"
+            sort-select
+        )
+            option(value="" selected=false) -- Lựa chọn -- 
+            option(value="position-desc") Vị trí giảm dần
+            option(value="position-asc") Vị trí tăng dần
+            option(value="price-desc") Giá giảm dần
+            option(value="price-asc") Giá tăng dần
+            option(value="name-asc") Tiêu đề A - Z
+            option(value="name-desc") Tiêu đề Z - A
+        button(
+            class = "btn btn-danger",
+            sort-clear
+        ) Clear 

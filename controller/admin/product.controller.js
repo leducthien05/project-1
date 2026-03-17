@@ -27,7 +27,14 @@ module.exports.index = async (req, res)=>{
     }
     //Phân trang
     const objectPage = await pagination.pagination(req.query, find);
-    const product = await Product.find(find).limit(objectPage.limit).skip(objectPage.skipProduct);
+    //Sắp xếp sản phẩm
+    const sort = {};
+    if(req.query.sortKey && req.query.sortValue){
+        sort[req.query.sortKey] = req.query.sortValue;
+    }else{
+        sort.position = "desc"
+    }
+    const product = await Product.find(find).limit(objectPage.limit).sort(sort).skip(objectPage.skipProduct);
     const newProduct = helprPriceNew.newPriceArray(product);
     newProduct.forEach((item, index) => {
         item.indexProduct = index + 1 + objectPage.skipProduct;
@@ -152,7 +159,7 @@ module.exports.edit = async (req, res)=>{
     });
 }
 
-//[PÂTCH] /admin/products/edit/:id
+//[PATCH] /admin/products/edit/:id
 module.exports.editPatch = async (req, res)=>{
     const id = req.params.id;
     console.log(req.body);

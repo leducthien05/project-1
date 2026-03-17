@@ -128,3 +128,9 @@ body{
     border-radius: 50%;
     cursor: pointer;
 }
+
+/* Sort */
+.sort-box select,
+.sort-box button {
+    height: 38px; /* cùng chiều cao */
+}
