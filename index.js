@@ -37,6 +37,9 @@ app.use(session({
         maxAge: 60000
     }
 }));
+// TinyMCE
+const path = require('path');
+app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
 //Cấu hình express-flash
 const flash = require('express-flash');
 app.use(flash());;
