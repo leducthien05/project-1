@@ -30,7 +30,7 @@ module.exports.index = async (req, res)=>{
     const countProduct = await Product.countDocuments(find);
     const objectPage = await pagination.pagination(req.query, find, countProduct);
     //Lọc theo tiêu chí
-    const sort = filterCriteria.creteria(req.query);
+    const sort = filterCriteria.criteria(req.query);
     const product = await Product.find(find).limit(objectPage.limit).sort(sort).skip(objectPage.skipRecord);
     const newProduct = helprPriceNew.newPriceArray(product);
     newProduct.forEach((item, index) => {

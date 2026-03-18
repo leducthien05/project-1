@@ -1,0 +1,68 @@
+mixin tableTree(category, level)
+    each item, index in category 
+        - const prefix = Array(level + 1).join("-- ")
+        tr
+            td 
+                input(
+                    type="checkbox"
+                    checkbox-item
+                    name="id"
+                    value = item.id
+                )
+            td #{item.index}
+            td
+                img(
+                    src=item.image
+                    alt=item.name
+                    hight= "auto"
+                    width = "100px"
+                    loading="lazy"
+                )
+            td #{prefix}#{item.name}
+            td 
+                input(
+                    position-input 
+                    value = item.position 
+                    min = 1
+                    type="number"
+                    name = "position"
+                    style="width:70px"
+                )
+            td 
+                if(item.status == "active")
+                    a(
+                        href="javascript:;"
+                        class="badge bg-success"
+                        change-status
+                        status=item.status
+                        id=item.id
+                    ) Hoạt động
+                else
+                    a(
+                        href="javascript:;"
+                        class="badge bg-danger"
+                        change-status
+                        status=item.status
+                        id=item.id
+                    ) Ngừng hoạt động
+            //- td Laptop
+            td
+                a(
+                    href=`${prefixAdmin}/categorys/detail/${item.id}`
+                    class="btn btn btn-info btn-sm"
+                    id = item.id 
+                    detail
+                ) Chi tiết
+                a(
+                    href=`${prefixAdmin}/categorys/edit/${item.id}`
+                    class="btn btn-warning btn-sm"
+                    id = item.id 
+                    button-update
+                ) Sửa
+                button(
+                    class="btn btn-danger btn-sm"
+                    btn-delete
+                    btn-id = item.id
+                ) Xóa 
+        - if(item.children && item.children.length > 0)
+            +tableTree(item.children, level+1)

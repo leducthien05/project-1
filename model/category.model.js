@@ -10,7 +10,10 @@ const categorySchema = new mongoose.Schema({
         unique: true
     },
     description:String,
-    parent_id: String,
+    parent_id: {
+        type: String,
+        default:""
+    },
     image:String,
     status: {
         type: String,

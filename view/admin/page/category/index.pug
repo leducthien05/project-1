@@ -5,6 +5,7 @@ include ../../mixin/pagination.pug
 include ../../mixin/OptionChangeMulti.pug
 include ../../mixin/alert.pug
 include ../../mixin/sort.pug
+include ../../mixin/tableTree.pug
 
 block main
     +success(3000)
@@ -60,70 +61,7 @@ block main
                         th Hành động
 
                 tbody
-                    each item, index in category
-                        tr
-                            td 
-                                input(
-                                    type="checkbox"
-                                    checkbox-item
-                                    name="id"
-                                    value = item.id
-                                )
-                            td #{item.indexRecord}
-                            td
-                                img(
-                                    src=item.image
-                                    alt=item.name
-                                    hight= "auto"
-                                    width = "100px"
-                                    loading="lazy"
-                                )
-                            td #{item.name}
-                            td 
-                                input(
-                                    position-input 
-                                    value = item.position 
-                                    min = 1
-                                    type="number"
-                                    name = "position"
-                                    style="width:70px"
-                                )
-                            td 
-                                if(item.status == "active")
-                                    a(
-                                        href="javascript:;"
-                                        class="badge bg-success"
-                                        change-status
-                                        status=item.status
-                                        id=item.id
-                                    ) Hoạt động
-                                else
-                                    a(
-                                        href="javascript:;"
-                                        class="badge bg-danger"
-                                        change-status
-                                        status=item.status
-                                        id=item.id
-                                    ) Ngừng hoạt động
-                            //- td Laptop
-                            td
-                                a(
-                                    href=`${prefixAdmin}/categorys/detail/${item.id}`
-                                    class="btn btn btn-info btn-sm"
-                                    id = item.id 
-                                    detail
-                                ) Chi tiết
-                                a(
-                                    href=`${prefixAdmin}/categorys/edit/${item.id}`
-                                    class="btn btn-warning btn-sm"
-                                    id = item.id 
-                                    button-update
-                                ) Sửa
-                                button(
-                                    class="btn btn-danger btn-sm"
-                                    btn-delete
-                                    btn-id = item.id
-                                ) Xóa
+                    +tableTree(category, 1)
     +pagination(objectPagination)
     form(
         action=`${prefixAdmin}/categorys/change-status`, 

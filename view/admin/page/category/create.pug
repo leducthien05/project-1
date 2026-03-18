@@ -4,6 +4,7 @@ include ../../mixin/search.pug
 include ../../mixin/pagination.pug
 include ../../mixin/OptionChangeMulti.pug
 include ../../mixin/alert.pug
+include ../../mixin/selectTree.pug
 
 block main 
     +error(3000)
@@ -59,10 +60,9 @@ block main
                 // Danh mục
                 .col-md-3.mb-3
                     label(class="form-label") Danh mục
-                    select(class="form-select" name="category")
+                    select(class="form-select" name="parent_id")
                         option(value="" selected=true) -- Danh mục cha -- 
-                        each item in category 
-                            option(value = item._id) #{item.name}
+                        +selectTree(category, 1)
 
                 // Trạng thái
                 .col-md-3.mb-3

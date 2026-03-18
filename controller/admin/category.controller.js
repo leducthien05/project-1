@@ -5,6 +5,7 @@ const filterStatus = require("../../helper/filterStatus.helper");
 const search = require("../../helper/search.helper");
 const pagination = require("../../helper/pagination.helper");
 const filterCriteria = require("../../helper/criteria.helper");
+const createTree = require("../../helper/createTree.helper");
 
 //[GET] /admin/category
 module.exports.index = async (req, res)=>{
@@ -29,17 +30,18 @@ module.exports.index = async (req, res)=>{
     const countDocument = await Category.countDocuments(find);
     const objectPagination = await pagination.pagination(req.query, find, countDocument);
     //Lọc theo tiêu chí
-    const sort = filterCriteria.criteria(req.query)
+    const sort = filterCriteria.criteria(req.query);
 
     const category = await Category.find(find).sort(sort).limit(objectPagination.limit).skip(objectPagination.skipRecord);
     //Index 
     category.forEach((item, index) => {
         item.indexRecord = index + 1 + objectPagination.skipRecord;
-        
     });
+    //Hiển thị danh mục
+    const newCategory = createTree.createTree(category, "");
     res.render("admin/page/category/index", {
         titlePage: "Danh mục sản phẩm",
-        category: category,
+        category: newCategory,
         listStatus: listStatus,
         keyword: req.query.keyword,
         pagination: objectPagination
@@ -50,9 +52,10 @@ module.exports.create = async (req, res)=>{
     const category = await Category.find({
         deleted: false
     });
+    const newCategory = createTree.createTree(category, "");
     res.render("admin/page/category/create", {
         titlePage: "Thêm danh mục",
-        category: category
+        category: newCategory
     });
 }
 //[POST] /admin/categorys/create
@@ -143,11 +146,12 @@ module.exports.edit = async (req, res)=>{
     });
     const ArrayCategory = await Category.find({
         deleted: false
-    })
+    });
+    const newCategory = createTree.createTree(ArrayCategory, "");
     res.render("admin/page/category/edit", {
         titlePage: "Chỉnh sửa danh mục",
         category: category,
-        ArrayCategory: ArrayCategory
+        ArrayCategory: newCategory
     });
 }
 //[PATCH] /admin/categorys/edit/:id
