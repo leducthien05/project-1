@@ -5,6 +5,7 @@ module.exports.search = (query)=>{
 
     if(query.keyword){
         objectKeyword.keyword = query.keyword;
+        objectKeyword.keyword = objectKeyword.keyword.trim();
         const regex = new RegExp(objectKeyword.keyword, "i");
         objectKeyword.regex = regex;
     }

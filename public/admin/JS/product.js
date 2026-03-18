@@ -114,7 +114,7 @@ if(formChangeMulti){
         const value = e.target.elements.status.value;//Tìm phần tử có tên là status rồi lấy giá trị
         const sum = checkboxItem.length;
         if(value == "delete-all" || value == "deleted-hard"){
-            const isconFirm = alert(`Bạn có chắc muốn xóa ${sum} sản phẩm chứ?`);
+            const isconFirm = alert(`Bạn có chắc muốn xóa ${sum} bản ghi chứ?`);
             if(!isconFirm){
                 retrun;
             }

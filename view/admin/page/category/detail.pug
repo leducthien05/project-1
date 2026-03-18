@@ -1,0 +1,68 @@
+extends ../../layout/default.pug
+include ../../mixin/filterStatus.pug
+include ../../mixin/search.pug
+include ../../mixin/pagination.pug
+include ../../mixin/OptionChangeMulti.pug
+include ../../mixin/alert.pug
+
+block main
+    +success(3000)
+    .card.shadow-sm.mb-3
+        .card-header
+            h5.mb-0 Chi tiết danh mục
+
+        .card-body
+            .row
+
+                // Ảnh danh mục
+                .col-md-4.text-center
+                    if category.image
+                        img(class="img-fluid rounded"
+                            src=category.image
+                            style="max-height:300px;object-fit:contain"
+                        )
+                    else
+                        img(class="img-fluid rounded"
+                            src="https://via.placeholder.com/300"
+                        )
+
+                // Thông tin danh mục
+                .col-md-8
+
+                    h4.mb-3 #{category.name}
+
+                    .mb-2
+                        strong Danh mục:
+                        if category.parent_id
+                            span.ms-2 #{category.category}
+
+                    .mb-2
+                        strong Vị trí:
+                        span.ms-2 #{category.position}
+
+                    .mb-3
+                        strong Trạng thái:
+
+                        if category.status == "active"
+                            span.badge.bg-success.ms-2 Hoạt động
+                        else
+                            span.badge.bg-danger.ms-2 Ngừng hoạt động
+
+                    .mt-3
+                        a(
+                            class = "btn btn-warning"
+                            href=`${prefixAdmin}/categorys/edit/${category._id}`
+                        ) Chỉnh sửa
+
+                        a(
+                            class= "btn btn-secondary ms-2"
+                            href=`${prefixAdmin}/categorys`
+                        ) Quay lại
+
+
+    .card.shadow-sm
+    .card-header
+        h6.mb-0 Mô tả sản phẩm
+
+    .card-body
+        p !{category.description}

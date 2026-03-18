@@ -1,17 +1,15 @@
-const Product = require("../model/product.model");
-
-module.exports.pagination = async (query, find)=>{
+module.exports.pagination = async (query, find, count)=>{
     const objectPage = {
         limit: 4,
         currentPage: 1
     }
-    const countProduct = await Product.countDocuments(find);
-    objectPage.totalPage = Math.ceil(countProduct / objectPage.limit);
+    
+    objectPage.totalPage = Math.ceil(count / objectPage.limit);
     if(query.page){
         objectPage.currentPage = parseInt(query.page);
     }
-    const skipProduct = (objectPage.currentPage - 1) * objectPage.limit;
-    objectPage.skipProduct = skipProduct;
+    const skipRecord = (objectPage.currentPage - 1) * objectPage.limit;
+    objectPage.skipRecord = skipRecord;
     
     return objectPage;
 }

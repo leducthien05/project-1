@@ -25,6 +25,7 @@ module.exports.filter = (query)=>{
     if(query.status){
         listStatus.forEach(item =>{
             (item.status === query.status) ? item.class = "active" : item.class = "";
+            return;
         });
     }
     return listStatus;

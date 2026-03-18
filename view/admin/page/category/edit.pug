@@ -1,0 +1,109 @@
+extends ../../layout/default.pug
+include ../../mixin/filterStatus.pug
+include ../../mixin/search.pug
+include ../../mixin/pagination.pug
+include ../../mixin/OptionChangeMulti.pug
+include ../../mixin/alert.pug
+
+block main 
+    +error(3000)
+    +success(3000)
+    .card.shadow-sm
+        .card-header
+            h5.mb-0 Chỉnh sửa danh mục
+
+    .card-body
+        form(
+            action=`${prefixAdmin}/categorys/edit/${category.id}?_method=PATCH`
+            method="POST" 
+            enctype="multipart/form-data"
+        )
+
+            .row
+
+                // Tên sản phẩm
+                .col-md-6.mb-3
+                    label(class="form-label") Tên danh mục
+                    input(
+                        class="form-control"
+                        type="text"
+                        name="name"
+                        placeholder="Nhập tên sản phẩm"
+                        value=category.name
+                    )
+
+                
+                // Mô tả
+                .mb-3
+                    label(class="form-label") Mô tả
+                    textarea(
+                        class="form-control tinymce"
+                        name="description"
+                        rows="4"
+                        placeholder="Nhập mô tả danh mục"
+                        
+                    ) #{category.description}
+
+            .row
+
+                // Ảnh
+                .col-md-6.mb-3
+                    label(class="form-label") Ảnh danh mục
+                    input(
+                        class="form-control"
+                        type="file"
+                        name="image"
+                    )
+                    img(
+                        src=category.image
+                        alt=""
+                        img-preview
+                        width="200"
+                    )
+
+                // Danh mục
+                .col-md-3.mb-3
+                    label(class="form-label") Danh mục
+                    select(class="form-select" name="category")
+                        option(value="") --Danh mục cha--
+                        each item in ArrayCategory 
+                            option(
+                                value=item._id
+                                disabled=(item._id == category._id)
+                            ) #{item.name}
+
+                // Trạng thái
+                .col-md-3.mb-3
+                    label(class="form-label") Trạng thái
+                    select(class="form-select" name="status")
+                        option(
+                            value="active"
+                            selected = (category.status == "active" ? true : false)
+                        ) Hoạt động
+                        option(
+                            value="inactive"
+                            selected = (category.status == "inactive" ? true : false)
+                        ) Ngừng hoạt động
+
+            // Position
+            .mb-3
+                label(class="form-label") Vị trí
+                input(
+                    class="form-control"
+                    type="number"
+                    name="position"
+                    value=category.position
+                )
+
+            // Button
+            .mt-3
+                button(
+                    class="btn btn-success"
+                    type="submit"
+                ) Cập nhật
+                a(
+                    class="btn btn-secondary ms-2"
+                    href=`${prefixAdmin}/categorys`
+                ) Quay lại
+    script(src="/admin/JS/product.js") 
+    script(src="/admin/JS/TinyMCE.js") 

@@ -5,6 +5,7 @@ const filterStatus = require("../../helper/filterStatus.helper");
 const search = require("../../helper/search.helper");
 const pagination = require("../../helper/pagination.helper");
 const prefixAdmin = require("../../config/system");
+const filterCriteria = require("../../helper/criteria.helper");
 
 //[GET] /admin/products
 module.exports.index = async (req, res)=>{
@@ -26,15 +27,11 @@ module.exports.index = async (req, res)=>{
         find.name = objectKeyword.regex;
     }
     //Phân trang
-    const objectPage = await pagination.pagination(req.query, find);
-    //Sắp xếp sản phẩm
-    const sort = {};
-    if(req.query.sortKey && req.query.sortValue){
-        sort[req.query.sortKey] = req.query.sortValue;
-    }else{
-        sort.position = "desc"
-    }
-    const product = await Product.find(find).limit(objectPage.limit).sort(sort).skip(objectPage.skipProduct);
+    const countProduct = await Product.countDocuments(find);
+    const objectPage = await pagination.pagination(req.query, find, countProduct);
+    //Lọc theo tiêu chí
+    const sort = filterCriteria.creteria(req.query);
+    const product = await Product.find(find).limit(objectPage.limit).sort(sort).skip(objectPage.skipRecord);
     const newProduct = helprPriceNew.newPriceArray(product);
     newProduct.forEach((item, index) => {
         item.indexProduct = index + 1 + objectPage.skipProduct;
