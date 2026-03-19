@@ -6,3 +6,12 @@ mixin filterStatus(listStatus)
             data-status=item.status
             button-status
         ) #{item.name}
+    
+mixin filterStatusOrder(listStatusOrder)
+    each item in listStatusOrder
+        button(
+            type="button"
+            class=`btn btn-sm me-1 btn-outline-success ${item.class}`
+            data-status=item.status
+            button-status
+        ) #{item.name}

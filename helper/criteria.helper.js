@@ -4,7 +4,7 @@ module.exports.criteria = (query)=>{
     if(query.sortKey && query.sortValue){
         sort[query.sortKey] = query.sortValue;
     }else{
-        sort.position = "desc"
+        sort.position = "asc"
     }
     return sort;
 }

@@ -16,3 +16,22 @@ mixin sort
             class = "btn btn-danger",
             sort-clear
         ) Clear 
+        
+mixin sortOrder  
+    .sort-box.d-flex.align-items-center.gap-2
+        select(
+            class = "form-select sort-select ",
+            name="sort"
+            sort-select
+        )
+            option(value="" selected=false) -- Lựa chọn -- 
+            option(value="position-desc") Vị trí giảm dần
+            option(value="position-asc") Vị trí tăng dần
+            option(value="totalPrice-desc") Tổng giá giảm dần
+            option(value="totalPrice-asc") Tổng giá tăng dần
+            option(value="userInfo.userName-asc") Tên A - Z
+            option(value="userInfo.userName-desc") Tên Z - A
+        button(
+            class = "btn btn-danger",
+            sort-clear
+        ) Clear 

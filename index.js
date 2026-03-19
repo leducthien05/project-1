@@ -37,6 +37,9 @@ app.use(session({
         maxAge: 60000
     }
 }));
+//Cấu hình conver thời gian
+const moment = require("moment");
+app.locals.moment = moment;
 // TinyMCE
 const path = require('path');
 app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));

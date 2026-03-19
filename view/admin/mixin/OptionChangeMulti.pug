@@ -23,3 +23,31 @@ mixin selectOption
         type="submit"
         btn-changeMulti
     ) Áp dụng
+
+mixin selectOptionOrder
+    select(
+        class="form-select form-select-sm"
+        name="status" 
+        style="width:200px"
+        select-option
+    )
+        option(value="" selected = true) -- Chọn hành động --
+        option(value="pending") Chờ duyệt
+        option(value="processing") Đang xử lý
+        option(value="completed") Hoàn thành
+        option(value="cancel") Hủy đơn hàng
+        option(value="shipping") Đang giao
+        option(value="position") Thay đổi vị trí
+    input(
+        type="text"
+        name="ids"
+        value=""
+        class="form-control"
+        hidden
+    )
+
+    button(
+        class="btn btn-success btn-sm"
+        type="submit"
+        btn-changeMulti
+    ) Áp dụng

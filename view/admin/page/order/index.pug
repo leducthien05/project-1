@@ -1,0 +1,147 @@
+extends ../../layout/default.pug
+include ../../mixin/filterStatus.pug
+include ../../mixin/search.pug
+include ../../mixin/pagination.pug
+include ../../mixin/OptionChangeMulti.pug
+include ../../mixin/alert.pug
+include ../../mixin/sort.pug
+include ../../mixin/convertTime.pug
+
+block main
+    +success(3000)
+    .card.shadow-sm
+        .card-body
+                .row
+                    .col-4
+                        +sortOrder
+    .card.shadow-sm
+        .card-body
+            h5.mb-3 Bộ lọc và Tìm kiếm
+                .row.align-items-center
+                    // Bộ lọc trạng thái
+                    .col-md-6
+                        +filterStatusOrder(listStatusOrder)
+                    .col-md-6
+                        +search(keyword)
+    .card.shadow-sm.mb-3
+        .card-header.d-flex.justify-content-between.align-items-center
+            h5.mb-0 Danh sách đơn hàng
+            // Select hành động
+            form(
+                action=`${prefixAdmin}/orders/change-multi-status?_method=PATCH` 
+                method="POST" 
+                form-change-multi
+                class="d-flex gap-2"
+            )
+                +selectOptionOrder()
+        .card-body
+
+            table(
+                class="table table-hover"
+            )
+                thead
+                    th
+                        input(
+                                type="checkbox"
+                                checkbox-all
+                            )
+                    th STT
+                    th Mã đơn
+                    th Khách hàng
+                    th Sản phẩm
+                    th Vị trí
+                    th Tổng tiền
+                    th Trạng thái
+                    th Ngày tạo
+                    th Hành động
+                tbody
+                    each item, index in order
+                        tr
+                            td
+                                input(
+                                    type="checkbox"
+                                    checkbox-item
+                                    name="id"
+                                    value = item.id
+                                )
+                            td #{index+1}
+                            td #{item.order_id}
+                            
+                            td #{item.userInfo.userName}
+                            td #{item.product.length}
+                            td 
+                                input(
+                                    position-input 
+                                    value = item.position 
+                                    min = 1
+                                    type="number"
+                                    name = "position"
+                                    style="width:50px"
+                                )
+                            td(
+                                class="text-success"
+                            ) #{item.totalPrice} VNĐ
+                            td
+                                -if (item.status == "pending")
+                                    a(
+                                        href="javascript:;"
+                                        class="badge bg-warning"
+                                        change-status
+                                        status=item.status
+                                        id=item.id
+                                    ) Chờ xử lý
+                                -else if (item.status == "shipping")
+                                    a(
+                                        href="javascript:;"
+                                        class="badge bg-info"
+                                        change-status
+                                        status=item.status
+                                        id=item.id
+                                    ) Đang giao
+                                -else if (item.status == "completed")
+                                    a(
+                                        href="javascript:;"
+                                        class="badge bg-success"
+                                        change-status
+                                        status=item.status
+                                        id=item.id
+                                    ) Hoàn thành
+                                -else if(item.status== "processing")
+                                    a(
+                                        href="javascript:;"
+                                        class="badge bg-warning"
+                                        change-status
+                                        status=item.status
+                                        id=item.id
+                                    ) Đang xử lý
+                                -else
+                                    a(
+                                        href="javascript:;"
+                                        class="badge bg-danger"
+                                        change-status
+                                        status=item.status
+                                        id=item.id
+                                    ) Đã hủy
+
+                            td 
+                                +date(item.createAt)
+
+                            td
+                                a(
+                                    class="btn btn-sm btn-primary"
+                                    href=`${prefixAdmin}/orders/detail/${item._id}`
+                                ) Xem
+    form(
+        action=`${prefixAdmin}/orders/change-status`, 
+        method="post",
+        form-change-status
+    ) 
+    form(
+        action = `${prefixAdmin}/orders/delete`
+        method="post"
+        form-delete
+    )
+
+    script(src="/admin/JS/product.js") 
+    script(src="/admin/JS/order.js")
+                        
