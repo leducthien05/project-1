@@ -1,4 +1,4 @@
-module.exports.pagination = async (query, find, count)=>{
+module.exports.pagination = (query, count)=>{
     const objectPage = {
         limit: 4,
         currentPage: 1

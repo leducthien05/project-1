@@ -28,16 +28,14 @@ module.exports.index = async (req, res)=>{
     }
     //Phân trang
     const countProduct = await Product.countDocuments(find);
-    const objectPage = await pagination.pagination(req.query, find, countProduct);
+    const objectPage = await pagination.pagination(req.query, countProduct);
+    console.log(objectPage.skipRecord);
     //Lọc theo tiêu chí
     const sort = filterCriteria.criteria(req.query);
     const product = await Product.find(find).limit(objectPage.limit).sort(sort).skip(objectPage.skipRecord);
     const newProduct = helprPriceNew.newPriceArray(product);
     newProduct.forEach((item, index) => {
-        item.indexProduct = index + 1 + objectPage.skipProduct;
-        if(item.image){
-            item.image = item.image + "?w=300&auto=format&fit=crop";
-        }
+        item.indexProduct = index + 1 + objectPage.skipRecord;
     });
     
     res.render("admin/page/product/index", {

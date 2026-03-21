@@ -1,0 +1,119 @@
+extends ../../layout/default.pug
+include ../../mixin/filterStatus.pug
+include ../../mixin/search.pug
+include ../../mixin/pagination.pug
+include ../../mixin/OptionChangeMulti.pug
+include ../../mixin/alert.pug
+include ../../mixin/sort.pug
+
+block main
+    +success(3000)
+    .card.shadow-sm
+        .card-body
+                .row
+                    .col-4
+                        +sortRole
+    .card.shadow-sm
+        .card-body
+            h5.mb-3 Bộ lọc và Tìm kiếm
+                .row.align-items-center
+                    // Bộ lọc trạng thái
+                    .col-md-6
+                        +filterStatus(listStatus)
+                    .col-md-6
+                        +search(keyword)
+    .card.shadow-sm
+        .card-header.d-flex.justify-content-between.align-items-center
+            //- h5.mb-0 Danh sách sản phẩm
+            // Select hành động
+            form(
+                action=`${prefixAdmin}/roles/change-multi-status?_method=PATCH` 
+                method="POST" 
+                form-change-multi
+                class="d-flex gap-2"
+            )
+                +selectOptionRole()
+            a(
+                class = "btn btn-primary"
+                href=`${prefixAdmin}/roles/create`
+            ) + Thêm nhóm quền
+
+        .card-body
+
+            table(
+                class="table table-hover"
+                checkbox-multi
+            )
+                thead
+                    tr
+                        th 
+                            input(
+                                type="checkbox"
+                                checkbox-all
+                            )
+                        th STT
+                        th Tên nhóm
+                        th Mô tả
+                        th Trạng thái
+                        th Hành động
+
+                tbody
+                    each item, index in role
+                        tr
+                            td 
+                                input(
+                                    type="checkbox"
+                                    checkbox-item
+                                    name="id"
+                                    value = item.id
+                                )
+                            
+                            td #{item.indexItem}
+                            
+                            td #{item.name}
+                            td #{item.description}
+                            td 
+                                if(item.status == "active")
+                                    a(
+                                        href="javascript:;"
+                                        class="badge bg-success"
+                                        change-status
+                                        status=item.status
+                                        id=item.id
+                                    ) Hoạt động
+                                else
+                                    a(
+                                        href="javascript:;"
+                                        class="badge bg-danger"
+                                        change-status
+                                        status=item.status
+                                        id=item.id
+                                    ) Ngừng hoạt động
+                            //- td Laptop
+                            td
+                               
+                                a(
+                                    href=`${prefixAdmin}/roles/edit/${item.id}`
+                                    class="btn btn-warning btn-sm"
+                                    id = item.id 
+                                    button-update
+                                ) Sửa
+                                button(
+                                    class="btn btn-danger btn-sm"
+                                    btn-delete
+                                    btn-id = item.id
+                                ) Xóa
+    +pagination(objectPage)
+    form(
+        action=`${prefixAdmin}/roles/change-status`, 
+        method="post",
+        form-change-status
+    ) 
+    form(
+        action = `${prefixAdmin}/roles/delete`
+        method="post"
+        form-delete
+    )
+
+    script(src="/admin/JS/product.js") 
+                        

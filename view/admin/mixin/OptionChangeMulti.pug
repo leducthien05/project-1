@@ -51,3 +51,28 @@ mixin selectOptionOrder
         type="submit"
         btn-changeMulti
     ) Áp dụng
+
+mixin selectOptionRole
+    select(
+        class="form-select form-select-sm"
+        name="status" 
+        style="width:200px"
+        select-option
+    )
+        option(value="null") -- Chọn hành động --
+        option(value="active") Hoạt động
+        option(value="inactive") Ngừng hoạt động
+        option(value="delete") Xóm nhóm quyền
+    input(
+        type="text"
+        name="ids"
+        value=""
+        class="form-control"
+        hidden
+    )
+
+    button(
+        class="btn btn-success btn-sm"
+        type="submit"
+        btn-changeMulti
+    ) Áp dụng

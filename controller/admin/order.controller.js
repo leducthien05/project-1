@@ -1,10 +1,10 @@
 const Order = require("../../model/order.model");
 const Product = require("../../model/product.model");
 
-const filterStatusOrder = require("../../helper/filterStatusOrder.helper");
+const filterStatus = require("../../helper/filterStatus.helper");
 const searchOrder = require("../../helper/search.helper");
 const criteria = require("../../helper/criteria.helper");
-
+const pagination = require("../../helper/pagination.helper");
 
 //[GET] /admin/orders
 module.exports.index = async (req, res) => {
@@ -12,10 +12,12 @@ module.exports.index = async (req, res) => {
         deleted: false
     }
     //bộ lọc sản phẩm
-    const filter = filterStatusOrder.filter(req.query);
+    const filter = filterStatus.filterOrder(req.query);
     if (req.query.status) {
         find.status = req.query.status
     }
+    const countProduct = await Product.countDocuments(find);
+    const objectPage = pagination.pagination(req.query, find, countProduct);
     //Tìm kiếm
     const search = searchOrder.search(req.query);
     if (req.query.keyword) {
@@ -27,7 +29,10 @@ module.exports.index = async (req, res) => {
     //Lọc 
     const sort = criteria.criteria(req.query);
     
-    const order = await Order.find(find).sort(sort);
+    const order = await Order.find(find).sort(sort).limit(objectPage.limit).skip(objectPage.skipRecord);
+    order.forEach((item, index) => {
+        item.indexItem = index + 1 + objectPage.skipRecord;
+    });
     res.render("admin/page/order/index", {
         titlePage: "Đơn hàng",
         order: order,
