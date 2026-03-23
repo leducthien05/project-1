@@ -1,0 +1,122 @@
+extends ../../layout/default.pug
+include ../../mixin/filterStatus.pug
+include ../../mixin/search.pug
+include ../../mixin/pagination.pug
+include ../../mixin/OptionChangeMulti.pug
+include ../../mixin/alert.pug
+
+block main 
+    +error(3000)
+    .card.shadow-sm
+        .card-body
+            form(
+                action=`${prefixAdmin}/accounts/edit/${account.id}?_method=PATCH`
+                method="POST"
+                enctype="multipart/form-data"
+            )
+
+                .row
+
+                    // Full name
+                    .col-md-6.mb-3
+                        label(class="form-label") Họ tên
+                        input(
+                            class="form-control"
+                            type="text"
+                            name="fullName"
+                            value = account.fullName
+                        )
+
+                    // Phone
+                    .col-md-6.mb-3
+                        label(class="form-label") Số điện thoại
+                        input(
+                            class="form-control"
+                            type="text"
+                            name="phone"
+                            value=account.phone
+                        )
+
+                .row
+
+                    // Email
+                    .col-md-6.mb-3
+                        label(class="form-label") Email
+                        input(
+                            class="form-control"
+                            type="email"
+                            name="email"
+                            value=account.email
+                        )
+
+                    // Password
+                    .col-md-6.mb-3
+                        label(class="form-label") Mật khẩu
+                        input(
+                            class="form-control"
+                            type="password"
+                            name="password"
+                        )
+
+                .row
+
+                    // Role
+                    .col-md-6.mb-3
+                        label(class="form-label") Nhóm quyền
+                        select(
+                            class="form-select" 
+                            name="role_id"
+                        )
+                            each item in role
+                                option(
+                                    value=item._id
+                                    selected = (item._id == account.role_id ? true : false)
+                                ) #{item.name}
+
+                    // Status
+                    .col-md-6.mb-3
+                        label(vlass="form-label") Trạng thái
+                        select(
+                            class="form-select" 
+                            name="status"
+                        )
+                            option(
+                                value="active"
+                                selected=(account.status == "active" ? true : false)
+                            ) Hoạt động
+                            option(
+                                value="inactive"
+                                selected=(account.status == "inactive" ? true : false)
+                            ) Khóa
+
+
+
+                // Avatar
+                .mb-3
+                    label(class="form-label") Avatar
+                    input(
+                        class="form-control"
+                        type="file"
+                        name="avatar"
+                        img-src
+                    )
+                    img(
+                        src=account.avatar
+                        alt=""
+                        img-preview
+                        width="200"
+                    )
+
+                
+
+                .mt-3
+                    button(
+                        class="btn btn-success" 
+                        type="submit"
+                    ) Cập nhật
+                    a(
+                        class="btn btn-secondary ms-2" 
+                        href=`${prefixAdmin}/accounts`
+                    ) Quay lại
+    script(src="/admin/JS/product.js") 
+    script(src="/admin/JS/TinyMCE.js") 

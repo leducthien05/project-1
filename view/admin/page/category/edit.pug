@@ -9,10 +9,6 @@ include ../../mixin/selectTree.pug
 block main 
     +error(3000)
     +success(3000)
-    .card.shadow-sm
-        .card-header
-            h5.mb-0 Chỉnh sửa danh mục
-
     .card-body
         form(
             action=`${prefixAdmin}/categorys/edit/${category.id}?_method=PATCH`
@@ -54,6 +50,7 @@ block main
                         class="form-control"
                         type="file"
                         name="image"
+                        img-src
                     )
                     img(
                         src=category.image

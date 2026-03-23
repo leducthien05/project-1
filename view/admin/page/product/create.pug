@@ -7,10 +7,6 @@ include ../../mixin/alert.pug
 
 block main 
     +error(3000)
-    .card.shadow-sm
-        .card-header
-            h5.mb-0 Thêm sản phẩm
-
     .card-body
         form(
             action="/admin/products/create" 
@@ -70,20 +66,21 @@ block main
                         class="form-control"
                         type="file"
                         name="image"
+                        img-src
                     )
                     img(
                         src=""
                         alt=""
                         img-preview
+                        width="200"
                     )
 
-                //- // Danh mục
-                //- .col-md-3.mb-3
-                //-     label(class="form-label") Danh mục
-                //-     select(class="form-select"name="category")
-                //-         option(value="laptop") Laptop
-                //-         option(value="phone") Phone
-                //-         option(value="tablet") Tablet
+                // Danh mục
+                .col-md-3.mb-3
+                    label(class="form-label") Danh mục
+                    select(class="form-select" name="category")
+                        each item in category 
+                            option(value=item._id) #{item.name}
 
                 // Trạng thái
                 .col-md-3.mb-3

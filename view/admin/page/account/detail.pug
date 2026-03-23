@@ -1,0 +1,75 @@
+extends ../../layout/default.pug
+include ../../mixin/filterStatus.pug
+include ../../mixin/search.pug
+include ../../mixin/pagination.pug
+include ../../mixin/OptionChangeMulti.pug
+include ../../mixin/alert.pug
+include ../../mixin/sort.pug
+include ../../mixin/convertTime.pug
+
+block main
+    .card.shadow-sm.mb-3
+    .card-body
+        .row
+            // Avatar
+            .col-md-4.text-center
+                -if(account.avatar)
+                    img(
+                        class="img-fluid rounded-circle"
+                        src=account.avatar
+                        style="width:150px;height:150px;object-fit:cover"
+                    )
+                -else
+                    img(
+                        class="img-fluid rounded-circle"
+                        src="https://via.placeholder.com/150"
+                    )
+
+            // Thông tin
+            .col-md-8
+
+                h4.mb-3 #{account.fullName}
+
+                .mb-2
+                    strong Email:
+                    span.ms-2 #{account.email}
+
+                .mb-2
+                    strong SĐT:
+                    span.ms-2 #{account.phone}
+
+                .mb-2
+                    strong Nhóm quyền:
+                    span.ms-2 #{role.name}
+
+                .mb-3
+                    strong Trạng thái:
+                        if account.status == "active"
+                            span(class="badge bg-success ms-2") Hoạt động
+                        else
+                            span(class="badge bg-danger ms-2") Khóa
+                .mt-3
+                    a(
+                        class="btn btn-warning"
+                        href=`${prefixAdmin}/accounts/edit/${account._id}`
+                    ) Chỉnh sửa
+
+                    a(
+                        class="btn btn-secondary ms-2"
+                        href=`${prefixAdmin}/accounts`
+                    ) Quay lại
+            .card.shadow-sm
+                .card-header
+                    h6.mb-0 Thông tin thời gian
+
+                .card-body
+                    p
+                        strong Ngày tạo:
+                        span.ms-2 
+                            +dateTime(account.createAt)
+
+                    //- p
+                    //-     strong Cập nhật:
+                    //-     span.ms-2 
+                    //-         +dateTime(account.)
+            

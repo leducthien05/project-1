@@ -1,4 +1,5 @@
 const Product = require("../../model/product.model");
+const Category = require("../../model/category.model");
 
 const helprPriceNew = require("../../helper/newPrice.helper");
 const filterStatus = require("../../helper/filterStatus.helper");
@@ -67,31 +68,31 @@ module.exports.changeMulti = async (req, res)=>{
         switch (status) {
             case "active":
                 await Product.updateMany({
-                    _id: ids
+                    _id: { $in: ids }
                 }, {status: status});
                 req.flash("success", `Thay đổi thành công ${ids.length} sản phẩm`);
                 break;
             case "inactive":
                 await Product.updateMany({
-                    _id: ids
+                    _id: { $in: ids }
                 }, {status: status});
                 req.flash("success", `Thay đổi thành công ${ids.length} sản phẩm`);
                 break;
             case "delete":
                 await Product.updateMany({
-                    _id: ids
+                    _id: { $in: ids }
                 }, {deleted: true});
                 req.flash("success", `Thay đổi thành công ${ids.length} sản phẩm`);
                 break;
             case "delete-hard":
                 await Product.deleteMany({
-                    _id: ids
+                    _id: { $in: ids }
                 });
                 req.flash("success", `Xóa hoàn toàn thành công ${ids.length} sản phẩm`);
                 break;
             case "un-delete":
                 await Product.updateMany({
-                    _id: ids
+                    _id: { $in: ids }
                 }, {deleted: false});
                 req.flash("success", `Thay đổi thành công ${ids.length} sản phẩm`);
                 break;
@@ -129,8 +130,12 @@ module.exports.delete = async (req, res)=>{
 
 //[GET] /admin/products/create
 module.exports.create = async (req, res)=>{
+    const category = await Category.find({
+        deleted: false
+    });
     res.render("admin/page/product/create", {
-        titlePage: "Thêm sản phẩm"
+        titlePage: "Thêm sản phẩm",
+        category: category
     })
 }
 
@@ -148,9 +153,13 @@ module.exports.edit = async (req, res)=>{
     const product = await Product.findOne({
         _id: id
     });
+    const category = await Category.find({
+        deleted: false
+    });
     res.render("admin/page/product/edit", {
         titlePage: "Chỉnh sửa sản phẩm",
-        product: product
+        product: product,
+        category: category
     });
 }
 

@@ -23,7 +23,6 @@ if(tablePermission){
                     if(check == true){
                         permission[index].permission.push(value);
                     }
-                    console.log(permission);
                 });
             }
 

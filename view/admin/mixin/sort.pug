@@ -53,3 +53,18 @@ mixin sortRole
             sort-clear
         ) Clear 
     
+mixin sortAccount  
+    .sort-box.d-flex.align-items-center.gap-2
+        select(
+            class = "form-select sort-select ",
+            name="sort"
+            sort-select
+        )
+            option(value="" selected=false) -- Lựa chọn -- 
+            option(value="name-asc") Tiêu đề A - Z
+            option(value="name-desc") Tiêu đề Z - A
+        button(
+            class = "btn btn-danger",
+            sort-clear
+        ) Clear 
+    

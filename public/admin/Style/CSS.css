@@ -134,3 +134,14 @@ body{
 .sort-box button {
     height: 38px; /* cùng chiều cao */
 }
+
+/* Account */
+.card{
+  border:none;
+}
+
+img#previewAvatar{
+  border:1px solid #eee;
+  padding:5px;
+  background:#fff;
+}

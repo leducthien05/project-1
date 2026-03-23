@@ -8,10 +8,6 @@ include ../../mixin/alert.pug
 block main 
     +error(3000)
     +success(3000)
-    .card.shadow-sm
-        .card-header
-            h5.mb-0 Chỉnh sửa sản phẩm
-
     .card-body
         form(
             action=`${prefixAdmin}/products/edit/${product.id}?_method=PATCH`
@@ -81,13 +77,15 @@ block main
                         width="200"
                     )
 
-                //- // Danh mục
-                //- .col-md-3.mb-3
-                //-     label(class="form-label") Danh mục
-                //-     select(class="form-select"name="category")
-                //-         option(value="laptop") Laptop
-                //-         option(value="phone") Phone
-                //-         option(value="tablet") Tablet
+                // Danh mục
+                .col-md-3.mb-3
+                    label(class="form-label") Danh mục
+                    select(class="form-select" name="category")
+                        each item in category 
+                            option(
+                                value=item._id
+                                selected = (value==product.category_id ? true : false)
+                            ) #{item.name}
 
                 // Trạng thái
                 .col-md-3.mb-3

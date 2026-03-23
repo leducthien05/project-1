@@ -1,0 +1,113 @@
+extends ../../layout/default.pug
+include ../../mixin/filterStatus.pug
+include ../../mixin/search.pug
+include ../../mixin/pagination.pug
+include ../../mixin/OptionChangeMulti.pug
+include ../../mixin/alert.pug
+
+block main 
+    +error(3000)
+    .card.shadow-sm
+        .card-body
+            form(
+                action=`${prefixAdmin}/accounts/create`
+                method="POST"
+                enctype="multipart/form-data"
+            )
+
+                .row
+
+                    // Full name
+                    .col-md-6.mb-3
+                        label(class="form-label") Họ tên
+                        input(
+                            class="form-control"
+                            type="text"
+                            name="fullName"
+                            required
+                        )
+
+                    // Phone
+                    .col-md-6.mb-3
+                        label(class="form-label") Số điện thoại
+                        input(
+                            class="form-control"
+                            type="text"
+                            name="phone"
+                        )
+
+                .row
+
+                    // Email
+                    .col-md-6.mb-3
+                        label(class="form-label") Email
+                        input(
+                            class="form-control"
+                            type="email"
+                            name="email"
+                            required
+                        )
+
+                    // Password
+                    .col-md-6.mb-3
+                        label(class="form-label") Mật khẩu
+                        input(
+                            class="form-control"
+                            type="password"
+                            name="password"
+                            required
+                        )
+
+                .row
+
+                    // Role
+                    .col-md-6.mb-3
+                        label(class="form-label") Nhóm quyền
+                        select(
+                            class="form-select" 
+                            name="role_id"
+                        )
+                            each item in role
+                                option(value=item._id)= item.name
+
+                    // Status
+                    .col-md-6.mb-3
+                        label(vlass="form-label") Trạng thái
+                        select(
+                            class="form-select" 
+                            name="status"
+                        )
+                            option(value="active") Hoạt động
+                            option(value="inactive") Khóa
+
+
+
+                // Avatar
+                .mb-3
+                    label(class="form-label") Avatar
+                    input(
+                        class="form-control"
+                        type="file"
+                        name="avatar"
+                        img-src
+                    )
+                    img(
+                        src=""
+                        alt=""
+                        img-preview
+                        width="200"
+                    )
+
+                
+
+                .mt-3
+                    button(
+                        class="btn btn-success" 
+                        type="submit"
+                    ) Lưu
+                    a(
+                        class="btn btn-secondary ms-2" 
+                        href=`${prefixAdmin}/accounts`
+                    ) Quay lại
+    script(src="/admin/JS/product.js") 
+    script(src="/admin/JS/TinyMCE.js") 

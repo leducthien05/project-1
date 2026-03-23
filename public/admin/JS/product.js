@@ -99,8 +99,10 @@ if(selectOpton){
     if(status == "deleted"){
         selectOpton.add(new Option("Khôi phục", "un-delete"));
         const optionDelete = selectOpton.querySelector("option[value='delete-all']");
-        optionDelete.value="delete-hard";
-        optionDelete.text="Xóa hoàn toàn";
+        if(optionDelete){
+            optionDelete.value="delete-hard";
+            optionDelete.text="Xóa hoàn toàn";
+        } 
     }
 }
 
@@ -113,10 +115,10 @@ if(formChangeMulti){
         const checkboxItem = document.querySelectorAll("input[checkbox-item]:checked");
         const value = e.target.elements.status.value;//Tìm phần tử có tên là status rồi lấy giá trị
         const sum = checkboxItem.length;
-        if(value == "delete-all" || value == "deleted-hard"){
-            const isconFirm = alert(`Bạn có chắc muốn xóa ${sum} bản ghi chứ?`);
+        if(value == "delete-all" || value == "delete-hard"){
+            const isconFirm = confirm(`Bạn có chắc muốn xóa ${sum} bản ghi chứ?`);
             if(!isconFirm){
-                retrun;
+                return;
             }
         }
 
@@ -178,7 +180,7 @@ if(Alert){
 //Show Image 
 const imgShow = document.querySelector("[img-preview]");
 if(imgShow){
-    const inputImg = document.querySelector("input[name='image']");
+    const inputImg = document.querySelector("[img-src]")
     inputImg.addEventListener("change", (e)=>{
         const file = e.target.files[0];
         imgShow.src = URL.createObjectURL(file);
