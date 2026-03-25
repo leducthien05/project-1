@@ -8,117 +8,119 @@ include ../../mixin/alert.pug
 block main 
     +error(3000)
     +success(3000)
-    .card-body
-        form(
-            action=`${prefixAdmin}/products/edit/${product.id}?_method=PATCH`
-            method="POST" 
-            enctype="multipart/form-data"
-        )
+    if(roleAccount.permission.includes("products_edit"))
+        .card-body
+            form(
+                action=`${prefixAdmin}/products/edit/${product.id}?_method=PATCH`
+                method="POST" 
+                enctype="multipart/form-data"
+            )
 
-            .row
+                .row
 
-                // Tên sản phẩm
-                .col-md-6.mb-3
-                    label(class="form-label") Tên sản phẩm
-                    input(
-                        class="form-control"
-                        type="text"
-                        name="name"
-                        placeholder="Nhập tên sản phẩm"
-                        value=product.name
-                    )
+                    // Tên sản phẩm
+                    .col-md-6.mb-3
+                        label(class="form-label") Tên sản phẩm
+                        input(
+                            class="form-control"
+                            type="text"
+                            name="name"
+                            placeholder="Nhập tên sản phẩm"
+                            value=product.name
+                        )
 
-                // Giá
-                .col-md-3.mb-3
-                    label(class="form-label") Giá
-                    input(
-                        class="form-control"
-                        type="number"
-                        name="price"
-                        placeholder="0"
-                        value=product.price
-                    )
+                    // Giá
+                    .col-md-3.mb-3
+                        label(class="form-label") Giá
+                        input(
+                            class="form-control"
+                            type="number"
+                            name="price"
+                            placeholder="0"
+                            value=product.price
+                        )
 
-                // Giảm giá
-                .col-md-3.mb-3
-                    label(class="form-label") Giảm giá (%)
-                    input(
-                        class="form-control"
-                        type="number"
-                        name="discountPercentage"
-                        value=product.discountPercentage
-                    ) 
+                    // Giảm giá
+                    .col-md-3.mb-3
+                        label(class="form-label") Giảm giá (%)
+                        input(
+                            class="form-control"
+                            type="number"
+                            name="discountPercentage"
+                            value=product.discountPercentage
+                        ) 
 
-                // Mô tả
-                .mb-3
-                    label(class="form-label") Mô tả
-                    textarea(
-                        class="form-control tinymce"
-                        name="description"
-                        rows="4"
-                        placeholder="Nhập mô tả sản phẩm"
-                        
-                    ) #{product.description}
+                    // Mô tả
+                    .mb-3
+                        label(class="form-label") Mô tả
+                        textarea(
+                            class="form-control tinymce"
+                            name="description"
+                            rows="4"
+                            placeholder="Nhập mô tả sản phẩm"
+                            
+                        ) #{product.description}
 
-            .row
+                .row
 
-                // Ảnh
-                .col-md-6.mb-3
-                    label(class="form-label") Ảnh sản phẩm
-                    input(
-                        class="form-control"
-                        type="file"
-                        name="image"
-                    )
-                    img(
-                        src=product.image
-                        alt=""
-                        img-preview
-                        width="200"
-                    )
+                    // Ảnh
+                    .col-md-6.mb-3
+                        label(class="form-label") Ảnh sản phẩm
+                        input(
+                            class="form-control"
+                            type="file"
+                            name="image"
+                        )
+                        img(
+                            src=product.image
+                            alt=""
+                            img-preview
+                            width="200"
+                        )
 
-                // Danh mục
-                .col-md-3.mb-3
-                    label(class="form-label") Danh mục
-                    select(class="form-select" name="category")
-                        each item in category 
+                    // Danh mục
+                    .col-md-3.mb-3
+                        label(class="form-label") Danh mục
+                        select(class="form-select" name="category")
+                            each item in category 
+                                option(
+                                    value=item._id
+                                    selected = (value==product.category_id ? true : false)
+                                ) #{item.name}
+
+                    // Trạng thái
+                    .col-md-3.mb-3
+                        label(class="form-label") Trạng thái
+                        select(class="form-select" name="status")
                             option(
-                                value=item._id
-                                selected = (value==product.category_id ? true : false)
-                            ) #{item.name}
+                                value="active"
+                                selected = (product.status == "active" ? true : false)
+                            ) Hoạt động
+                            option(
+                                value="inactive"
+                                selected = (product.status == "inactive" ? true : false)
+                            ) Ngừng hoạt động
 
-                // Trạng thái
-                .col-md-3.mb-3
-                    label(class="form-label") Trạng thái
-                    select(class="form-select" name="status")
-                        option(
-                            value="active"
-                            selected = (product.status == "active" ? true : false)
-                        ) Hoạt động
-                        option(
-                            value="inactive"
-                            selected = (product.status == "inactive" ? true : false)
-                        ) Ngừng hoạt động
+                // Position
+                .mb-3
+                    label(class="form-label") Vị trí
+                    input(
+                        class="form-control"
+                        type="number"
+                        name="position"
+                        value=product.position
+                    )
 
-            // Position
-            .mb-3
-                label(class="form-label") Vị trí
-                input(
-                    class="form-control"
-                    type="number"
-                    name="position"
-                    value=product.position
-                )
-
-            // Button
-            .mt-3
-                button(
-                    class="btn btn-success"
-                    type="submit"
-                ) Cập nhật
-                a(
-                    class="btn btn-secondary ms-2"
-                    href="/admin/products"
-                ) Quay lại
-    script(src="/admin/JS/product.js") 
-    script(src="/admin/JS/TinyMCE.js") 
+                // Button
+                .mt-3
+                    button(
+                        class="btn btn-success"
+                        type="submit"
+                    ) Cập nhật
+                    if(roleAccount.permission.includes("products_view"))
+                        a(
+                            class="btn btn-secondary ms-2"
+                            href="/admin/products"
+                        ) Quay lại
+        script(src="/admin/JS/product.js") 
+        script(src="/admin/JS/TinyMCE.js") 

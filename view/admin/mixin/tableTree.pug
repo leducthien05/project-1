@@ -28,23 +28,35 @@ mixin tableTree(category, level)
                     name = "position"
                     style="width:70px"
                 )
-            td 
-                if(item.status == "active")
-                    a(
-                        href="javascript:;"
-                        class="badge bg-success"
-                        change-status
-                        status=item.status
-                        id=item.id
-                    ) Hoạt động
-                else
-                    a(
-                        href="javascript:;"
-                        class="badge bg-danger"
-                        change-status
-                        status=item.status
-                        id=item.id
-                    ) Ngừng hoạt động
+            td
+                if(roleAccount.permission.includes("products-category_edit")) 
+                    if(item.status == "active")
+                        a(
+                            href="javascript:;"
+                            class="badge bg-success"
+                            change-status
+                            status=item.status
+                            id=item.id
+                        ) Hoạt động
+                    else
+                        a(
+                            href="javascript:;"
+                            class="badge bg-danger"
+                            change-status
+                            status=item.status
+                            id=item.id
+                        ) Ngừng hoạt động
+                else 
+                    if(item.status == "active")
+                        a(
+                            href="javascript:;"
+                            class="badge bg-success"
+                        ) Hoạt động
+                    else
+                        a(
+                            href="javascript:;"
+                            class="badge bg-danger"
+                        ) Ngừng hoạt động
             //- td Laptop
             td
                 a(
@@ -53,16 +65,18 @@ mixin tableTree(category, level)
                     id = item.id 
                     detail
                 ) Chi tiết
-                a(
-                    href=`${prefixAdmin}/categorys/edit/${item.id}`
-                    class="btn btn-warning btn-sm"
-                    id = item.id 
-                    button-update
-                ) Sửa
-                button(
-                    class="btn btn-danger btn-sm"
-                    btn-delete
-                    btn-id = item.id
-                ) Xóa 
+                if(roleAccount.permission.includes("product-category_edit"))
+                    a(
+                        href=`${prefixAdmin}/categorys/edit/${item.id}`
+                        class="btn btn-warning btn-sm"
+                        id = item.id 
+                        button-update
+                    ) Sửa
+                if(roleAccount.permission.includes("product-category_delete"))
+                    button(
+                        class="btn btn-danger btn-sm"
+                        btn-delete
+                        btn-id = item.id
+                    ) Xóa 
         - if(item.children && item.children.length > 0)
             +tableTree(item.children, level+1)

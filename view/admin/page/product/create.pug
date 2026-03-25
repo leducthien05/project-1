@@ -7,107 +7,109 @@ include ../../mixin/alert.pug
 
 block main 
     +error(3000)
-    .card-body
-        form(
-            action="/admin/products/create" 
-            method="POST" 
-            enctype="multipart/form-data"
-        )
+    if(roleAccount.permission.includes("products_create"))
+        .card-body
+            form(
+                action="/admin/products/create" 
+                method="POST" 
+                enctype="multipart/form-data"
+            )
 
-            .row
+                .row
 
-                // Tên sản phẩm
-                .col-md-6.mb-3
-                    label(class="form-label") Tên sản phẩm
-                    input(
-                        class="form-control"
-                        type="text"
-                        name="name"
-                        placeholder="Nhập tên sản phẩm"
-                        
-                    )
+                    // Tên sản phẩm
+                    .col-md-6.mb-3
+                        label(class="form-label") Tên sản phẩm
+                        input(
+                            class="form-control"
+                            type="text"
+                            name="name"
+                            placeholder="Nhập tên sản phẩm"
+                            
+                        )
 
-                // Giá
-                .col-md-3.mb-3
-                    label(class="form-label") Giá
-                    input(
-                        class="form-control"
-                        type="number"
-                        name="price"
-                        placeholder="0"
-                    )
+                    // Giá
+                    .col-md-3.mb-3
+                        label(class="form-label") Giá
+                        input(
+                            class="form-control"
+                            type="number"
+                            name="price"
+                            placeholder="0"
+                        )
 
-                // Giảm giá
-                .col-md-3.mb-3
-                    label(class="form-label") Giảm giá (%)
-                    input(
-                        class="form-control"
-                        type="number"
-                        name="discountPercentage"
-                        value="0"
-                    )
+                    // Giảm giá
+                    .col-md-3.mb-3
+                        label(class="form-label") Giảm giá (%)
+                        input(
+                            class="form-control"
+                            type="number"
+                            name="discountPercentage"
+                            value="0"
+                        )
 
-                // Mô tả
+                    // Mô tả
+                    .mb-3
+                        label(class="form-label") Mô tả
+                        textarea(
+                            class="form-control tinymce"
+                            name="description"
+                            rows="4"
+                            placeholder="Nhập mô tả sản phẩm"
+                        )
+
+                .row
+
+                    // Ảnh
+                    .col-md-6.mb-3
+                        label(class="form-label") Ảnh sản phẩm
+                        input(
+                            class="form-control"
+                            type="file"
+                            name="image"
+                            img-src
+                        )
+                        img(
+                            src=""
+                            alt=""
+                            img-preview
+                            width="200"
+                        )
+
+                    // Danh mục
+                    .col-md-3.mb-3
+                        label(class="form-label") Danh mục
+                        select(class="form-select" name="category")
+                            each item in category 
+                                option(value=item._id) #{item.name}
+
+                    // Trạng thái
+                    .col-md-3.mb-3
+                        label(class="form-label") Trạng thái
+                        select(class="form-select" name="status")
+                            option(value="active") Hoạt động
+                            option(value="inactive") Ngừng hoạt động
+
+                // Position
                 .mb-3
-                    label(class="form-label") Mô tả
-                    textarea(
-                        class="form-control tinymce"
-                        name="description"
-                        rows="4"
-                        placeholder="Nhập mô tả sản phẩm"
-                    )
-
-            .row
-
-                // Ảnh
-                .col-md-6.mb-3
-                    label(class="form-label") Ảnh sản phẩm
+                    label(class="form-label") Vị trí
                     input(
                         class="form-control"
-                        type="file"
-                        name="image"
-                        img-src
-                    )
-                    img(
-                        src=""
-                        alt=""
-                        img-preview
-                        width="200"
+                        type="number"
+                        name="position"
+                        value="1"
                     )
 
-                // Danh mục
-                .col-md-3.mb-3
-                    label(class="form-label") Danh mục
-                    select(class="form-select" name="category")
-                        each item in category 
-                            option(value=item._id) #{item.name}
-
-                // Trạng thái
-                .col-md-3.mb-3
-                    label(class="form-label") Trạng thái
-                    select(class="form-select" name="status")
-                        option(value="active") Hoạt động
-                        option(value="inactive") Ngừng hoạt động
-
-            // Position
-            .mb-3
-                label(class="form-label") Vị trí
-                input(
-                    class="form-control"
-                    type="number"
-                    name="position"
-                    value="1"
-                )
-
-            // Button
-            .mt-3
-                button(
-                    class="btn btn-success"
-                    type="submit"
-                ) Lưu sản phẩm
-                a(
-                    class="btn btn-secondary ms-2"
-                    href="/admin/products"
-                ) Quay lại
-    script(src="/admin/JS/product.js") 
-    script(src="/admin/JS/TinyMCE.js") 
+                // Button
+                .mt-3
+                    button(
+                        class="btn btn-success"
+                        type="submit"
+                    ) Lưu sản phẩm
+                    if(roleAccount.permission.includes("products_view"))
+                        a(
+                            class="btn btn-secondary ms-2"
+                            href="/admin/products"
+                        ) Quay lại
+        script(src="/admin/JS/product.js") 
+        script(src="/admin/JS/TinyMCE.js") 

@@ -8,127 +8,144 @@ include ../../mixin/sort.pug
 
 block main
     +success(3000)
-    .card.shadow-sm
-        .card-body
-                .row
-                    .col-4
-                        +sortAccount
-    .card.shadow-sm
-        .card-body
-            h5.mb-3 Bộ lọc và Tìm kiếm
-                .row.align-items-center
-                    // Bộ lọc trạng thái
-                    .col-md-6
-                        +filterStatus(listStatus)
-                    .col-md-6
-                        +search(keyword)
-    .card.shadow-sm
-        .card-header.d-flex.justify-content-between.align-items-center
-            //- h5.mb-0 Danh sách sản phẩm
-            // Select hành động
-            form(
-                action=`${prefixAdmin}/accounts/change-multi-status?_method=PATCH` 
-                method="POST" 
-                form-change-multi
-                class="d-flex gap-2"
-            )
-                +selectOptionAccount()
-            a(
-                class = "btn btn-primary"
-                href=`${prefixAdmin}/accounts/create`
-            ) + Thêm tài khoản
+    if(roleAccount.permission.includes("account_view"))
+        .card.shadow-sm
+            .card-body
+                    .row
+                        .col-4
+                            +sortAccount
+        .card.shadow-sm
+            .card-body
+                h5.mb-3 Bộ lọc và Tìm kiếm
+                    .row.align-items-center
+                        // Bộ lọc trạng thái
+                        .col-md-6
+                            +filterStatus(listStatus)
+                        .col-md-6
+                            +search(keyword)
+        .card.shadow-sm
+            .card-header.d-flex.justify-content-between.align-items-center
+                //- h5.mb-0 Danh sách sản phẩm
+                // Select hành động
+                if(roleAccount.permission.includes("account_edit"))
+                    form(
+                        action=`${prefixAdmin}/accounts/change-multi-status?_method=PATCH` 
+                        method="POST" 
+                        form-change-multi
+                        class="d-flex gap-2"
+                    )
+                        +selectOptionAccount()
+                if(roleAccount.permission.includes("account_create"))
+                    a(
+                        class = "btn btn-primary"
+                        href=`${prefixAdmin}/accounts/create`
+                    ) + Thêm tài khoản
 
-        .card-body
+            .card-body
 
-            table(
-                class="table table-hover"
-                checkbox-multi
-            )
-                thead
-                    tr
-                        th 
-                            input(
-                                type="checkbox"
-                                checkbox-all
-                            )
-                        th STT
-                        th Ảnh
-                        th Tên tài khoản
-                        th Email
-                        th Nhóm quyền
-                        th Trạng thái
-                        th Hành động
-
-                tbody
-                    each item, index in account
+                table(
+                    class="table table-hover"
+                    checkbox-multi
+                )
+                    thead
                         tr
-                            td 
+                            th 
                                 input(
                                     type="checkbox"
-                                    checkbox-item
-                                    name="id"
-                                    value = item.id
+                                    checkbox-all
                                 )
-                            
-                            td #{item.indexRecord}
-                            td 
-                                img(
-                                    src=item.avatar
-                                    alt=item.name
-                                    hight= "auto"
-                                    width = "100px"
-                                    loading="lazy"
-                                )
-                            td #{item.fullName}
-                            td #{item.email}
-                            td  #{item.role}
-                            td 
-                                if(item.status == "active")
-                                    a(
-                                        href="javascript:;"
-                                        class="badge bg-success"
-                                        change-status
-                                        status=item.status
-                                        id=item.id
-                                    ) Hoạt động
-                                else
-                                    a(
-                                        href="javascript:;"
-                                        class="badge bg-danger"
-                                        change-status
-                                        status=item.status
-                                        id=item.id
-                                    ) Ngừng hoạt động
-                            //- td Laptop
-                            td
-                                a(
-                                    href=`${prefixAdmin}/accounts/edit/${item.id}`
-                                    class="btn btn-warning btn-sm"
-                                    id = item.id 
-                                    button-update
-                                ) Sửa
-                                button(
-                                    class="btn btn-danger btn-sm"
-                                    btn-delete
-                                    btn-id = item.id
-                                ) Xóa
-                                a(
-                                    href=`${prefixAdmin}/accounts/detail/${item.id}`
-                                    class="btn btn-info btn-sm"
-                                    id = item.id 
-                                    button-update
-                                ) Chi tiết
-    +pagination(objectPage)
-    form(
-        action=`${prefixAdmin}/accounts/change-status`, 
-        method="post",
-        form-change-status
-    ) 
-    form(
-        action = `${prefixAdmin}/accounts/delete`
-        method="post"
-        form-delete
-    )
+                            th STT
+                            th Ảnh
+                            th Tên tài khoản
+                            th Email
+                            th Nhóm quyền
+                            th Trạng thái
+                            th Hành động
 
-    script(src="/admin/JS/product.js") 
-                        
+                    tbody
+                        each item, index in account
+                            tr
+                                td 
+                                    input(
+                                        type="checkbox"
+                                        checkbox-item
+                                        name="id"
+                                        value = item.id
+                                    )
+                                
+                                td #{item.indexRecord}
+                                td 
+                                    img(
+                                        src=item.avatar
+                                        alt=item.name
+                                        hight= "auto"
+                                        width = "100px"
+                                        loading="lazy"
+                                    )
+                                td #{item.fullName}
+                                td #{item.email}
+                                td  #{item.role}
+                                td 
+                                    if(roleAccount.permission.includes("account_edit"))
+                                        if(item.status == "active")
+                                            a(
+                                                href="javascript:;"
+                                                class="badge bg-success"
+                                            ) Hoạt động
+                                        else
+                                            a(
+                                                href="javascript:;"
+                                                class="badge bg-danger"
+                                            ) Ngừng hoạt động
+                                    else 
+                                        if(item.status == "active")
+                                            a(
+                                                href="javascript:;"
+                                                class="badge bg-success"
+                                                change-status
+                                                status=item.status
+                                                id=item.id
+                                            ) Hoạt động
+                                        else
+                                            a(
+                                                href="javascript:;"
+                                                class="badge bg-danger"
+                                                change-status
+                                                status=item.status
+                                                id=item.id
+                                            ) Ngừng hoạt động
+                                //- td Laptop
+                                td
+                                    if(roleAccount.permission.includes("account_edit"))
+                                        a(
+                                            href=`${prefixAdmin}/accounts/edit/${item.id}`
+                                            class="btn btn-warning btn-sm"
+                                            id = item.id 
+                                            button-update
+                                        ) Sửa
+                                    if(roleAccount.permission.includes("account_delete"))
+                                        button(
+                                            class="btn btn-danger btn-sm"
+                                            btn-delete
+                                            btn-id = item.id
+                                        ) Xóa
+                                    a(
+                                        href=`${prefixAdmin}/accounts/detail/${item.id}`
+                                        class="btn btn-info btn-sm"
+                                        id = item.id 
+                                        button-update
+                                    ) Chi tiết
+        +pagination(objectPage)
+        form(
+            action=`${prefixAdmin}/accounts/change-status`, 
+            method="post",
+            form-change-status
+        ) 
+        form(
+            action = `${prefixAdmin}/accounts/delete`
+            method="post"
+            form-delete
+        )
+
+        script(src="/admin/JS/product.js") 
+                            

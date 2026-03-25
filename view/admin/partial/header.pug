@@ -1,2 +1,22 @@
-nav.navbar.navbar-light.bg-white.shadow-sm.px-4
-  h4 #{titlePage}
+nav.navbar.admin-header.px-4
+  // LEFT
+  .d-flex.align-items-center
+    h5.mb-0.header-title #{titlePage}
+  // RIGHT
+  .d-flex.align-items-center.gap-2
+    // Action buttons
+    a(
+      class="btn btn-soft"
+      href=`${prefixAdmin}/my-account`
+    ) 
+      .user-box
+        img.avatar(
+          src=accountAdmin.avatar 
+          width="30px"
+        )
+        span.user-name #{accountAdmin.fullName}
+
+    a(
+      class="btn btn-danger"
+      href=`${prefixAdmin}/auth/logout`
+    ) Đăng xuất

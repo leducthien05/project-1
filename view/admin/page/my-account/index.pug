@@ -14,10 +14,10 @@ block main
                 .row
                     // Avatar
                     .col-md-4.text-center
-                        -if(account.avatar)
+                        -if(accountAdmin.avatar)
                             img(
                                 class="img-fluid rounded-circle"
-                                src=account.avatar
+                                src=accountAdmin.avatar
                                 style="width:150px;height:150px;object-fit:cover"
                             )
                         -else
@@ -29,24 +29,24 @@ block main
                     // Thông tin
                     .col-md-8
 
-                        h4.mb-3 #{account.fullName}
+                        h4.mb-3 #{accountAdmin.fullName}
 
                         .mb-2
                             strong Email:
-                            span.ms-2 #{account.email}
+                            span.ms-2 #{accountAdmin.email}
 
                         .mb-2
                             strong SĐT:
-                            span.ms-2 #{account.phone}
+                            span.ms-2 #{accountAdmin.phone}
 
                         .mb-2
                             strong Nhóm quyền:
-                            span.ms-2 #{role.name}
+                            span.ms-2 #{roleAccount.name}
 
                         .mb-3
                             strong Trạng thái:
                                 
-                                if account.status == "active"
+                                if accountAdmin.status == "active"
                                     span(class="badge bg-success ms-2") Hoạt động
                                 else
                                     span(class="badge bg-danger ms-2") Khóa
@@ -54,21 +54,21 @@ block main
                             if(roleAccount.permission.includes("account_edit"))
                                 a(
                                     class="btn btn-warning"
-                                    href=`${prefixAdmin}/accounts/edit/${account._id}`
+                                    href=`${prefixAdmin}/my-account/edit/${accountAdmin._id}`
                                 ) Chỉnh sửa
                             a(
                                 class="btn btn-secondary ms-2"
-                                href=`${prefixAdmin}/accounts`
+                                href=`${prefixAdmin}/dashboard`
                             ) Quay lại
-                    .card.shadow-sm
-                        .card-header
-                            h6.mb-0 Thông tin thời gian
+        .card.shadow-sm
+            .card-header
+                h6.mb-0 Thông tin thời gian
 
-                        .card-body
-                            p
-                                strong Ngày tạo:
-                                span.ms-2 
-                                    +dateTime(account.createAt)
+            .card-body
+                p
+                    strong Ngày tạo:
+                    span.ms-2 
+                        +dateTime(accountAdmin.createAt)
 
                             //- p
                             //-     strong Cập nhật:

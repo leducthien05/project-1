@@ -11,7 +11,7 @@ block main
         .card.shadow-sm
             .card-body
                 form(
-                    action=`${prefixAdmin}/accounts/edit/${account.id}?_method=PATCH`
+                    action=`${prefixAdmin}/accounts/edit/${accountAdmin.id}?_method=PATCH`
                     method="POST"
                     enctype="multipart/form-data"
                 )
@@ -25,7 +25,7 @@ block main
                                 class="form-control"
                                 type="text"
                                 name="fullName"
-                                value = account.fullName
+                                value = accountAdmin.fullName
                             )
 
                         // Phone
@@ -35,7 +35,7 @@ block main
                                 class="form-control"
                                 type="text"
                                 name="phone"
-                                value=account.phone
+                                value=accountAdmin.phone
                             )
 
                     .row
@@ -47,7 +47,7 @@ block main
                                 class="form-control"
                                 type="email"
                                 name="email"
-                                value=account.email
+                                value=accountAdmin.email
                             )
 
                         // Password
@@ -58,40 +58,6 @@ block main
                                 type="password"
                                 name="password"
                             )
-
-                    .row
-
-                        // Role
-                        .col-md-6.mb-3
-                            label(class="form-label") Nhóm quyền
-                            select(
-                                class="form-select" 
-                                name="role_id"
-                            )
-                                each item in role
-                                    option(
-                                        value=item._id
-                                        selected = (item._id == account.role_id ? true : false)
-                                    ) #{item.name}
-
-                        // Status
-                        .col-md-6.mb-3
-                            label(vlass="form-label") Trạng thái
-                            select(
-                                class="form-select" 
-                                name="status"
-                            )
-                                option(
-                                    value="active"
-                                    selected=(account.status == "active" ? true : false)
-                                ) Hoạt động
-                                option(
-                                    value="inactive"
-                                    selected=(account.status == "inactive" ? true : false)
-                                ) Khóa
-
-
-
                     // Avatar
                     .mb-3
                         label(class="form-label") Avatar
@@ -102,7 +68,7 @@ block main
                             img-src
                         )
                         img(
-                            src=account.avatar
+                            src=accountAdmin.avatar
                             alt=""
                             img-preview
                             width="200"
@@ -118,7 +84,7 @@ block main
                         if(roleAccount.permission.includes("account_view"))
                             a(
                                 class="btn btn-secondary ms-2" 
-                                href=`${prefixAdmin}/accounts`
+                                href=`${prefixAdmin}/my-account`
                             ) Quay lại
         script(src="/admin/JS/product.js") 
         script(src="/admin/JS/TinyMCE.js") 

@@ -7,41 +7,43 @@ include ../../mixin/alert.pug
 
 block main 
     +error(3000)
-    .card.shadow-sm
-        .card-body
-            form(
-                method="POST"
-                action=`${prefixAdmin}/roles/edit/${role._id}?_method=PATCH`
-            )
+    if(roleAccount.permission.includes("edit"))
+        .card.shadow-sm
+            .card-body
+                form(
+                    method="POST"
+                    action=`${prefixAdmin}/roles/edit/${role._id}?_method=PATCH`
+                )
 
-                .mb-3
-                    label(class="form-label") Tên nhóm quyền
-                    input(
-                        class="form-control"
-                        type="text"
-                        name="name"
-                        placeholder="VD: Quản lý sản phẩm"
-                        required
-                        value=role.name
-                    )
+                    .mb-3
+                        label(class="form-label") Tên nhóm quyền
+                        input(
+                            class="form-control"
+                            type="text"
+                            name="name"
+                            placeholder="VD: Quản lý sản phẩm"
+                            required
+                            value=role.name
+                        )
 
-                .mb-3
-                    label(class="form-label") Mô tả
-                    textarea(
-                        class="form-control"
-                        name="description"
-                        rows="3"
-                        placeholder="Mô tả chức năng của nhóm quyền"
-                    ) #{role.description}
+                    .mb-3
+                        label(class="form-label") Mô tả
+                        textarea(
+                            class="form-control"
+                            name="description"
+                            rows="3"
+                            placeholder="Mô tả chức năng của nhóm quyền"
+                        ) #{role.description}
 
-                .mt-3
-                    button(
-                        class="btn btn-success" 
-                        type="submit"
-                    ) Lưu
-                    a(
-                        class="btn btn-secondary ms-2" 
-                        href=`${prefixAdmin}/roles`
-                    ) Quay lại
-    script(src="/admin/JS/product.js") 
-    script(src="/admin/JS/TinyMCE.js") 
+                    .mt-3
+                        button(
+                            class="btn btn-success" 
+                            type="submit"
+                        ) Lưu
+                        if(roleAccount.permission.includes("view"))
+                            a(
+                                class="btn btn-secondary ms-2" 
+                                href=`${prefixAdmin}/roles`
+                            ) Quay lại
+            script(src="/admin/JS/product.js") 
+        script(src="/admin/JS/TinyMCE.js") 

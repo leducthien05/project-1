@@ -169,4 +169,14 @@ module.exports.permissionPatch = async (req, res) =>{
     req.flash("success", "Phân quyền thành công");
     res.redirect(`${prefix.prefixAdmin}/roles/permissions`);
 }
+// [GET] /admin/roles/detail
+module.exports.detail = async (req, res)=>{
+    const role = await Role.findOne({
+        _id: req.params.id
+    });
+    res.render("admin/page/role/detail", {
+        titlePage: "Chi tiết nhóm quyền",
+        role: role
+    })
+}
 

@@ -10,10 +10,10 @@
     li.menu-title
       i(class="bi bi-speedometer2")
       |  Tổng quan
-
+    
     li(class="menu-item")
-      a(href=`${prefixAdmin}/dashboard`
-        
+      a(
+        href=`${prefixAdmin}/dashboard`
       )
         i(class="bi bi-speedometer2")
         |  Dashboard
@@ -21,48 +21,53 @@
     li.menu-title
       i(class="bi bi-folder2-open")
       |  Bán hàng
+    if(roleAccount.permission.includes("products_view"))
+      li(class="menu-item")
+        a(href=`${prefixAdmin}/products`)
+          i(class="bi bi-box")
+          |  Sản phẩm
+    if(roleAccount.permission.includes("product-category_view"))
+      li(class="menu-item")
+        a(href=`${prefixAdmin}/categorys`)
+          i(class="bi bi-tags")
+          |  Danh mục sản phẩm
+    if(roleAccount.permission.includes("order_view"))
+      li(class="menu-item")
+        a(href=`${prefixAdmin}/orders`)
+          i(class="bi bi-cart")
+          |  Đơn hàng
 
-    li(class="menu-item")
-      a(href=`${prefixAdmin}/products`)
-        i(class="bi bi-box")
-        |  Sản phẩm
-
-    li(class="menu-item")
-      a(href=`${prefixAdmin}/categorys`)
-        i(class="bi bi-tags")
-        |  Danh mục sản phẩm
-
-    li(class="menu-item")
-      a(href=`${prefixAdmin}/orders`)
-        i(class="bi bi-cart")
-        |  Đơn hàng
-
-
-    li(class="menu-item")
-      a(href=`${prefixAdmin}/users`)
-        i(class="bi bi-people")
-        |  Khách hàng
+    if(roleAccount.permission.includes("user_view"))
+      li(class="menu-item")
+        a(href=`${prefixAdmin}/users`)
+          i(class="bi bi-people")
+          |  Khách hàng
 
     // ===== Quản lý =====
     li.menu-title
       i(class="bi bi-gear")
       |  Quản lý
-    li(class="menu-item")
-      a(href=`${prefixAdmin}/roles`)
-        i(class="bi bi-people-fill")
-        |  Nhóm quyền
-    li(class="menu-item-permission")
-      a(href=`${prefixAdmin}/roles/permissions`)
-        i(class="bi bi-person-circle")
-        |  Phân quyền
-    li(class="menu-item")
-      a(href=`${prefixAdmin}/accounts`)
-        i(class="bi bi-person-gear")
-        |  Tài khoản
+    if(roleAccount.permission.includes("view"))
+      li(class="menu-item")
+        a(href=`${prefixAdmin}/roles`)
+          i(class="bi bi-people-fill")
+          |  Nhóm quyền
+    if(roleAccount.permission.includes("permission"))
+      li(class="menu-item-permission")
+        a(href=`${prefixAdmin}/roles/permissions`)
+          i(class="bi bi-person-circle")
+          |  Phân quyền
+    if(roleAccount.permission.includes("account_view"))
+      li(class="menu-item")
+        a(href=`${prefixAdmin}/accounts`)
+          i(class="bi bi-person-gear")
+          |  Tài khoản
 
     // ===== Hệ thống =====
     li.menu-title
       i(class="bi bi-gear")
       |  Hệ thống
+    if(roleAccount.permission.includes("settingsgeneral"))
+      
       
   script(src="/admin/JS/sidebar.js") 

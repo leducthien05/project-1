@@ -8,86 +8,88 @@ include ../../mixin/selectTree.pug
 
 block main 
     +error(3000)
-    .card-body
-        form(
-            action=`${prefixAdmin}/categorys/create`
-            method="POST" 
-            enctype="multipart/form-data"
-        )
+    if(roleAccount.permission.includes("category_create"))
+        .card-body
+            form(
+                action=`${prefixAdmin}/categorys/create`
+                method="POST" 
+                enctype="multipart/form-data"
+            )
 
-            .row
+                .row
 
-                // Tên sản phẩm
-                .col-md-6.mb-3
-                    label(class="form-label") Tên danh mục
-                    input(
-                        class="form-control"
-                        type="text"
-                        name="name"
-                        placeholder="Nhập tên danh mục"
-                        
-                    )
+                    // Tên sản phẩm
+                    .col-md-6.mb-3
+                        label(class="form-label") Tên danh mục
+                        input(
+                            class="form-control"
+                            type="text"
+                            name="name"
+                            placeholder="Nhập tên danh mục"
+                            
+                        )
 
-                // Mô tả
+                    // Mô tả
+                    .mb-3
+                        label(class="form-label") Mô tả
+                        textarea(
+                            class="form-control tinymce"
+                            name="description"
+                            rows="4"
+                            placeholder="Nhập mô tả danh mục"
+                        )
+
+                .row
+
+                    // Ảnh
+                    .col-md-6.mb-3
+                        label(class="form-label") Ảnh sản phẩm
+                        input(
+                            class="form-control"
+                            type="file"
+                            name="image"
+                            img-src
+                        )
+                        img(
+                            src=""
+                            alt=""
+                            img-preview
+                            width="200"
+                        )
+                    // Danh mục
+                    .col-md-3.mb-3
+                        label(class="form-label") Danh mục
+                        select(class="form-select" name="parent_id")
+                            option(value="" selected=true) -- Danh mục cha -- 
+                            +selectTree(category, 1)
+
+                    // Trạng thái
+                    .col-md-3.mb-3
+                        label(class="form-label") Trạng thái
+                        select(class="form-select" name="status")
+                            option(value="active") Hoạt động
+                            option(value="inactive") Ngừng hoạt động
+
+                // Position
                 .mb-3
-                    label(class="form-label") Mô tả
-                    textarea(
-                        class="form-control tinymce"
-                        name="description"
-                        rows="4"
-                        placeholder="Nhập mô tả danh mục"
-                    )
-
-            .row
-
-                // Ảnh
-                .col-md-6.mb-3
-                    label(class="form-label") Ảnh sản phẩm
+                    label(class="form-label") Vị trí
                     input(
                         class="form-control"
-                        type="file"
-                        name="image"
-                        img-src
+                        type="number"
+                        name="position"
+                        value="1"
                     )
-                    img(
-                        src=""
-                        alt=""
-                        img-preview
-                        width="200"
-                    )
-                // Danh mục
-                .col-md-3.mb-3
-                    label(class="form-label") Danh mục
-                    select(class="form-select" name="parent_id")
-                        option(value="" selected=true) -- Danh mục cha -- 
-                        +selectTree(category, 1)
 
-                // Trạng thái
-                .col-md-3.mb-3
-                    label(class="form-label") Trạng thái
-                    select(class="form-select" name="status")
-                        option(value="active") Hoạt động
-                        option(value="inactive") Ngừng hoạt động
-
-            // Position
-            .mb-3
-                label(class="form-label") Vị trí
-                input(
-                    class="form-control"
-                    type="number"
-                    name="position"
-                    value="1"
-                )
-
-            // Button
-            .mt-3
-                button(
-                    class="btn btn-success"
-                    type="submit"
-                ) Lưu sản phẩm
-                a(
-                    class="btn btn-secondary ms-2"
-                    href=`${prefixAdmin}/categorys`
-                ) Quay lại
-    script(src="/admin/JS/product.js") 
-    script(src="/admin/JS/TinyMCE.js") 
+                // Button
+                .mt-3
+                    button(
+                        class="btn btn-success"
+                        type="submit"
+                    ) Lưu sản phẩm
+                    if(roleAccount.permission.includes("category_view"))
+                        a(
+                            class="btn btn-secondary ms-2"
+                            href=`${prefixAdmin}/categorys`
+                        ) Quay lại
+        script(src="/admin/JS/product.js") 
+        script(src="/admin/JS/TinyMCE.js") 

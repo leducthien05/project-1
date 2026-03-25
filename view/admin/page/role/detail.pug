@@ -1,0 +1,33 @@
+extends ../../layout/default.pug
+include ../../mixin/filterStatus.pug
+include ../../mixin/search.pug
+include ../../mixin/pagination.pug
+include ../../mixin/OptionChangeMulti.pug
+include ../../mixin/alert.pug
+
+block main
+    +success(3000)
+    if(roleAccount.permission.includes("products_view"))
+        .card.shadow-sm.mb-3
+            .card-body
+
+                h4.mb-3 #{role.name}
+
+                .mb-2
+                    strong Mô tả:
+                    span.ms-2 #{role.description || "Không có"}
+
+                .mb-3
+                    strong Trạng thái:
+                    if role.status == "active"
+                        span.badge.bg-success.ms-2 Hoạt động
+                    else
+                        span.badge.bg-secondary.ms-2 Tạm khóa  
+                .mt-3
+                    a.btn.btn-warning(
+                        href=`/admin/roles/edit/${role._id}`
+                    ) Chỉnh sửa
+
+                    a.btn.btn-secondary.ms-2(
+                        href="/admin/roles"
+                    ) Quay lại
