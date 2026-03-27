@@ -59,13 +59,15 @@ block main
                             th Hình
                             th Tên danh mục
                             th Vị trí
+                            th Người tạo
+                            th Người sửa
                             th Trạng thái
                             //- th Danh mục
                             th Hành động
 
                     tbody
                         +tableTree(category, 1)
-        +pagination(objectPagination)
+        +pagination(pagination)
         form(
             action=`${prefixAdmin}/categorys/change-status`, 
             method="post",

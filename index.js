@@ -1,11 +1,11 @@
+//Port 
+require('dotenv').config();
+const port = process.env.PORT;
 //Cấu hình Express
 const express = require("express");
 const app = express();
 //Mongoose
 const mongoose = require("mongoose");
-//Port 
-require('dotenv').config();
-const port = process.env.PORT;
 //Connect DB
 const connectDB = require("./config/database");
 connectDB.connect();
@@ -14,7 +14,7 @@ const methodOverride = require('method-override');
 app.use(methodOverride('_method'));
 //body-parse
 const bodyParser = require('body-parser');
-app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
 //Cấu hình PUG 
 app.set("views", `${__dirname}/view`);
 app.set("view engine", 'pug'); 

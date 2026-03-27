@@ -16,12 +16,29 @@ const accountSchema = new mongoose.Schema({
         type: String,
         default: 'active'
     },
+    createdBy: {
+        account_id: String,
+        createdAt: {
+            type: Date,
+            default: Date.now
+        }
+    },
+    deletedBy: {
+        account_id: String,
+        deletedBy: {
+            type: Date
+        }
+    },
+    updatedBy: [
+        {  
+            account_id: String,
+            updatedAt: Date
+        }
+    ],
     deleted: {
         type: Boolean,
         default: false
     }
-}, {
-    timestamps: true
 });
 const Account =  mongoose.model('Account', accountSchema, 'account');
 module.exports = Account;

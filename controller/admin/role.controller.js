@@ -55,37 +55,52 @@ module.exports.index = async (req, res) => {
 module.exports.changeMulti = async (req, res) => {
     const ids = req.body.ids.split(", ");
     const status = req.body.status;
-
+    const updatedBy = {
+        account_id: res.locals.accountAdmin._id,
+        updatedAt: new Date()
+    }
     try {
         switch (status) {
             case "active":
-                await Role.updateMany({
-                    _id: ids
-                }, { status: status });
+                await Role.updateMany(
+                    { _id: {$in: ids} }, 
+                    { 
+                        $set: {status: status},
+                        $push: {updatedBy: updatedBy}
+                    });
                 req.flash("success", `Thay đổi thành công ${ids.length} sản phẩm`);
                 break;
             case "inactive":
-                await Role.updateMany({
-                    _id: ids
-                }, { status: status });
+                await Role.updateMany(
+                    { _id: {$in: ids} }, 
+                    { 
+                        $set: {status: status},
+                        $push: {updatedBy: updatedBy}
+                    });
                 req.flash("success", `Thay đổi thành công ${ids.length} sản phẩm`);
                 break;
             case "delete":
-                await Role.updateMany({
-                    _id: ids
-                }, { deleted: true });
+                await Role.updateMany(
+                    { _id: {$in: ids} }, 
+                    { 
+                        $set: {deleted: true},
+                        $push: {updatedBy: updatedBy}
+                    });
                 req.flash("success", `Thay đổi thành công ${ids.length} sản phẩm`);
                 break;
             case "delete-hard":
                 await Role.deleteMany({
-                    _id: ids
+                    _id: {$in: ids}
                 });
                 req.flash("success", `Xóa hoàn toàn thành công ${ids.length} sản phẩm`);
                 break;
             case "un-delete":
-                await Role.updateMany({
-                    _id: ids
-                }, { deleted: false });
+                await Role.updateMany(
+                    { _id: {$in: ids} }, 
+                    { 
+                        $set: {deleted: false},
+                        $push: {updatedBy: updatedBy}
+                    });
                 req.flash("success", `Thay đổi thành công ${ids.length} sản phẩm`);
                 break;
             default:
@@ -104,6 +119,10 @@ module.exports.create = async (req, res) => {
 }
 // [POST] admin/roles/create
 module.exports.createPost = async (req, res) => {
+    req.body.createdBy = {
+        account_id: res.locals.accountAdmin._id,
+        createdAt: new Date()
+    }
     const role = new Role(req.body);
     await role.save();
     res.redirect(`${prefix.prefixAdmin}/roles`);
@@ -112,9 +131,16 @@ module.exports.createPost = async (req, res) => {
 module.exports.changeStatus = async (req, res)=>{
     const id = req.params.id;
     const status = req.params.status;
+    req.body.updatedBy = {
+        account_id: res.locals.accountAdmin._id,
+        updatedAt: new Date()
+    }
     await Role.updateOne({
         _id: id
-    }, {status: status});
+    }, {
+        $set: {status: status},
+        $push: {updatedBy: updatedBy}
+    });
     req.flash("success", "Thay đổi trạng thái thành công");
     res.redirect(req.get("referer") || "/");
 }
@@ -132,11 +158,17 @@ module.exports.edit = async (req, res)=>{
 //[PATCH] /admin/roles/edit/:id
 module.exports.editPatch = async (req, res)=>{
     const id = req.params.id;
-    console.log(req.body);
+    const updatedB = {
+        account_id: res.locals.accountAdmin._id,
+        updatedAt: new Date()
+    }
     try {
-        await Roles.updateOne({
+        await Role.updateOne({
             _id: id
-        }, req.body);
+        }, {
+            $set: {status: status},
+            $push: {updatedBy: updatedBy}
+        });
     } catch (error) {
         console.log(error)
     }

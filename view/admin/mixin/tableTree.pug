@@ -1,3 +1,5 @@
+include ./convertTime.pug
+
 mixin tableTree(category, level)
     each item, index in category 
         - const prefix = Array(level + 1).join("-- ")
@@ -28,6 +30,14 @@ mixin tableTree(category, level)
                     name = "position"
                     style="width:70px"
                 )
+            td 
+                p #{item.fullName}
+                p 
+                    +date(item.createdBy.createdAt)
+            td 
+                p #{item.fullNameUpdate}
+                p 
+                    +date(item.updatedAt)
             td
                 if(roleAccount.permission.includes("products-category_edit")) 
                     if(item.status == "active")
@@ -65,18 +75,18 @@ mixin tableTree(category, level)
                     id = item.id 
                     detail
                 ) Chi tiết
-                if(roleAccount.permission.includes("product-category_edit"))
+                if(roleAccount.permission.includes("products-category_edit"))
                     a(
                         href=`${prefixAdmin}/categorys/edit/${item.id}`
                         class="btn btn-warning btn-sm"
                         id = item.id 
                         button-update
                     ) Sửa
-                if(roleAccount.permission.includes("product-category_delete"))
+                if(roleAccount.permission.includes("products-category_delete"))
                     button(
                         class="btn btn-danger btn-sm"
                         btn-delete
                         btn-id = item.id
                     ) Xóa 
-        - if(item.children && item.children.length > 0)
+        -if(item.children && item.children.length > 0)
             +tableTree(item.children, level+1)

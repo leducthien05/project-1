@@ -5,6 +5,7 @@ include ../../mixin/pagination.pug
 include ../../mixin/OptionChangeMulti.pug
 include ../../mixin/alert.pug
 include ../../mixin/sort.pug
+include ../../mixin/convertTime.pug
 
 block main
     +success(3000)
@@ -44,7 +45,8 @@ block main
             .card-body
 
                 table(
-                    class="table table-hover"
+                    class="table table-hover table-sm"
+                    style="font-size:12px;"
                     checkbox-multi
                 )
                     thead
@@ -57,6 +59,8 @@ block main
                             th STT
                             th Hình
                             th Tên sản phẩm
+                            th Người tạo 
+                            th Người sửa
                             th Giá
                             th Vị trí
                             th Trạng thái
@@ -84,6 +88,18 @@ block main
                                         loading="lazy"
                                     )
                                 td #{item.name}
+                                td 
+                                    p #{item.fullName}
+                                    if(item.createdBy && item.createdBy.createdAt)
+                                        +date(item.createdBy.createdAt)
+                                    else
+                                        | —
+                                td 
+                                    p #{item.accountUpdated}
+                                    if(item.updatedAt)
+                                        +date(item.createdAt)
+                                    else
+                                        | —
                                 td #{item.newPrice}
                                 td 
                                     if(roleAccount.permission.includes("products_edit"))

@@ -20,12 +20,29 @@ const productSchema = new mongoose.Schema({
         default: 'active'
     },
     position: Number,
+    createdBy: {
+        account_id: String,
+        createdAt: {
+            type: Date,
+            default: Date.now
+        }
+    },
+    deletedBy: {
+        account_id: String,
+        deletedBy: {
+            type: Date
+        }
+    },
+    updatedBy: [
+        {  
+            account_id: String,
+            updatedAt: Date
+        }
+    ],
     deleted: {
         type: Boolean,
         default: false
     }
-}, {
-    timestamps: true
 });
 const Product =  mongoose.model('Product', productSchema, 'product');
 module.exports = Product;

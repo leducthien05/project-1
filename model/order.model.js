@@ -25,9 +25,20 @@ const orderSchema = new mongoose.Schema({
     deleted: {
         type: Boolean,
         default: false
-    }
-}, {
-    timestamps: true
+    },
+    
+    updatedBy: [
+        {  
+            account_id: String,
+            updatedAt: Date
+        }
+    ],
+    deletedBy: {
+        account_id: String,
+        deletedBy: {
+            type: Date
+        }
+    },
 });
 const Order =  mongoose.model('Order', orderSchema, 'order');
 module.exports = Order;

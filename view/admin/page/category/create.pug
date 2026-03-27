@@ -8,7 +8,7 @@ include ../../mixin/selectTree.pug
 
 block main 
     +error(3000)
-    if(roleAccount.permission.includes("category_create"))
+    if(roleAccount.permission.includes("products-category_create"))
         .card-body
             form(
                 action=`${prefixAdmin}/categorys/create`
@@ -86,7 +86,7 @@ block main
                         class="btn btn-success"
                         type="submit"
                     ) Lưu sản phẩm
-                    if(roleAccount.permission.includes("category_view"))
+                    if(roleAccount.permission.includes("products-category_view"))
                         a(
                             class="btn btn-secondary ms-2"
                             href=`${prefixAdmin}/categorys`

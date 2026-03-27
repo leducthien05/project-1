@@ -44,50 +44,76 @@ module.exports.index = async (req, res) => {
 module.exports.changeStatus = async (req, res) => {
     const id = req.params.id;
     const status = req.params.status;
+    const updatedBy = {
+        account_id: res.locals.accountAdmin._id,
+        updatedAt: new Date()
+    }
     await Order.updateOne({
         _id: id
-    }, { status: status });
+    }, {
+        $set: { status: status },
+        $push: {updatedBy: updatedBy}
+    });
     req.flash("success", "Cập nhật trạng thái thành công");
     res.redirect(req.get("referer") || "/");
 }
 //[PATCH] /admin/orders/change-multi-status
 module.exports.changeMulti = async (req, res) => { 
     const ids = req.body.ids.split(", "); 
-    const status = req.body.status; 
+    const status = req.body.status;
+    const updatedBy = {
+        account_id: res.locals.accountAdmin._id,
+        updatedAt: new Date()
+    } 
     try { 
         switch (status) { 
             case "pending": 
                 await Order.updateMany(
-                    { _id: ids }, 
-                    { status: status }
+                    { _id: {$in: ids} }, 
+                    { 
+                        $set: {status: status},
+                        $push: {updatedBy: updatedBy}
+                    }
                 ); 
                 req.flash("success", `Cập nhật thành công ${ ids.length } đơn hàng`); 
                 break; 
             case "processing":
                 await Order.updateMany(
-                    { _id: ids }, 
-                    { status: status }
+                    { _id: {$in: ids} }, 
+                    { 
+                        $set: {status: status},
+                        $push: {updatedBy: updatedBy}
+                    }
                 ); 
                 req.flash("success", `Cập nhật thành công ${ ids.length } đơn hàng`); 
                 break; 
             case "completed":
                 await Order.updateMany(
-                    { _id: ids }, 
-                    { status: status }
+                    { _id: {$in: ids} }, 
+                    { 
+                        $set: {status: status},
+                        $push: {updatedBy: updatedBy}
+                    }
                 ); 
                 req.flash("success", `Cập nhật thành công ${ ids.length } đơn hàng`); 
                 break; 
             case "cancel": 
                 await Order.updateMany(
-                    { _id: ids }, 
-                    { status: status }
+                    { _id: {$in: ids} }, 
+                    { 
+                        $set: {status: status},
+                        $push: {updatedBy: updatedBy}
+                    }
                 ); 
                 req.flash("success", `Cập nhật thành công ${ ids.length } đơn hàng`);
                 break; 
             case "shipping": 
                 await Order.updateMany(
-                    { _id: ids }, 
-                    { status: status }
+                    { _id: {$in: ids} }, 
+                    { 
+                        $set: {status: status},
+                        $push: {updatedBy: updatedBy}
+                    }
                 ); 
                 req.flash("success", `Cập nhật thành công ${ ids.length } đơn hàng`); 
                 break;
@@ -97,7 +123,10 @@ module.exports.changeMulti = async (req, res) => {
                     position = parseInt(position);
                     await Order.updateOne({
                         _id: id
-                    }, {position: position});
+                    }, {
+                        $set: {position: position},
+                        $push: {updatedBy: updatedBy}
+                    });
                 }
                 req.flash("success", `Cập nhật thành công vị trí của ${ids.lenght}`);
                 break; 

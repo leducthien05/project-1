@@ -5,6 +5,7 @@ include ../../mixin/pagination.pug
 include ../../mixin/OptionChangeMulti.pug
 include ../../mixin/alert.pug
 include ../../mixin/sort.pug
+include ../../mixin/convertTime.pug
 
 block main
     +success(3000)
@@ -84,35 +85,38 @@ block main
                                     )
                                 td #{item.fullName}
                                 td #{item.email}
-                                td  #{item.role}
+                                
+                                td  #{item.roleName}
                                 td 
                                     if(roleAccount.permission.includes("account_edit"))
                                         if(item.status == "active")
                                             a(
                                                 href="javascript:;"
                                                 class="badge bg-success"
+                                                change-status
+                                                status=item.status
+                                                id=item.id
                                             ) Hoạt động
                                         else
                                             a(
                                                 href="javascript:;"
                                                 class="badge bg-danger"
+                                                change-status
+                                                status=item.status
+                                                id=item.id
                                             ) Ngừng hoạt động
                                     else 
                                         if(item.status == "active")
                                             a(
                                                 href="javascript:;"
                                                 class="badge bg-success"
-                                                change-status
-                                                status=item.status
-                                                id=item.id
+                                                
                                             ) Hoạt động
                                         else
                                             a(
                                                 href="javascript:;"
                                                 class="badge bg-danger"
-                                                change-status
-                                                status=item.status
-                                                id=item.id
+                                                
                                             ) Ngừng hoạt động
                                 //- td Laptop
                                 td

@@ -211,3 +211,16 @@ img#previewAvatar{
   color: #fff;
   background-color: #dc3545;
 }
+/* table thu nhỏ kích thước */
+.table td, .table th {
+    padding: 4px 6px;
+}
+
+.btn-sm {
+    padding: 2px 5px;
+    font-size: 11px;
+}
+
+.badge {
+    font-size: 11px;
+}
