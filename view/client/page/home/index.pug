@@ -1,0 +1,75 @@
+//- index.pug
+extends ../../layout/default.pug
+
+block content
+    // Hero
+    section.hero
+        .container.position-relative.z-3
+            .row.align-items-center
+                .col-lg-6
+                    h1.display-1.fw-bold.mb-3
+                        | Future is <span style="color:#a855f7;">VOLT</span>
+                    p.lead.mb-4.text-muted
+                        | Premium electronics &amp; gadgets with cutting-edge technology.
+                    .d-flex.gap-3
+                        a.btn.btn-primary.btn-lg.px-5(href="#shop") Shop Now
+                        a.btn.btn-outline-light.btn-lg.px-5(href="#") Watch Video
+
+                .col-lg-6.text-center
+                    img.img-fluid(src="https://picsum.photos/id/1015/700/620" alt="VOLT Hero" style="filter: drop-shadow(0 30px 60px rgba(168,85,247,0.4));")
+
+    // Featured Categories
+    section.py-5
+        .container
+            h2.section-title.text-center.mb-5 Discover Categories
+            .row.g-4.text-center
+                .col-md-3
+                    .card.bg-dark.border-0.h-100.product-card
+                        .card-body.py-5
+                            i.fas.fa-laptop.fa-3x.mb-3(style="color:#a855f7")
+                            h4 Laptops
+                .col-md-3
+                    .card.bg-dark.border-0.h-100.product-card
+                        .card-body.py-5
+                            i.fas.fa-mobile-alt.fa-3x.mb-3(style="color:#22d3ee")
+                            h4 Smartphones
+                .col-md-3
+                    .card.bg-dark.border-0.h-100.product-card
+                        .card-body.py-5
+                            i.fas.fa-headphones.fa-3x.mb-3(style="color:#a855f7")
+                            h4 Audio
+                .col-md-3
+                    .card.bg-dark.border-0.h-100.product-card
+                        .card-body.py-5
+                            i.fas.fa-watch.fa-3x.mb-3(style="color:#22d3ee")
+                            h4 Wearables
+
+    // Best Sellers
+    section.py-5.bg-black
+        .container
+            .d-flex.justify-content-between.align-items-end.mb-5
+                h2.section-title Best Sellers
+                a.btn.btn-outline-light(href="#") View All →
+
+        .row.g-4
+            .col-lg-3.col-md-6
+                .product-card.card.h-100
+                    img.card-img-top(src="https://picsum.photos/id/180/400/300" alt="")
+                    .card-body
+                        h5 MacBook Pro M3 Max
+                        p.text-muted.small 32GB • 1TB SSD
+                        h4.text-white.mt-3 68.990.000 ₫
+                        button.btn.btn-primary.w-100.mt-3 Thêm vào giỏ
+
+            .col-lg-3.col-md-6
+                .product-card.card.h-100
+                    img.card-img-top(src="https://picsum.photos/id/201/400/300" alt="")
+                    .card-body
+                        h5 iPhone 16 Pro Max
+                        p.text-muted.small Titan Desert
+                        h4.text-white.mt-3 34.990.000 ₫
+                        button.btn.btn-primary.w-100.mt-3 Thêm vào giỏ
+
+            // Thêm 2 card nữa nếu muốn giống hệt
+
+    

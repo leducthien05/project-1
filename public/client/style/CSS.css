@@ -1,0 +1,89 @@
+/* style.css - VOLT Premium Tech Shop */
+
+:root {
+  --primary: #a855f7;      /* Tím neon */
+  --primary-dark: #9333ea;
+  --accent: #22d3ee;       /* Cyan accent */
+  --bg-body: #0a0a0a;
+  --bg-card: #111111;
+  --text-main: #f1f1f1;
+  --text-muted: #aaaaaa;
+}
+
+body {
+  font-family: 'Inter', system_ui, sans-serif;
+  background: var(--bg-body);
+  color: var(--text-main);
+  line-height: 1.6;
+}
+
+.navbar {
+  background: rgba(10, 10, 10, 0.95) !important;
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid #222;
+}
+
+.hero {
+  background: linear-gradient(135deg, #1a0033 0%, #2a0066 50%, #000000 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at center, rgba(168, 85, 247, 0.15), transparent 70%);
+}
+
+.product-card {
+  background: var(--bg-card);
+  border: 1px solid #222;
+  transition: all 0.4s ease;
+  overflow: hidden;
+}
+
+.product-card:hover {
+  transform: translateY(-15px);
+  border-color: var(--primary);
+  box-shadow: 0 20px 40px rgba(168, 85, 247, 0.25);
+}
+
+.product-card img {
+  transition: transform 0.5s ease;
+}
+
+.product-card:hover img {
+  transform: scale(1.1);
+}
+
+.btn-primary {
+  background: var(--primary);
+  border: none;
+  padding: 12px 28px;
+  font-weight: 600;
+}
+
+.btn-primary:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+}
+
+.section-title {
+  font-size: 2.8rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #a855f7, #22d3ee);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.footer {
+  background: #050505;
+  border-top: 1px solid #222;
+}

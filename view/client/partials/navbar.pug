@@ -1,0 +1,35 @@
+//- navbar.pug
+nav.navbar.navbar-expand-lg.fixed-top
+  .container
+    a.navbar-brand.fw-bold.fs-3.d-flex.align-items-center(href="#")
+      span.text-white VOLT
+      span.ms-1(style="color: #a855f7;") •
+
+    button.navbar-toggler(type="button" data-bs-toggle="collapse" data-bs-target="#nav")
+      span.navbar-toggler-icon
+
+    .collapse.navbar-collapse#nav
+      ul.navbar-nav.mx-auto
+        li.nav-item
+          a.nav-link.text-light(href="#") Shop
+        li.nav-item
+          a.nav-link.text-light(href="#") Laptops
+        li.nav-item
+          a.nav-link.text-light(href="#") Phones
+        li.nav-item
+          a.nav-link.text-light(href="#") Audio
+        li.nav-item
+          a.nav-link.text-light(href="#") Deals
+
+      .d-flex.align-items-center.gap-4
+        .input-group(style="width: 260px;")
+          input.form-control.bg-dark.text-light.border-secondary(placeholder="Tìm kiếm sản phẩm..." type="text")
+          button.btn.btn-outline-light
+            i.fas.fa-search
+
+        a.text-light.fs-4(href="#cart")
+          i.fas.fa-shopping-bag
+          span.position-absolute.translate-middle.badge.bg-danger.rounded-pill(style="font-size:0.7rem; margin-left: -8px;") 4
+
+        a.text-light.fs-4(href="#")
+          i.fas.fa-user

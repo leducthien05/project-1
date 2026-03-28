@@ -1,5 +1,7 @@
 tinymce.init({
   selector: 'textarea.tinymce',
+  skin: 'oxide-dark',          // 👈 giao diện dark
+  content_css: 'dark',  
   height: 500,
 
   plugins: 'lists link image table code help wordcount',
