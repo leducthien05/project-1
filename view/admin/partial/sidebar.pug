@@ -31,6 +31,11 @@
         a(href=`${prefixAdmin}/categorys`)
           i(class="bi bi-tags")
           |  Danh mục sản phẩm
+    if(roleAccount.permission.includes("brand_view"))
+      li(class="menu-item")
+        a(href=`${prefixAdmin}/brands`)
+          i(class="bi bi-building")
+          |  Thương hiệu sản phẩm
     if(roleAccount.permission.includes("order_view"))
       li(class="menu-item")
         a(href=`${prefixAdmin}/orders`)
@@ -45,7 +50,7 @@
 
     // ===== Quản lý =====
     li.menu-title
-      i(class="bi bi-gear")
+      i(class="bi bi-grid")
       |  Quản lý
     if(roleAccount.permission.includes("view"))
       li(class="menu-item")

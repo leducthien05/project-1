@@ -42,4 +42,12 @@ module.exports.login = async (req, res, next)=>{
     }
     next();
 }
-
+module.exports.createBrand = (req, res, next)=>{
+    if(!req.body.title){
+        req.flash("error", "Vui lòng nhập đầy đủ tên thương hiệu!");
+        res.redirect(req.get("referer") || "/");
+        return;
+    }
+   
+    next();
+}

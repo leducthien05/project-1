@@ -1,6 +1,7 @@
 const Product = require("../../model/product.model");
 const Category = require("../../model/category.model");
 const Account = require("../../model/account.model");
+const Brand = require("../../model/brand.model");
 
 const helprPriceNew = require("../../helper/newPrice.helper");
 const filterStatus = require("../../helper/filterStatus.helper");
@@ -8,6 +9,7 @@ const search = require("../../helper/search.helper");
 const pagination = require("../../helper/pagination.helper");
 const prefixAdmin = require("../../config/system");
 const filterCriteria = require("../../helper/criteria.helper");
+const createTree = require("../../helper/createTree.helper");
 
 //[GET] /admin/products
 module.exports.index = async (req, res) => {
@@ -198,13 +200,20 @@ module.exports.delete = async (req, res) => {
 
 //[GET] /admin/products/create
 module.exports.create = async (req, res) => {
+    const brand = await Brand.find({
+        deleted: false
+    });
     const category = await Category.find({
         deleted: false
     });
+    const newCategory = createTree.createTree(category, "");
+    const count = await Product.countDocuments({deleted: false});
     res.render("admin/page/product/create", {
         titlePage: "Thêm sản phẩm",
-        category: category
-    })
+        category: newCategory,
+        count: count,
+        brand: brand
+    });
 }
 
 //[POST] /admin/products/create
@@ -224,13 +233,20 @@ module.exports.edit = async (req, res) => {
     const product = await Product.findOne({
         _id: id
     });
+    const brand = await Brand.find({
+        deleted: false
+    });
     const category = await Category.find({
         deleted: false
     });
+    const newCategory = createTree.createTree(category, "");
+    const count = await Product.countDocuments({deleted: false});
     res.render("admin/page/product/edit", {
         titlePage: "Chỉnh sửa sản phẩm",
         product: product,
-        category: category
+        category: newCategory,
+        count: count,
+        brand: brand
     });
 }
 
@@ -261,7 +277,8 @@ module.exports.editPatch = async (req, res) => {
 module.exports.detail = async (req, res) => {
     const id = req.params.id;
     const product = await Product.findOne({
-        deleted: false
+        deleted: false,
+        _id: id
     });
     res.render("admin/page/product/detail", {
         titlePage: product.name,

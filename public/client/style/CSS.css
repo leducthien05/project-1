@@ -2,12 +2,13 @@
 
 :root {
   --primary: #a855f7;      /* Tím neon */
-  --primary-dark: #9333ea;
+  --primary-dark: #1F51FF;
   --accent: #22d3ee;       /* Cyan accent */
   --bg-body: #0a0a0a;
   --bg-card: #111111;
   --text-main: #f1f1f1;
   --text-muted: #aaaaaa;
+  --text-1: white;
 }
 
 body {
@@ -24,7 +25,7 @@ body {
 }
 
 .hero {
-  background: linear-gradient(135deg, #1a0033 0%, #2a0066 50%, #000000 100%);
+  background: linear-gradient(135deg, #0f0ab5 0%, #0b0387 50%, #000000 100%);
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -86,4 +87,137 @@ body {
 .footer {
   background: #050505;
   border-top: 1px solid #222;
+}
+/* Sub menu */
+/* === SUBMENU CẤP 1 (ngay dưới nav) === */
+li.nav-item > ul {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 210px;
+  background: #16213e;
+  border-top: 2px solid #e94560;
+  border-radius: 0 0 8px 8px;
+  padding: 0.4rem 0;
+  list-style: none;
+
+  opacity: 0;
+  transform: translateY(-6px);
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 200;
+}
+li.nav-item:hover > ul {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* === TẤT CẢ li TRONG SUBMENU === */
+/* Li cha phải relative */
+li.nav-item {
+  position: relative;
+}
+
+/* Submenu cấp 1 */
+li.nav-item > ul.dropdown-menu-custom {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 200px;
+  background: #1e1e2e;
+  border-top: 2px solid #a855f7;
+  border-radius: 0 0 8px 8px;
+  padding: 0.4rem 0;
+  list-style: none;
+  z-index: 9999;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+
+li.nav-item:hover > ul.dropdown-menu-custom {
+  display: block;
+}
+
+/* Li trong submenu phải relative để nested hoạt động */
+ul.dropdown-menu-custom li {
+  position: relative;
+}
+
+ul.dropdown-menu-custom li a {
+  display: block;
+  padding: 0.5rem 1.1rem;
+  color: rgba(255,255,255,0.75);
+  text-decoration: none;
+  font-size: 13px;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+}
+
+ul.dropdown-menu-custom li:hover > a {
+  color: #fff;
+  background: rgba(168,85,247,0.15);
+}
+
+/* Mũi tên khi có children */
+ul.dropdown-menu-custom li.has-children > a::after {
+  content: ' ›';
+  float: right;
+  opacity: 0.5;
+}
+
+/* Nested submenu cấp 2+ */
+ul.dropdown-menu-custom li > ul.dropdown-menu-custom {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 100%;
+  min-width: 190px;
+  background: #2a1a3e;
+  border-top: none;
+  border-left: 2px solid #a855f7;
+  border-radius: 0 8px 8px 8px;
+}
+
+ul.dropdown-menu-custom li:hover > ul.dropdown-menu-custom {
+  display: block;
+}
+
+/* /product body*/
+.product-card {
+  background: #1a2338;
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  position: relative;
+  border: 1px solid #2a374f;
+}
+
+.product-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px rgba(0, 255, 255, 0.1);
+  border-color: #06b6d4;
+}
+
+.badge {
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  font-weight: 600;
+}
+
+.btn-info {
+  background: #06b6d4;
+  color: #0f172a;
+  font-weight: 600;
+}
+
+.btn-info:hover {
+  background: #22d3ee;
+  color: #0f172a;
+}
+
+.sidebar {
+  background: #0f172a;
+  border-radius: 16px;
+  border: 1px solid #1e2937;
 }

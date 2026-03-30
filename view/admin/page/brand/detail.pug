@@ -1,0 +1,63 @@
+extends ../../layout/default.pug
+include ../../mixin/filterStatus.pug
+include ../../mixin/search.pug
+include ../../mixin/pagination.pug
+include ../../mixin/OptionChangeMulti.pug
+include ../../mixin/alert.pug
+
+block main
+    +success(3000)
+    if(roleAccount.permission.includes("brand_view"))
+        .card.shadow-sm.mb-3
+            .card-header
+                h5.mb-0 Chi tiết sản phẩm
+
+            .card-body
+                .row
+
+                    // Ảnh sản phẩm
+                    .col-md-4.text-center
+                        if brand.image
+                            img(class="img-fluid rounded"
+                                src=brand.image
+                                style="max-height:300px;object-fit:contain"
+                            )
+                        else
+                            img(class="img-fluid rounded"
+                                src="https://via.placeholder.com/300"
+                            )
+
+                    // Thông tin sản phẩm
+                    .col-md-8
+
+                        h4.mb-3 #{brand.title}
+                        .mb-2
+                            strong Vị trí:
+                            span.ms-2 #{brand.position}
+
+                        .mb-3
+                            strong Trạng thái:
+
+                            if brand.status == "active"
+                                span.badge.bg-success.ms-2 Hoạt động
+                            else
+                                span.badge.bg-danger.ms-2 Ngừng hoạt động
+
+                        .mt-3
+                            a(
+                                class = "btn btn-warning"
+                                href=`${prefixAdmin}/brands/edit/${brand._id}`
+                            ) Chỉnh sửa
+
+                            a(
+                                class= "btn btn-secondary ms-2"
+                                href=`${prefixAdmin}/brands`
+                            ) Quay lại
+
+
+        .card.shadow-sm
+        .card-header
+            h6.mb-0 Mô tả sản phẩm
+
+        .card-body
+            p !{brand.description}

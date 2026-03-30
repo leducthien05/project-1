@@ -1,0 +1,88 @@
+extends ../../layout/default.pug
+include ../../mixin/filterStatus.pug
+include ../../mixin/search.pug
+include ../../mixin/pagination.pug
+include ../../mixin/OptionChangeMulti.pug
+include ../../mixin/alert.pug
+
+block main 
+    +error(3000)
+    if(roleAccount.permission.includes("brand_create"))
+        .card-body
+            form(
+                action="/admin/brands/create" 
+                method="POST" 
+                enctype="multipart/form-data"
+            )
+
+                .row
+
+                    // Tên sản phẩm
+                    .col-md-6.mb-3
+                        label(class="form-label") Tên thương hiệu
+                        input(
+                            class="form-control"
+                            type="text"
+                            name="title"
+                            placeholder="Nhập tên sản phẩm"
+                            
+                        )
+
+                    // Mô tả
+                    .mb-3
+                        label(class="form-label") Mô tả
+                        textarea(
+                            class="form-control tinymce"
+                            name="description"
+                            rows="4"
+                            placeholder="Nhập mô tả sản phẩm"
+                        )
+
+                .row
+
+                    // Ảnh
+                    .col-md-6.mb-3
+                        label(class="form-label") Ảnh thương hiệu
+                        input(
+                            class="form-control"
+                            type="file"
+                            name="image"
+                            img-src
+                        )
+                        img(
+                            src=""
+                            alt=""
+                            img-preview
+                            width="200"
+                        )
+                    
+                    // Trạng thái
+                    .col-md-3.mb-3
+                        label(class="form-label") Trạng thái
+                        select(class="form-select" name="status")
+                            option(value="active") Hoạt động
+                            option(value="inactive") Ngừng hoạt động
+
+                // Position
+                .mb-3
+                    label(class="form-label") Vị trí
+                    input(
+                        class="form-control"
+                        type="number"
+                        name="position"
+                        value=count + 1
+                    )
+
+                // Button
+                .mt-3
+                    button(
+                        class="btn btn-success"
+                        type="submit"
+                    ) Lưu thương hiệu
+                    if(roleAccount.permission.includes("brand_view"))
+                        a(
+                            class="btn btn-secondary ms-2"
+                            href="/admin/brand"
+                        ) Quay lại
+        script(src="/admin/JS/product.js") 
+        script(src="/admin/JS/TinyMCE.js") 

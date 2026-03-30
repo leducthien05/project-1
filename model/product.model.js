@@ -15,11 +15,16 @@ const productSchema = new mongoose.Schema({
     stock:Number,
     category_id:String,
     image:String,
+    featured: {
+        type: String,
+        default: "0"
+    },
     status: {
         type: String,
         default: 'active'
     },
     position: Number,
+    brand_id: String,
     createdBy: {
         account_id: String,
         createdAt: {
@@ -33,6 +38,7 @@ const productSchema = new mongoose.Schema({
             type: Date
         }
     },
+        
     updatedBy: [
         {  
             account_id: String,

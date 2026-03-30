@@ -1,9 +1,13 @@
-//- navbar.pug
+include ../mixin/submenu.pug
+
 nav.navbar.navbar-expand-lg.fixed-top
   .container
-    a.navbar-brand.fw-bold.fs-3.d-flex.align-items-center(href="#")
-      span.text-white VOLT
-      span.ms-1(style="color: #a855f7;") •
+    a(class="navbar-brand fw-bold fs-3 d-flex align-items-center" href="/")
+      img(
+        src=""
+        alt="Logo"
+      )
+      
 
     button.navbar-toggler(type="button" data-bs-toggle="collapse" data-bs-target="#nav")
       span.navbar-toggler-icon
@@ -11,25 +15,49 @@ nav.navbar.navbar-expand-lg.fixed-top
     .collapse.navbar-collapse#nav
       ul.navbar-nav.mx-auto
         li.nav-item
-          a.nav-link.text-light(href="#") Shop
+          a(
+            class="nav-link text-light"
+            href="/"
+          ) Trang chủ
         li.nav-item
-          a.nav-link.text-light(href="#") Laptops
+          a.nav-link.text-light(href="/product") Shop
+
+        li.nav-item.has-submenu
+          a.nav-link.text-light(href="#") Thương hiệu
+          ul.dropdown-menu-custom
+            - const path = "category"
+            +submenu(path, category)
+
         li.nav-item
-          a.nav-link.text-light(href="#") Phones
+          a.nav-link.text-light(href="/post") Bài viết
         li.nav-item
-          a.nav-link.text-light(href="#") Audio
-        li.nav-item
-          a.nav-link.text-light(href="#") Deals
+          a.nav-link.text-light(href="/chat") Liên hệ
 
       .d-flex.align-items-center.gap-4
-        .input-group(style="width: 260px;")
-          input.form-control.bg-dark.text-light.border-secondary(placeholder="Tìm kiếm sản phẩm..." type="text")
-          button.btn.btn-outline-light
-            i.fas.fa-search
+        form(
+          action="/search"
+          method="GET"
+        )
+          .input-group(style="width: 260px;")
+            input(
+              class="form-control bg-dark text-light border-secondary" 
+              placeholder="Tìm kiếm sản phẩm..." 
+              type="text"
+            )
+            button(class="btn btn-outline-light")
+              i(class="fas fa-search")
 
-        a.text-light.fs-4(href="#cart")
-          i.fas.fa-shopping-bag
+        a(class="text-light fs-4" href="/cart")
+          i(class="fas fa-shopping-bag")
           span.position-absolute.translate-middle.badge.bg-danger.rounded-pill(style="font-size:0.7rem; margin-left: -8px;") 4
 
-        a.text-light.fs-4(href="#")
-          i.fas.fa-user
+        a(
+          class="text-light fs-4" 
+          href="/user/info"
+        )
+          i(class="fas fa-user")
+        a(
+          class="text-light fs-1"
+          href="/user/logout"
+        )
+          i(class="fa-solid fa-right-from-bracket fa-xs")

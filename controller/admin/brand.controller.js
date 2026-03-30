@@ -1,4 +1,4 @@
-const Category = require("../../model/category.model");
+const Brand = require("../../model/brand.model");
 const Account = require("../../model/account.model");
 
 const prefix = require("../../config/system");
@@ -6,9 +6,8 @@ const filterStatus = require("../../helper/filterStatus.helper");
 const search = require("../../helper/search.helper");
 const pagination = require("../../helper/pagination.helper");
 const filterCriteria = require("../../helper/criteria.helper");
-const createTree = require("../../helper/createTree.helper");
 
-//[GET] /admin/category
+// [GET] /admin/brands
 module.exports.index = async (req, res) => {
     const find = {
         deleted: false
@@ -25,17 +24,18 @@ module.exports.index = async (req, res) => {
     //Tìm kiếm 
     const objectSearch = search.search(req.query);
     if (req.query.keyword) {
-        find.name = objectSearch.regex;
+        find.title = objectSearch.regex;
     }
-    // Lọc theo tiêu chí
+    const countBrand = await Brand.countDocuments(find);
+    const objectPage = await pagination.pagination(req.query, countBrand);
+    //Lọc theo tiêu chí
     const sort = filterCriteria.criteria(req.query);
-    //Lấy danh sách danh mục
-    const allCategory = await Category.find(find).sort(sort);
-    //Tạo cây in ra giao diện
-    const tree = createTree.createTree(allCategory, "");
-
+    const brand = await Brand.find(find).limit(objectPage.limit).sort(sort).skip(objectPage.skipRecord);
+    brand.forEach((item, index) => {
+        item.indexBrand = index + 1 + objectPage.skipRecord;
+    });
     //log create 
-    const idCreate = allCategory.map(item => item.createdBy.account_id);
+    const idCreate = brand.map(item => item.createdBy.account_id);
     const accountCreate = await Account.find({
         _id: { $in: idCreate }
     }).select("fullName");
@@ -43,11 +43,11 @@ module.exports.index = async (req, res) => {
     //Lấy id và tên tài khoản 
     accountCreate.forEach(item => userCreate[item._id] = item.fullName);
     //Gán tên tài khoản vào danh mục
-    allCategory.forEach(item => {
+    brand.forEach(item => {
         item.fullName = userCreate[item.createdBy.account_id];
     });
     //Log update
-    const idUpdate = allCategory.map(item => {
+    const idUpdate = brand.map(item => {
         const length = item.updatedBy.length;
         if (length > 0) {
             return item.updatedBy[length - 1].account_id;
@@ -56,56 +56,28 @@ module.exports.index = async (req, res) => {
     const accountUpdate = await Account.find({
         _id: { $in: idUpdate }
     }).select("fullName");
-    const userUpdate = {};
+    const accUpdatedMap = {};
     //Lấy id và tên tài khoản 
-    accountUpdate.forEach(item => userUpdate[item._id] = item.fullName);
-    //Gán tên tài khoản vào danh mục
-    allCategory.forEach(item => {
+    accountUpdate.forEach(item => accUpdatedMap[item._id] = item.fullName);
+    brand.forEach(item => {
         const length = item.updatedBy.length;
         if (length > 0) {
-            item.fullNameUpdate = userUpdate[item.updatedBy[length - 1].account_id];
+            item.accountUpdated = accUpdatedMap[item.updatedBy[length - 1].account_id];
             item.updatedAt = item.updatedBy[length - 1].updatedAt;
+        } else {
+            return
         }
-
     });
-    //Phân trang
-    const rootCategory = tree;
-    const objectPagination = pagination.pagination(req.query, rootCategory.length);
-    const paginatedRoot = rootCategory.slice(
-        objectPagination.skipRecord,
-        objectPagination.skipRecord + objectPagination.limit
-    );
-
-    res.render("admin/page/category/index", {
-        titlePage: "Danh mục sản phẩm",
-        category: paginatedRoot,
+    res.render("admin/page/brand/index", {
+        titlePage: "Thương hiệu",
+        brand: brand,
         listStatus: listStatus,
-        keyword: req.query.keyword,
-        pagination: objectPagination
+        keyword: objectSearch.keyword,
+        pagination: objectPage
     });
 }
-//[GET] /admin/categorys/create
-module.exports.create = async (req, res) => {
-    const category = await Category.find({
-        deleted: false
-    });
-    const newCategory = createTree.createTree(category, "");
-    res.render("admin/page/category/create", {
-        titlePage: "Thêm danh mục",
-        category: newCategory
-    });
-}
-//[POST] /admin/categorys/create
-module.exports.createPost = async (req, res) => {
-    req.body.createdBy = {
-        account_id: res.locals.accountAdmin._id,
-        createdAt: new Date()
-    }
-    const category = new Category(req.body);
-    await category.save();
-    res.redirect(`${prefix.prefixAdmin}/categorys`);
-}
-//[PATCH] /admin/categorys/change-status/:status/:id
+
+//[PATCH] /admin/brands/change-status/:status/:id
 module.exports.changeStatus = async (req, res) => {
     const id = req.params.id;
     const status = req.params.status;
@@ -113,7 +85,7 @@ module.exports.changeStatus = async (req, res) => {
         account_id: res.locals.accountAdmin._id,
         updatedAt: new Date()
     }
-    await Category.updateOne({
+    await Brand.updateOne({
         _id: id
     }, {
         $set: { status: status },
@@ -122,7 +94,8 @@ module.exports.changeStatus = async (req, res) => {
     req.flash("success", "Thay đổi trạng thái thành công");
     res.redirect(req.get("referer") || "/");
 }
-//[PATCH] /admin/categorys/change-status/:status/:id
+
+//[PATCH] /admin/Brands/change-multi-status
 module.exports.changeMulti = async (req, res) => {
     const ids = req.body.ids.split(", ");
     const status = req.body.status;
@@ -130,56 +103,57 @@ module.exports.changeMulti = async (req, res) => {
         account_id: res.locals.accountAdmin._id,
         updatedAt: new Date()
     }
-
     try {
         switch (status) {
             case "active":
-                await Category.updateMany({
-                    _id: { $in: ids }
-                }, {
-                    $set: { status: status },
-                    $push: { updatedBy: updatedBy }
-                });
-                req.flash("success", `Thay đổi thành công ${ids.length} danh mục`);
+                await Brand.updateMany(
+                    { _id: { $in: ids } },
+                    {
+                        $set: { status: status },
+                        $push: { updatedBy: updatedBy }
+                    }
+                );
+                req.flash("success", `Thay đổi thành công ${ids.length} sản phẩm`);
                 break;
             case "inactive":
-                await Category.updateMany({
-                    _id: { $in: ids }
-                }, {
-                    $set: { status: status },
-                    $push: { updatedBy: updatedBy }
-                });
-                req.flash("success", `Thay đổi thành công ${ids.length} danh mục`);
+                await Brand.updateMany(
+                    { _id: { $in: ids } },
+                    {
+                        $set: { status: status },
+                        $push: { updatedBy: updatedBy }
+                    }
+                );
+                req.flash("success", `Thay đổi thành công ${ids.length} sản phẩm`);
                 break;
             case "delete":
-                await Category.updateMany({
+                await Brand.updateMany({
                     _id: { $in: ids }
                 }, {
                     $set: { deleted: true },
                     $push: { updatedBy: updatedBy }
                 });
-                req.flash("success", `Thay đổi thành công ${ids.length} danh mục`);
+                req.flash("success", `Thay đổi thành công ${ids.length} sản phẩm`);
                 break;
             case "delete-hard":
-                await Category.deleteMany({
+                await Brand.deleteMany({
                     _id: { $in: ids }
                 });
-                req.flash("success", `Xóa hoàn toàn thành công ${ids.length} danh mục`);
+                req.flash("success", `Xóa hoàn toàn thành công ${ids.length} sản phẩm`);
                 break;
             case "un-delete":
-                await Category.updateMany({
+                await Brand.updateMany({
                     _id: { $in: ids }
                 }, {
                     $set: { deleted: false },
                     $push: { updatedBy: updatedBy }
                 });
-                req.flash("success", `Thay đổi thành công ${ids.length} danh mục`);
+                req.flash("success", `Thay đổi thành công ${ids.length} sản phẩm`);
                 break;
             case "position":
                 for (item of ids) {
                     let [id, position] = item.split("-");
                     position = parseInt(position);
-                    await Category.updateOne({
+                    await Brand.updateOne({
                         _id: id
                     }, {
                         $set: { position: position },
@@ -196,32 +170,61 @@ module.exports.changeMulti = async (req, res) => {
     }
     res.redirect(req.get("referer") || "/");
 }
-// [DELETE] admin/categorys/delete/:id
+
+// [DELETE] admin/brands/delete/:id
 module.exports.delete = async (req, res) => {
     const id = req.params.id;
-    await Category.updateOne({
+    // await Brand.deleteOne({
+    //     _id: id
+    // });
+    const updatedBy = {
+        account_id: res.locals.accountAdmin._id,
+        updatedAt: new Date()
+    }
+    await Brand.updateOne({
         _id: id
-    }, { deleted: true });
-    req.flash("success", `Xóa thành công sản phẩm`);
+    }, {
+        $set: { deleted: true },
+        $push: { updatedBy: updatedBy }
+    });
+    req.flash("success", `Xóa thành công thương hiệu`);
     res.redirect(req.get("referer") || "/");
 }
-// [GET] admin/categorys/edit/:id
-module.exports.edit = async (req, res) => {
-    const id = req.params.id;
-    const category = await Category.findOne({
-        _id: id
-    });
-    const ArrayCategory = await Category.find({
-        deleted: false
-    });
-    const newCategory = createTree.createTree(ArrayCategory, "");
-    res.render("admin/page/category/edit", {
-        titlePage: "Chỉnh sửa danh mục",
-        category: category,
-        ArrayCategory: newCategory
+
+//[GET] /admin/brands/create
+module.exports.create = async (req, res) => {
+    res.render("admin/page/brand/create", {
+        titlePage: "Thêm thương hiệu",
+        count: count
     });
 }
-//[PATCH] /admin/categorys/edit/:id
+
+//[POST] /admin/Brands/create
+module.exports.createPost = async (req, res) => {
+    req.body.createdBy = {
+        account_id: res.locals.accountAdmin._id,
+        createdAt: new Date()
+    }
+    const brand = new Brand(req.body);
+    await brand.save();
+    res.redirect("/admin/brands");
+}
+
+//[GET] /admin/brands/edit/:id
+module.exports.edit = async (req, res) => {
+    const id = req.params.id;
+    const brand = await Brand.findOne({
+        _id: id
+    });
+    const count = await Brand.countDocuments({ deleted: false });
+    res.render("admin/page/Brand/edit", {
+        titlePage: "Chỉnh sửa sản phẩm",
+        brand: brand,
+        count: count
+    });
+}
+
+//[PATCH] /admin/brands/edit/:id
 module.exports.editPatch = async (req, res) => {
     const id = req.params.id;
     const updatedBy = {
@@ -229,28 +232,30 @@ module.exports.editPatch = async (req, res) => {
         updatedAt: new Date()
     }
     try {
-        await Category.updateOne({
+        await Brand.updateOne({
             _id: id
-        }, {
-            $set: req.body,
-            $push: { updatedBy: updatedBy }
-        });
+        },
+            {
+                $set: req.body,
+                $push: { updatedBy: updatedBy }
+            }
+        );
     } catch (error) {
         console.log(error)
     }
-    req.flash("success", "Chỉnh sửa danh mục thành công");
-    res.redirect(`${prefix.prefixAdmin}/categorys`);
+    req.flash("success", "Chỉnh sửa thương hiệu thành công");
+    res.redirect(`${prefix.prefixAdmin}/brands`);
 }
 
-// [GET] /admin/category/detail/:id
+// [GET] /admin/brands/detail/:id
 module.exports.detail = async (req, res) => {
     const id = req.params.id;
-    const category = await Category.findOne({
+    const brand = await Brand.findOne({
         deleted: false,
         _id: id
     });
-    res.render("admin/page/category/detail", {
-        titlePage: category.name,
-        category: category
+    res.render("admin/page/brand/detail", {
+        titlePage: brand.title,
+        brand: brand
     });
 }

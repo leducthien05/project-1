@@ -4,6 +4,7 @@ include ../../mixin/search.pug
 include ../../mixin/pagination.pug
 include ../../mixin/OptionChangeMulti.pug
 include ../../mixin/alert.pug
+include ../../mixin/selectTree.pug
 
 block main 
     +error(3000)
@@ -79,10 +80,32 @@ block main
                     // Danh mục
                     .col-md-3.mb-3
                         label(class="form-label") Danh mục
-                        select(class="form-select" name="category")
-                            each item in category 
-                                option(value=item._id) #{item.name}
-
+                        select(class="form-select" name="category_id")
+                            +selectTree(category, 1)
+                    // Thương hiệu
+                    .col-md-3.mb-3
+                        label(class="form-label") Thương hiệu
+                        select(class="form-select" name="brand_id")
+                            each item in brand 
+                                option(value=item._id) #{item.title}
+                    .col-md-3.mb-3 
+                        div(class="form-group form-check form-check-inline")
+                            input(
+                                type="radio"
+                                class="form-check-input"
+                                name="featured"
+                                value= "1"
+                                checked
+                            )
+                            label(for="featured" class="form-label") Nổi bật
+                        div(class="form-group form-check form-check-inline")
+                            input(
+                                type="radio"
+                                class="form-check-input"
+                                name="featured"
+                                value= "0"
+                            )
+                            label(for="statusInActive" class="form-label") Không
                     // Trạng thái
                     .col-md-3.mb-3
                         label(class="form-label") Trạng thái
@@ -97,7 +120,7 @@ block main
                         class="form-control"
                         type="number"
                         name="position"
-                        value="1"
+                        value=count + 1
                     )
 
                 // Button

@@ -67,6 +67,30 @@ block main
                         each item in role
                             td(class="text-center")
                                 input(type="checkbox")
+                    //- Thương hiệu
+                    tr
+                        td(colspan="4")
+                            b Thương hiệu sản phẩm
+                    tr(data-name="brand_view")
+                        td Xem
+                        each item in role
+                            td(class="text-center")
+                                input(type="checkbox")
+                    tr(data-name="brand_create")
+                        td Thêm mới
+                        each item in role
+                            td(class="text-center")
+                                input(type="checkbox")
+                    tr(data-name="brand_edit")
+                        td Chỉnh sửa
+                        each item in role
+                            td(class="text-center")
+                                input(type="checkbox")
+                    tr(data-name="brand_delete")
+                        td Xóa
+                        each item in role
+                            td(class="text-center")
+                                input(type="checkbox")
 
                     //- Sản phẩm
                     tr
