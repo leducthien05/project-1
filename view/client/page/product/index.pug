@@ -1,4 +1,5 @@
 extends ../../layout/default.pug
+include ../../mixin/pagination.pug
 
 //- ==================== PHẦN BODY ====================
 block content
@@ -9,92 +10,49 @@ block content
       // Sidebar Filter
       .col-lg-3.col-xl-2
         .sidebar.p-4.sticky-top(style="top: 90px;")
-          h5.fw-bold.mb-3 Khoảng giá
-          .price-range.mb-4
-            input(type="range" min="2000000" max="45000000" value="22500000" class="w-100")
-            .d-flex.justify-content-between.small.mt-1
-              span 2.000.000 ₫
-              span 45.000.000 ₫
-
           h5.fw-bold.mb-3.mt-5 Thương hiệu
           .brands
-            .form-check.mb-2
-              input.form-check-input(type="checkbox" checked)
-              label.form-check-label Apple <span class="text-muted">(24)</span>
-            .form-check.mb-2
-              input.form-check-input(type="checkbox")
-              label.form-check-label Samsung <span class="text-muted">(19)</span>
-            .form-check.mb-2
-              input.form-check-input(type="checkbox")
-              label.form-check-label Sony <span class="text-muted">(15)</span>
-            .form-check.mb-2
-              input.form-check-input(type="checkbox")
-              label.form-check-label ASUS <span class="text-muted">(22)</span>
-            .form-check.mb-2
-              input.form-check-input(type="checkbox")
-              label.form-check-label Lenovo <span class="text-muted">(18)</span>
+            each item in brand
+              .form-check.mb-2
+                label.form-check-label #{item.title} <span class="text-light">(#{item.countProduct})</span>
+            
 
       // Main Content
       .col-lg-9.col-xl-10
-        .d-flex.justify-content-between.align-items-center.mb-4
-          h2.fw-bold Tất cả sản phẩm 
-            span.text-muted.small.ms-2 (128 sản phẩm tìm thấy)
 
-        // Filter tags
-        .d-flex.gap-2.flex-wrap.mb-4
-          button.btn.btn-primary.btn-sm.rounded-pill.px-4 Tất cả
-          button.btn.btn-outline-light.btn-sm.rounded-pill Laptop
-          button.btn.btn-outline-light.btn-sm.rounded-pill Điện thoại
-          button.btn.btn-outline-light.btn-sm.rounded-pill Tai nghe
-          button.btn.btn-outline-light.btn-sm.rounded-pill Màn hình
-          button.btn.btn-outline-light.btn-sm.rounded-pill Gaming
 
         // Product Grid
+        section.py-2.bg-black
+          .container
+            .d-flex.justify-content-between.align-items-end.mb-5
+              h2(class="section-title") Sản phẩm mới
         .row.g-4
           // Product 1
-          .col-lg-4.col-md-6
-            .product-card
-              .badge.position-absolute.top-3.start-3.bg-info.text-white MỚI
-              img(src="https://picsum.photos/id/201/400/300" class="w-100" alt="")
-              .p-3
-                .text-info.small APPLE
-                h6.fw-semibold iPhone 16 Pro Max 256GB
-                .d-flex.align-items-center.gap-2.mb-2
-                  .text-warning ★★★★☆ 
-                  small.text-muted 4.9 (312)
-                h5.text-white.mb-1 34.990.000 ₫
-                small.text-muted.text-decoration-line-through 37.990.000 ₫
-                .text-danger.small Tiết kiệm 8%
-                button.btn.btn-info.w-100.mt-3 +
-          
-          // Product 2
-          .col-lg-4.col-md-6
-            .product-card
-              .badge.position-absolute.top-3.start-3.bg-warning.text-dark HOT
-              img(src="https://picsum.photos/id/367/400/300" class="w-100" alt="")
-              .p-3
-                .text-info.small SONY
-                h6.fw-semibold WH-1000XM6 Noise Cancel
-                .d-flex.align-items-center.gap-2.mb-2
-                  .text-warning ★★★★★ 
-                  small.text-muted 4.8 (205)
-                h5.text-white.mb-1 8.490.000 ₫
-                small.text-muted.text-decoration-line-through 9.990.000 ₫
-                .text-danger.small Tiết kiệm 15%
-                button.btn.btn-info.w-100.mt-3 +
-
-          // Product 3
-          .col-lg-4.col-md-6
-            .product-card
-              .badge.position-absolute.top-3.end-3.bg-danger.text-white -20%
-              img(src="https://picsum.photos/id/180/400/300" class="w-100" alt="")
-              .p-3
-                .text-info.small SAMSUNG
-                h6.fw-semibold Odyssey G9 49" 240Hz OLED
-                .d-flex.align-items-center.gap-2.mb-2
-                  .text-warning ★★★★☆ 
-                  small.text-muted 4.9 (87)
-                h5.text-white.mb-1 31.990.000 ₫
-                small.text-muted.text-decoration-line-through 39.990.000 ₫
-                .text-danger.small Tiết kiệm 20%
-                button.btn.btn-info.w-100.mt-3 +
+          each item, index in product
+            .col-lg-4.col-md-6
+              .product-card
+                  a(href=`product/detail/${item.id}`)
+                    if(index <= 4)
+                      .badge.position-absolute.top-3.start-3.bg-info.text-white MỚI
+                    img(
+                      src=item.image 
+                      class="w-100" 
+                      alt=""
+                      height="160"
+                    )
+                  .p-3
+                    .text-info.small #{item.titleBrand}
+                    h6.fw-semibold #{item.name}
+                    //- .d-flex.align-items-center.gap-2.mb-2 => Đánh giá
+                    //-   .text-warning ★★★★☆ 
+                    //-   small.text-muted 4.9 (312)
+                    h5(
+                      class="text-danger fw-bold mb-1"
+                      ) #{item.newPrice}
+                    span(
+                      class="old-price"
+                      ) #{item.price}
+                    .text-danger(class="small badge text-danger") Tiết kiệm #{item.discountPercentage} %
+                    button(class="btn btn-info w-100 mt-3") Thêm vào giỏ hàng
+  +pagination(pagination)
+  script(src="/admin/JS/product.js") 

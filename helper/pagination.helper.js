@@ -1,6 +1,6 @@
 module.exports.pagination = (query, count)=>{
     const objectPage = {
-        limit: 4,
+        limit: 8,
         currentPage: 1
     }
     

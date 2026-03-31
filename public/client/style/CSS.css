@@ -221,3 +221,10 @@ ul.dropdown-menu-custom li:hover > ul.dropdown-menu-custom {
   border-radius: 16px;
   border: 1px solid #1e2937;
 }
+
+/* price */
+.old-price {
+  color: #aaa;
+  text-decoration: line-through;
+  font-size: 14px;
+}
