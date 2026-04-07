@@ -1,4 +1,5 @@
 const Category = require("../../model/category.model");
+const Brand = require("../../model/brand.model");
 const categoryHelper = require("../../helper/createTree.helper");
 
 module.exports.category = async (req, res, next)=>{
@@ -6,9 +7,15 @@ module.exports.category = async (req, res, next)=>{
         deleted: false,
         status: "active"
     });
-    if(category){
+    if(category.length > 0){
         const newCategory = categoryHelper.createTree(category, "");
         res.locals.category = newCategory;
-        next();
     }
+    const brand = await Brand.find({
+        deleted: false
+    }).select("title");
+    if(brand.length > 0){
+        res.locals.brand = brand;
+    } 
+    next();
 } 

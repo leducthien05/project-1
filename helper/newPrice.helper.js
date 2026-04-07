@@ -6,3 +6,9 @@ module.exports.newPriceArray = (array)=>{
 
     return newProduct;
 }
+
+module.exports.newPrice = (product)=>{
+    const newPrice =  product.price * (1 - product.discountPercentage/100);
+    product.newPrice = newPrice
+    return product;
+}

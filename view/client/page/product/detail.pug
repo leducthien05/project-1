@@ -1,0 +1,53 @@
+extends ../../layout/default.pug
+include ../../mixin/pagination.pug
+
+//- ==================== PHẦN BODY ====================
+block content
+    .container.mt-5
+        .row
+            //- Ảnh sản phẩm
+            .col-lg-5
+                .product-image
+                    img(
+                        src=product.image 
+                        alt=product.name
+                        style="max-height:300px;object-fit:contain"
+                        )
+
+            //- Thông tin sản phẩm
+            .col-lg-7
+                .product-info
+                    h2(class="product-title") #{product.name}
+
+                    div(
+                        class="product-brand"
+                    ) #{product.brand}
+
+                    div(class="product-price")
+                        span(class="price-new") #{product.newPrice}
+                        span(class="price-old") #{product.price} đ
+                        span(class="discount") Tiết kiệm #{product.discountPercentage}%
+
+                    p(class="product-desc") #{product.description}
+
+                    div(class="quantity-box")
+                        button(
+                            class="btn-minus"
+                            ) -
+                        input(
+                            type="number" 
+                            value=1
+                            min=1
+                            max=product.stock
+                        )
+                        button(
+                            class="btn-plus"
+                            ) +
+
+                    button(class="btn btn-add") Thêm vào giỏ hàng
+
+        //- Mô tả chi tiết
+        div(class="product-detail mt-5")
+            h4 Mô tả chi tiết
+            p #{product.detail}
+    script(src="/admin/JS/product.js") 

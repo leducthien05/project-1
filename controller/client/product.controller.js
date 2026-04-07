@@ -70,7 +70,33 @@ module.exports.index = async (req, res) => {
     res.render("client/page/product/index", {
         titlePage: "Cửa hàng",
         product: newProduct,
-        brand: brand,
+        brandCount: brand,
         pagination: paginationPage
+    });
+}
+// [GET] /product/detail/:id
+module.exports.detail = async (req, res)=>{
+    const id = req.params.id;
+    const product = await Product.findOne({
+        _id: id
+    });
+    console.log(product);
+    if(product.brand_id){
+        
+    }
+    const brand = await Brand.findOne({
+        id: product.brand_id,
+        deleted: false,
+        status: "active"
+    }).select("title");
+    const newProduct = priceNewHelper.newPrice(product);
+    newProduct.price = newProduct.price.toLocaleString('vi-VN') + ' ₫';
+    newProduct.newPrice = newProduct.newPrice.toLocaleString('vi-VN') + ' ₫';
+    if(brand){
+        newProduct.brand = brand.title;
+    }
+    res.render("client/page/product/detail", {
+        titlePage: product.name,
+        product: newProduct
     });
 }

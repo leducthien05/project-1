@@ -16,6 +16,7 @@ body {
   background: var(--bg-body);
   color: var(--text-main);
   line-height: 1.6;
+  padding-top: 70px;
 }
 
 .navbar {
@@ -203,6 +204,8 @@ ul.dropdown-menu-custom li:hover > ul.dropdown-menu-custom {
   font-size: 0.75rem;
   padding: 4px 10px;
   font-weight: 600;
+  overflow-x: auto;
+
 }
 
 .btn-info {
@@ -227,4 +230,108 @@ ul.dropdown-menu-custom li:hover > ul.dropdown-menu-custom {
   color: #aaa;
   text-decoration: line-through;
   font-size: 14px;
+}
+
+/* product detail */
+/* PRODUCT DETAIL */
+
+.product-image {
+    background: #111;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+}
+
+.product-image img {
+    max-width: 100%;
+    border-radius: 10px;
+}
+
+.product-info {
+    color: #fff;
+}
+
+.product-title {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.product-brand {
+    color: #22d3ee;
+    margin-bottom: 15px;
+}
+
+.product-price {
+    margin-bottom: 20px;
+}
+
+.price-new {
+    font-size: 26px;
+    color: #ff4d4f;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.price-old {
+    text-decoration: line-through;
+    color: #888;
+    margin-right: 10px;
+}
+
+.discount {
+    color: #00e676;
+}
+
+.product-desc {
+    color: #ccc;
+    margin-bottom: 20px;
+}
+
+/* Quantity */
+.quantity-box {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.quantity-box button {
+    width: 35px;
+    height: 35px;
+    border: none;
+    background: #222;
+    color: #fff;
+    font-size: 18px;
+}
+
+.quantity-box input {
+    width: 50px;
+    text-align: center;
+    margin: 0 10px;
+    background: #111;
+    border: 1px solid #333;
+    color: #fff;
+}
+
+/* Button */
+.btn-add {
+    background: linear-gradient(45deg, #22d3ee, #a855f7);
+    border: none;
+    padding: 12px 25px;
+    color: #fff;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.btn-add:hover {
+    opacity: 0.8;
+}
+
+/* Detail section */
+.product-detail {
+    background: #111;
+    padding: 20px;
+    border-radius: 12px;
+    color: #ccc;
 }

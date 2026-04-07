@@ -3,16 +3,14 @@ include ../../mixin/pagination.pug
 
 //- ==================== PHẦN BODY ====================
 block content
-
   .container-fluid.mt-4
     .row
-
       // Sidebar Filter
       .col-lg-3.col-xl-2
         .sidebar.p-4.sticky-top(style="top: 90px;")
           h5.fw-bold.mb-3.mt-5 Thương hiệu
           .brands
-            each item in brand
+            each item in brandCount
               .form-check.mb-2
                 label.form-check-label #{item.title} <span class="text-light">(#{item.countProduct})</span>
             
@@ -32,8 +30,17 @@ block content
             .col-lg-4.col-md-6
               .product-card
                   a(href=`product/detail/${item.id}`)
-                    if(index <= 4)
-                      .badge.position-absolute.top-3.start-3.bg-info.text-white MỚI
+                    .position-absolute.top-0.start-0.m-2.d-flex.gap-2
+                      if(item.featured === "1")
+                        .badge.bg-danger(
+                          style="background: linear-gradient(45deg,#ff4d4f,#ff6a00)"
+                        ) Nổi bật
+
+                      if(index < 4)
+                        .badge.bg-info(
+                          style="background: linear-gradient(45deg,#22d3ee,#a855f7)"
+                        ) MỚI
+
                     img(
                       src=item.image 
                       class="w-100" 
