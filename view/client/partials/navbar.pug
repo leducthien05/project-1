@@ -44,11 +44,15 @@ nav.navbar.navbar-expand-lg.fixed-top
           action="/search"
           method="GET"
         )
-          .input-group(style="width: 260px;")
+          div(
+            class="input-group"
+            style="width: 260px;"
+          )
             input(
               class="form-control bg-dark text-light border-secondary" 
               placeholder="Tìm kiếm sản phẩm..." 
               type="text"
+              name="keyword"
             )
             button(class="btn btn-outline-light")
               i(class="fas fa-search")
