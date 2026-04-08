@@ -109,6 +109,16 @@ block main
                                 checked = (product.featured == "0" ? true : false)
                             )
                             label(for="statusInActive" class="form-label") Không
+                    .col-md-2.mb-3
+                        label(class="form-label") Số lượng
+                        input(
+                            class="form-control"
+                            type="number"
+                            name="stock"
+                            min=0
+                            value = product.stock
+                            style="width: 80px;"
+                        )
                     // Trạng thái
                     .col-md-3.mb-3
                         label(class="form-label") Trạng thái

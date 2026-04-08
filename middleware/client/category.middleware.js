@@ -13,7 +13,7 @@ module.exports.category = async (req, res, next)=>{
     }
     const brand = await Brand.find({
         deleted: false
-    }).select("title");
+    }).select("title slug");
     if(brand.length > 0){
         res.locals.brand = brand;
     } 

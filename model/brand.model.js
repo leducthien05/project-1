@@ -1,10 +1,16 @@
 const mongoose = require("mongoose");
+const slug = require('mongoose-slug-updater');
+mongoose.plugin(slug);
 
 const brandSchema = new mongoose.Schema({
-  title: String,       // tên thương hiệu (Apple)
-  slug: String,        // dùng cho URL
+  title: String,     
+  slug: {
+    type: String,
+    slug: "title",
+    unique: true
+  },        // dùng cho URL
   description: String,
-  status: String,       // active / inactive
+  status: String,     
   image: String,
   createdBy: {
     account_id: String,
@@ -22,5 +28,5 @@ const brandSchema = new mongoose.Schema({
   },
   position: Number
 });
-const Brand =  mongoose.model('Brand', brandSchema, 'brand');
+const Brand = mongoose.model('Brand', brandSchema, 'brand');
 module.exports = Brand;

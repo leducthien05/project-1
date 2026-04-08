@@ -236,102 +236,122 @@ ul.dropdown-menu-custom li:hover > ul.dropdown-menu-custom {
 /* PRODUCT DETAIL */
 
 .product-image {
-    background: #111;
-    border-radius: 12px;
-    padding: 20px;
-    text-align: center;
+  background: #111;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
 }
 
 .product-image img {
-    max-width: 100%;
-    border-radius: 10px;
+  max-width: 100%;
+  border-radius: 10px;
 }
 
 .product-info {
-    color: #fff;
+  color: #fff;
 }
 
 .product-title {
-    font-size: 28px;
-    font-weight: bold;
-    margin-bottom: 10px;
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 10px;
 }
 
 .product-brand {
-    color: #22d3ee;
-    margin-bottom: 15px;
+  color: #22d3ee;
+  margin-bottom: 15px;
 }
 
 .product-price {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .price-new {
-    font-size: 26px;
-    color: #ff4d4f;
-    font-weight: bold;
-    margin-right: 10px;
+  font-size: 26px;
+  color: #ff4d4f;
+  font-weight: bold;
+  margin-right: 10px;
 }
 
 .price-old {
-    text-decoration: line-through;
-    color: #888;
-    margin-right: 10px;
+  text-decoration: line-through;
+  color: #888;
+  margin-right: 10px;
 }
 
 .discount {
-    color: #00e676;
+  color: #00e676;
 }
 
 .product-desc {
-    color: #ccc;
-    margin-bottom: 20px;
+  color: #ccc;
+  margin-bottom: 20px;
 }
 
 /* Quantity */
 .quantity-box {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .quantity-box button {
-    width: 35px;
-    height: 35px;
-    border: none;
-    background: #222;
-    color: #fff;
-    font-size: 18px;
+  width: 35px;
+  height: 35px;
+  border: none;
+  background: #222;
+  color: #fff;
+  font-size: 18px;
 }
 
 .quantity-box input {
-    width: 50px;
-    text-align: center;
-    margin: 0 10px;
-    background: #111;
-    border: 1px solid #333;
-    color: #fff;
+  width: 50px;
+  text-align: center;
+  margin: 0 10px;
+  background: #111;
+  border: 1px solid #333;
+  color: #fff;
 }
 
 /* Button */
 .btn-add {
-    background: linear-gradient(45deg, #22d3ee, #a855f7);
-    border: none;
-    padding: 12px 25px;
-    color: #fff;
-    border-radius: 8px;
-    font-weight: bold;
-    transition: 0.3s;
+  background: linear-gradient(45deg, #22d3ee, #a855f7);
+  border: none;
+  padding: 12px 25px;
+  color: #fff;
+  border-radius: 8px;
+  font-weight: bold;
+  transition: 0.3s;
 }
 
 .btn-add:hover {
-    opacity: 0.8;
+  opacity: 0.8;
 }
 
 /* Detail section */
 .product-detail {
-    background: #111;
-    padding: 20px;
-    border-radius: 12px;
-    color: #ccc;
+  background: #111;
+  padding: 20px;
+  border-radius: 12px;
+  color: #ccc;
+}
+
+/* Category filter */
+.category-filter {
+  display: flex;
+  justify-content: center;   /* căn giữa ngang */
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.category-filter .btn {
+  padding: 10px 20px;        /* to hơn */
+  font-size: 15px;
+  border-radius: 999px;      /* pill đẹp */
+  transition: all 0.25s ease;
+}
+
+/* Hover nhẹ cho đẹp */
+.category-filter .btn:hover {
+  transform: translateY(-2px);
 }

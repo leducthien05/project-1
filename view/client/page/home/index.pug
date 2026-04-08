@@ -33,32 +33,14 @@ block content
     section.py-5
         .container
             h2(class="section-title text-center mb-5 Discover Categories") Khám phá danh mục
-            .row.g-4.text-center
-                .col-md-3
-                    .card.bg-dark.border-0.h-100.product-card
-                        .card-body.py-5
-                            a(href="/category/laptop")
-                                i(class="fas fa-laptop fa-3x mb-3" style="color:#a855f7")
-                                    h4 Laptops
-                .col-md-3
-                    .card.bg-dark.border-0.h-100.product-card
-                        .card-body.py-5
-                            a(href="/category/smartphone")
-                                i(class="fas fa-mobile-alt fa-3x mb-3" style="color:#22d3ee")
-                                    h4 Smartphones
-                .col-md-3
-                    .card.bg-dark.border-0.h-100.product-card
-                        .card-body.py-5
-                            a(href="/category/audio")
-                                i(class="fas fa-headphones fa-3x mb-3" style="color:#a855f7")
-                                    h4 Audio
-                .col-md-3
-                    .card.bg-dark.border-0.h-100.product-card
-                        .card-body.py-5
-                            a(href="/category/laptop")
-                                i(class="fas fa-desktop fa-3x mb-3" style="color:#22d3ee")
-                                    h4 PC
-
+            .d-flex.category-filter.mb-4
+                each item in category
+                    a(
+                        href=`/product/category/${item.slug}`
+                        class="btn btn-outline-light"
+                        ) #{item.name}
+                    
+                
     // Best Sellers
     section.py-5.bg-black
         .container

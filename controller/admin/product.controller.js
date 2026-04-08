@@ -280,6 +280,18 @@ module.exports.detail = async (req, res) => {
         deleted: false,
         _id: id
     });
+    const category = await Category.findOne({
+        _id: product.category_id
+    });
+    const brand = await Brand.findOne({
+        _id: product.brand_id
+    });
+    if(brand){
+        product.brand = brand.title;
+    }
+    if(category){
+        product.category = category.name;
+    }
     res.render("admin/page/product/detail", {
         titlePage: product.name,
         product: product

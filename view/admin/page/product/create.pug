@@ -106,6 +106,16 @@ block main
                                 value= "0"
                             )
                             label(for="statusInActive" class="form-label") Không
+                    .mb-3
+                        label(class="form-label") Số lượng
+                        input(
+                            class="form-control"
+                            type="number"
+                            name="stock"
+                            min=0
+                            value=0
+                            style="width: 80px;"
+                        )
                     // Trạng thái
                     .col-md-3.mb-3
                         label(class="form-label") Trạng thái

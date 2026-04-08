@@ -1,0 +1,54 @@
+extends ../../layout/default.pug
+include ../../mixin/pagination.pug
+include ../../mixin/brand.pug
+
+//- ==================== PHẦN BODY ====================
+block content
+    .container-fluid.mt-4
+        .row
+            +brand(brandCount)
+            // Main Content
+            .col-lg-9.col-xl-10
+                // Product Grid
+                section.py-2.bg-black
+                    .container
+                        .d-flex.justify-content-between.align-items-end.mb-5
+                        h2(class="section-title") #{titlePage}
+                .row.g-4
+                    // Product 1
+                    each item, index in product
+                        .col-lg-4.col-md-6
+                            .product-card
+                                a(href=`/product/detail/${item.id}`)
+                                    .position-absolute.top-0.start-0.m-2.d-flex.gap-2
+                                        if(item.featured === "1")
+                                            .badge.bg-danger(
+                                                style="background: linear-gradient(45deg,#ff4d4f,#ff6a00)"
+                                            ) Nổi bật
+
+                                        if(index < 4)
+                                            .badge.bg-info(
+                                                style="background: linear-gradient(45deg,#22d3ee,#a855f7)"
+                                            ) MỚI
+
+                                    img(
+                                        src=item.image 
+                                        class="w-100" 
+                                        alt=""
+                                        height="160"
+                                    )
+                                .p-3
+                                    .text-info.small #{item.titleBrand}
+                                    h6.fw-semibold #{item.name}
+                                    //- .d-flex.align-items-center.gap-2.mb-2 => Đánh giá
+                                    //-   .text-warning ★★★★☆ 
+                                    //-   small.text-muted 4.9 (312)
+                                    h5(
+                                        class="text-danger fw-bold mb-1"
+                                    ) #{item.newPrice}
+                                    span(
+                                        class="old-price"
+                                    ) #{item.price}
+                                    .text-danger(class="small badge text-danger") Tiết kiệm #{item.discountPercentage} %
+                                    button(class="btn btn-info w-100 mt-3") Thêm vào giỏ hàng
+    script(src="/admin/JS/product.js") 

@@ -23,15 +23,15 @@ nav.navbar.navbar-expand-lg.fixed-top
           a.nav-link.text-light(href="/product") Shop
 
         li.nav-item.has-submenu
-          a.nav-link.text-light(href="/category") Danh mục
+          a.nav-link.text-light(href=`/product/category/${category[0].slug}`) Danh mục
           ul.dropdown-menu-custom
-            - const path = "/category"
+            - const path = "/product/category"
             -if(category && category.length > 0)
-              +submenu(path, category)
+              +submenu(path, category)  
         li.nav-item
-          a.nav-link.text-light(href="/brand") Thương hiệu
+          a.nav-link.text-light(href=`/product/brand/${brand[0].slug}`) Thương hiệu
           ul.dropdown-menu-custom
-            - const pathBrand = "brand"
+            - const pathBrand = "/product/brand"
             if(brand.length > 0)
               +brandSelect(pathBrand, brand)
         li.nav-item

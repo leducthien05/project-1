@@ -1,24 +1,15 @@
 extends ../../layout/default.pug
 include ../../mixin/pagination.pug
+include ../../mixin/brand.pug
 
 //- ==================== PHẦN BODY ====================
 block content
   .container-fluid.mt-4
     .row
-      // Sidebar Filter
-      .col-lg-3.col-xl-2
-        .sidebar.p-4.sticky-top(style="top: 90px;")
-          h5.fw-bold.mb-3.mt-5 Thương hiệu
-          .brands
-            each item in brandCount
-              .form-check.mb-2
-                label.form-check-label #{item.title} <span class="text-light">(#{item.countProduct})</span>
-            
+      +brand(brandCount)
 
       // Main Content
       .col-lg-9.col-xl-10
-
-
         // Product Grid
         section.py-2.bg-black
           .container
