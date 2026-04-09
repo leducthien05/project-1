@@ -1,8 +1,11 @@
 extends ../../layout/default.pug
 include ../../mixin/pagination.pug
+include ../../mixin/alert.pug
 
 //- ==================== PHẦN BODY ====================
 block content
+    +success("5000")
+    +error("3000")
     .container.mt-5
         .row
             //- Ảnh sản phẩm
@@ -30,24 +33,34 @@ block content
 
                     p(class="product-desc") !{product.description}
 
-                    div(class="quantity-box")
-                        button(
-                            class="btn-minus"
-                            ) -
-                        input(
-                            type="number" 
-                            value=1
-                            min=1
-                            max=product.stock
+                    
+                    form(
+                            action=`/cart/add/${product._id}`
+                            method="POST"
                         )
-                        button(
-                            class="btn-plus"
-                            ) +
-
-                    button(class="btn btn-add") Thêm vào giỏ hàng
+                            div(class="quantity-box")
+                                input(
+                                    type="number" 
+                                    value=1
+                                    name="quantity"
+                                    min=1
+                                    max=product.stock
+                                )
+                            
+                            button(
+                                class = "btn btn-add"
+                                type="submit"
+                            ) Thêm vào giỏ hàng
+                    
 
         //- Mô tả chi tiết
         div(class="product-detail mt-5")
             h4 Mô tả chi tiết
             p #{product.detail}
+        .d-flex.justify-content-end.mt-4
+            a(
+                href="/cart/checkout"
+                class="btn btn-success btn-lg"
+                id="btnCheckout"
+            ) Thanh toán
     script(src="/admin/JS/product.js") 

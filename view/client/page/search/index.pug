@@ -20,7 +20,7 @@ block content
                 each item, index in productNew
                     .col-lg-4.col-md-6
                         .product-card
-                            a(href=`product/detail/${item.id}`)
+                            a(href=`product/detail/${item._id}`)
                                 .position-absolute.top-0.start-0.m-2.d-flex.gap-2
                                     if(item.featured === "1")
                                         .badge.bg-danger(
@@ -45,5 +45,8 @@ block content
                                     class="old-price"
                                 ) #{item.price}
                                 .text-danger(class="small badge text-danger") Tiết kiệm #{item.discountPercentage} %
-                                button(class="btn btn-info w-100 mt-3") Thêm vào giỏ hàng
+                                a(
+                                    href=`/product/detail/${item._id}`
+                                    class="btn btn-info w-100 mt-3"
+                                ) Mua ngay
     script(src="/admin/JS/product.js") 

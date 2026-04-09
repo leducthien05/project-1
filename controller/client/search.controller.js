@@ -7,12 +7,11 @@ const subCategory = require("../../helper/subCategory.helper");
 const searchHelper = require("../../helper/search.helper");
 //[GET] /
 module.exports.index = async (req, res) => {
-    let product = [];
+    let find = {};
     if (req.query.keyword) {
         const search = searchHelper.search(req.query);
         const regex = search.regex
-        console.log(regex)
-        const find = {
+        find = {
             deleted: false,
             status: "active",
             $or: [
@@ -20,21 +19,8 @@ module.exports.index = async (req, res) => {
                 { slug: regex }
             ]
         }
-        const category = await Category.findOne(find);
-        if (category) {
-            const allCategory = await subCategory.subCategory(category._id);
-            if (allCategory.length > 0) {
-                const idCategory = allCategory.map(item => item._id);
-                product = await Product.find({
-                    category_id: { $in: [category._id, ...idCategory] },
-                    status: "active",
-                    deleted: false
-                });
-            }
-        } else {
-            product = await Product.find(find);
-        }
     }
+    const product = await Product.find(find);
     const newProduct = newPriceHelper.newPriceArray(product);
     const brand = await Brand.find({
         deleted: false

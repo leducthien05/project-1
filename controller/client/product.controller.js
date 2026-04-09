@@ -54,7 +54,7 @@ module.exports.index = async (req, res) => {
     }).select("title");
     const brandMap ={};
     brand.forEach(item=>{
-        brandMap[item.id] = item.title;
+        brandMap[item._id] = item.title;
     });
     newProduct.forEach(item =>{
         item.price = item.price.toLocaleString('vi-VN') + ' ₫';
@@ -73,7 +73,6 @@ module.exports.detail = async (req, res)=>{
     const product = await Product.findOne({
         _id: id
     });
-    console.log(product);
     if(product.brand_id){
         
     }
@@ -115,14 +114,14 @@ module.exports.category = async (req, res)=>{
     }).select("title slug");
     const brandMap ={};
     brand.forEach(item=>{
-        brandMap[item.id] = item.title;
+        brandMap[item._id] = item.title;
     });
     newProduct.forEach(item =>{
         item.price = item.price.toLocaleString('vi-VN') + ' ₫';
         item.newPrice = item.newPrice.toLocaleString('vi-VN') + ' ₫';
         item.titleBrand = brandMap[item.brand_id];
     });
-    res.render("client/page/product/product_by_category", {
+    res.render("client/page/product/list_by_category_brand", {
         titlePage: category.name,
         product: product
     });
@@ -146,7 +145,7 @@ module.exports.brand = async (req, res)=>{
         item.newPrice = item.newPrice.toLocaleString('vi-VN') + ' ₫';
         item.titleBrand = brand.title
     });
-    res.render("client/page/product/product_by_category", {
+    res.render("client/page/product/list_by_category_brand", {
         titlePage: brand.title,
         product: newProduct
     });

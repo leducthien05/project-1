@@ -14,7 +14,7 @@ block content
                     .d-flex.gap-3
                         a(
                             class="btn btn-primary btn-lg px-5" 
-                            href="/shop"
+                            href="/product"
                         ) Shop Now
                         //- a(
                         //-     class="btn btn-outline-light btn-lg px-5" 
@@ -93,9 +93,10 @@ block content
                             h4(
                                 class="text-white mt-3"
                             ) #{item.newPrice} đ
-                            button(
+                            a(
+                                href=`/product/detail/${item._id}`
                                 class="btn btn-primary w-100 mt-3"
-                            ) Thêm vào giỏ
+                            ) Mua ngay
     // Mới nhất
     section.py-5.bg-black
         .container
@@ -120,8 +121,9 @@ block content
                             h4(
                                 class="text-white mt-3"
                             ) #{item.newPrice} đ
-                            button(
+                            a(
+                                src=`/product/detail/${item._id}`
                                 class="btn btn-primary w-100 mt-3"
-                            ) Thêm vào giỏ
+                            ) Mua ngay
 
             
