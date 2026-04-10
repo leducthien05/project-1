@@ -1,0 +1,66 @@
+extends ../../layout/default.pug
+
+block content
+    div.cart-container
+        h2(class="title") Giỏ hàng của bạn
+
+        table(class="cart-table")
+            thead
+                tr
+                    th Ảnh
+                    th Tên sản phẩm
+                    th Slug
+                    th Số lượng
+                    th Giảm giá
+                    th Thành tiền
+                    th Hành động
+
+            tbody
+                each item in cart.product
+                    tr
+                        td
+                            img(
+                                class="cart-img"
+                                src=item.productInfo.image
+                                )
+
+                        td
+                            div(
+                                class="name"
+                            ) #{item.productInfo.name}
+
+                        td
+                            div(
+                                class="slug"
+                            ) #{item.productInfo.slug}
+
+                        td
+                            input(
+                                class="quantity" 
+                                type="number" 
+                                min="1"
+                                name="quantity" 
+                                value=item.quantity
+                            )
+                        td 
+                            div(class="discount") -#{item.discountPercentage}%
+                        td
+                            div(class="total") #{item.productInfo.newPrice.toLocaleString('vi-VN') + ' ₫'} 
+
+                        td
+                            div(class="d-flex gap-2")
+                                button(
+                                    class="btn btn-danger flex-fill"
+                                    btn-id=item.product_id 
+                                    btn-delete
+                                ) Xóa
+                                a(
+                                    class="btn btn-primary flex-fill"
+                                    href=`/product/detail/${item.product_id}`
+                                ) Chi tiết
+    form(
+        action=`/cart/delete/`, 
+        method="post"
+        form-delete
+    ) 
+    script(src="/client/JS/cart.js") 

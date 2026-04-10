@@ -61,7 +61,8 @@ nav.navbar.navbar-expand-lg.fixed-top
           i(class="fas fa-shopping-bag")
           span(
             class="position-absolute translate-middle badge bg-danger rounded-pill" 
-            style="font-size:0.7rem; margin-left: -8px;") #{cart.totalQuantity}
+            style="font-size:0.7rem; margin-left: -8px;"
+          ) #{cart.totalQuantity || 0}
 
         a(
           class="text-light fs-4" 

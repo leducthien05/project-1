@@ -1,6 +1,9 @@
 const Cart = require("../../model/cart.router");
 const Product = require("../../model/product.model");
 
+const newPriceHelper = require("../../helper/newPrice.helper");
+
+// [GET] /cart/add/:id
 module.exports.add = async (req, res) => {
     const id = req.params.id;
     const quantity = parseInt(req.body.quantity);
@@ -9,7 +12,7 @@ module.exports.add = async (req, res) => {
         "product.product_id": id
     });
     if (!existProduct) {
-        
+
         const product = await Product.findOne({
             _id: id
         });
@@ -25,17 +28,17 @@ module.exports.add = async (req, res) => {
         }, {
             $push: { product: infoProduct }
         });
-    }else{ 
+    } else {
         let totalQuantity;
         const productAdd = await Product.findOne({
             _id: id
         });
         existProduct.product.forEach(item => {
-            if(item.product_id == id){
+            if (item.product_id == id) {
                 totalQuantity = quantity + item.quantity;
             }
         });
-        if(totalQuantity > productAdd.stock){
+        if (totalQuantity > productAdd.stock) {
             req.flash("error", "Đã quá số sản phẩm tồn kho!");
             res.redirect(req.get("referer") || "/");
             return;
@@ -44,9 +47,36 @@ module.exports.add = async (req, res) => {
             _id: req.cookies.cartID,
             "product.product_id": id
         }, {
-            $set: {"product.$.quantity": totalQuantity}
+            $set: { "product.$.quantity": totalQuantity }
         });
     }
 
     res.redirect(req.get("referer") || "/");
+}
+
+// [GET] /cart
+module.exports.index = async (req, res) => {
+    const cart = res.locals.cart;
+    //Lấy tổng tiền
+    if (cart.product.length > 0) {
+        //Lấy thông tin từng sản phẩm
+        for (const item of cart.product) {
+            const product = await Product.findOne({
+                _id: item.product_id,
+                status: "active",
+                deleted: false
+            });
+            const newProduct = newPriceHelper.newPrice(product);
+            item.productInfo = newProduct;
+        }
+        //Lẩy tổng tiền phải trả
+        const totalPrice = cart.product.reduce((sum, item) => {
+            return sum + (item.price * (1 - item.discountPercentage / 100) * item.quantity);
+        }, 0);
+        cart.totalPrice = totalPrice;
+    }
+    res.render("client/page/cart/index", {
+        titlePage: "Giỏ hàng",
+        cart: cart
+    });
 }
