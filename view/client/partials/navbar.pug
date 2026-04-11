@@ -62,7 +62,7 @@ nav.navbar.navbar-expand-lg.fixed-top
           span(
             class="position-absolute translate-middle badge bg-danger rounded-pill" 
             style="font-size:0.7rem; margin-left: -8px;"
-          ) #{cart.totalQuantity || 0}
+          ) #{cart.totalQuantity ? cart.totalQuantity : 0}
 
         a(
           class="text-light fs-4" 

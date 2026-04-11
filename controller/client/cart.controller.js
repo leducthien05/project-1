@@ -80,3 +80,16 @@ module.exports.index = async (req, res) => {
         cart: cart
     });
 }
+
+// [DELETE] /cart/delete/:id
+module.exports.delete = async (req, res)=>{
+    const id = req.params.id;
+    await Cart.updateOne({
+        _id: res.locals.cart._id
+    }, {
+        $pull: {
+            product: {product_id: id}
+        }
+    });
+    res.redirect(req.get("referer") || "/");
+}

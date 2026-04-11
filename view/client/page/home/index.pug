@@ -94,7 +94,7 @@ block content
                                 class="text-white mt-3"
                             ) #{item.newPrice} đ
                             a(
-                                href=`/product/detail/${item._id}`
+                                href=`/product/detail/${item.slug}-${item._id}`
                                 class="btn btn-primary w-100 mt-3"
                             ) Mua ngay
     // Mới nhất
@@ -122,7 +122,7 @@ block content
                                 class="text-white mt-3"
                             ) #{item.newPrice} đ
                             a(
-                                src=`/product/detail/${item._id}`
+                                src=`/product/detail/${item.slug}-${item._id}`
                                 class="btn btn-primary w-100 mt-3"
                             ) Mua ngay
 

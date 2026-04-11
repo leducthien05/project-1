@@ -20,7 +20,7 @@ block content
                 each item, index in productNew
                     .col-lg-4.col-md-6
                         .product-card
-                            a(href=`product/detail/${item._id}`)
+                            a(href=`product/detail/${item.slug}-${item._id}`)
                                 .position-absolute.top-0.start-0.m-2.d-flex.gap-2
                                     if(item.featured === "1")
                                         .badge.bg-danger(

@@ -69,7 +69,7 @@ module.exports.index = async (req, res) => {
 }
 // [GET] /product/detail/:id
 module.exports.detail = async (req, res)=>{
-    const id = req.params.id;
+    const id = req.params.slug.split("-").pop();
     const product = await Product.findOne({
         _id: id
     });

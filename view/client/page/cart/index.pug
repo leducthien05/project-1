@@ -30,9 +30,12 @@ block content
                             ) #{item.productInfo.name}
 
                         td
-                            div(
-                                class="slug"
-                            ) #{item.productInfo.slug}
+                            a(
+                                href=`/product/detail/${item.productInfo.slug}-${item.product_id}`
+                            )
+                                div(
+                                    class="slug"
+                                ) #{item.productInfo.slug}
 
                         td
                             input(
@@ -54,10 +57,10 @@ block content
                                     btn-id=item.product_id 
                                     btn-delete
                                 ) Xóa
-                                a(
-                                    class="btn btn-primary flex-fill"
-                                    href=`/product/detail/${item.product_id}`
-                                ) Chi tiết
+                                //- a(
+                                //-     class="btn btn-primary flex-fill"
+                                //-     href=`/product/detail/${item.product_id}`
+                                //- ) Chi tiết
     form(
         action=`/cart/delete/`, 
         method="post"
