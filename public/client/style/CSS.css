@@ -454,3 +454,389 @@ body {
   color: #f87171;
   font-weight: bold;
 }
+
+
+
+
+/* totalPrice */
+.checkout-bar {
+  margin-top: 20px;
+  padding: 16px 24px;
+  background: #0b172a;
+  border-radius: 12px;
+
+  display: flex;
+  align-items: center;
+  gap: 30px;
+
+  width: fit-content;        /* 🔥 co lại theo nội dung */
+  margin-left: auto;         /* 🔥 đẩy sang phải */
+
+  border: 1px solid rgba(255,255,255,0.05);
+}
+/* Tổng tiền */
+.checkout-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.total-label {
+  color: #94a3b8;
+}
+
+.total-price {
+  font-size: 22px;
+  font-weight: 700;
+  color: #22c55e;
+}
+/* Button */
+.btn-checkout {
+  padding: 10px 24px;
+  border-radius: 8px;
+  border: none;
+
+  background: linear-gradient(135deg, #7c3aed, #9333ea);
+  color: #fff;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+/* Checkout */
+/* style.css - Dark Mode Checkout */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: #0f0f0f;
+  color: #e0e0e0;
+  line-height: 1.6;
+  padding: 40px 20px;
+  min-height: 100vh; /* ✅ thêm dòng này */
+}
+
+.checkout-container {
+  margin-top: 80px;
+}
+
+.page-title {
+  text-align: center;
+  font-size: 2.2rem;
+  margin-bottom: 40px;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.main-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+
+.info-box {
+background: #1a1a1a;
+border-radius: 16px;
+padding: 28px;
+border: 1px solid #333;
+box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+transition: transform 0.2s ease;
+font-size: 14px; /* ✅ thêm dòng này */
+}
+
+.info-box:hover {
+  transform: translateY(-4px);
+}
+
+.box-title {
+  font-size: 14px;
+  margin-bottom: 24px;
+  color: #00d4ff;
+  border-bottom: 2px solid #333;
+  padding-bottom: 12px;
+}
+
+
+/* Form */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group.full-width {
+  grid-column: span 2;
+}
+
+.form-group label {
+  font-size: 0.95rem;
+  margin-bottom: 8px;
+  color: #aaa;
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group textarea {
+  background: #252525;
+  border: 1px solid #444;
+  color: #fff;
+  padding: 14px 16px;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #00d4ff;
+  box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.15);
+}
+
+.order-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.order-table th {
+    text-align: left;
+    padding: 10px;
+    border-bottom: 1px solid #333;
+    font-size: 13px;
+    color: #aaa;
+}
+
+.order-table td {
+    padding: 12px 10px;
+    border-bottom: 1px solid #222;
+}
+
+
+/* product info 
+.product-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.product-name {
+    font-size: 14px;
+}
+*/
+
+/* ảnh vuông */
+.product-thumb {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.product-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+/* Order Summary */
+.order-summary {
+  background: #252525;
+  padding: 18px;
+  border-radius: 12px;
+  margin-top: 16px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  color: #ccc;
+}
+
+.summary-row.total {
+  border-top: 2px solid #444;
+  margin-top: 8px;
+  padding-top: 16px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.free {
+  color: #00ff9d;
+  font-weight: 500;
+}
+
+/* Payment Methods */
+.payment-methods {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.payment-option {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 20px;
+  background: #252525;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.payment-option:hover {
+  background: #2a2a2a;
+}
+
+.payment-option.active {
+  border-color: #00d4ff;
+  background: rgba(0, 212, 255, 0.08);
+}
+
+.payment-icon {
+  font-size: 1.8rem;
+  width: 50px;
+}
+
+.payment-option strong {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.payment-option small {
+  color: #888;
+}
+
+/* Button */
+.btn-complete {
+  width: 100%;
+  margin-top: 32px;
+  padding: 18px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #00d4ff, #0099cc);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-complete:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px rgba(0, 212, 255, 0.3);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .main-content {
+    grid-template-columns: 1fr;
+  }
+  
+  .page-title {
+    font-size: 1.9rem;
+  }
+}
+/* image */
+.product-thumb {
+  width: 60px;
+  height: 60px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.product-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 🔥 giữ ảnh không méo */
+}
+.hidden {
+  display: none;
+}
+
+/* checkout success */
+.success-container {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.success-card {
+    background: #1a1a1a;
+    padding: 40px;
+    border-radius: 16px;
+    text-align: center;
+    width: 400px;
+    border: 1px solid #333;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.success-icon {
+    width: 70px;
+    height: 70px;
+    background: #00ff9d;
+    color: #000;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    margin: 0 auto 20px;
+    font-weight: bold;
+}
+
+.success-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #fff;
+}
+
+.success-text {
+    color: #aaa;
+    margin-bottom: 25px;
+}
+
+.order-info {
+    text-align: left;
+    margin-bottom: 25px;
+}
+
+.order-info p {
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.action-buttons a {
+    flex: 1;
+    padding: 12px;
+    border-radius: 10px;
+    text-decoration: none;
+    text-align: center;
+    font-weight: 600;
+}
+
+.btn-home {
+    background: #333;
+    color: #fff;
+}
+
+.btn-order {
+    background: #00d4ff;
+    color: #000;
+}

@@ -1,4 +1,4 @@
-const Cart = require("../../model/cart.router");
+const Cart = require("../../model/cart.model");
 const Product = require("../../model/product.model");
 
 const newPriceHelper = require("../../helper/newPrice.helper");
@@ -75,9 +75,27 @@ module.exports.index = async (req, res) => {
         }, 0);
         cart.totalPrice = totalPrice;
     }
+    if(req.query.quantity){
+        let[newQuantity, idProduct] = req.query.quantity.split("-");
+        newQuantity = parseInt(newQuantity);
+        const product = await Product.findOne({
+            _id: idProduct
+        });
+        if(newQuantity <= product.stock){
+            await Cart.updateOne({
+                _id: cart._id,
+                "product.product_id": idProduct
+            }, {
+                $set: {
+                    "product.$.quantity": newQuantity
+                }
+            });
+            req.flash("success", "Cập nhật số lượng thành công!");
+        }
+    }
     res.render("client/page/cart/index", {
         titlePage: "Giỏ hàng",
-        cart: cart
+        myCart: cart
     });
 }
 

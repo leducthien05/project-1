@@ -1,0 +1,106 @@
+extends ../../layout/default.pug
+
+block content
+
+    .checkout-container
+        h1.page-title Hoàn tất đơn hàng
+        form(
+            action="/checkout",         
+            method="post"
+        ) 
+            input(
+                class="hidden"
+                type="text"
+                name="totalPrice"
+                value=myCart.totalPrice
+            )
+            div(class="main-content")
+                // Box 1: Thông tin người đặt
+                div(class="info-box")
+                    h2(class="box-title") Thông tin người đặt
+                    
+                    div(class="form-grid")
+                        div(class="form-group")
+                            label Họ và tên
+                            input(
+                                type="text"  
+                                name="userName"
+                                placeholder="Họ và tên"
+                            )
+                        
+                        div(class="form-group")
+                            label Số điện thoại
+                            input(
+                                type="text" 
+                                name="phone"
+                                placeholder="Số điện thoại"
+                            )
+                            
+                        div(class="form-group").full-width
+                            label Địa chỉ nhận hàng
+                            input(
+                                name="address"
+                                type="text"
+                                placeholder="Địa chỉ "
+                            )
+
+                // Box 2: Thông tin đơn hàng
+                div(class="info-box")
+                    h2(class="box-title") Thông tin đơn hàng
+                        table(class="order-table")
+                            thead
+                                tr
+                                    th Ảnh
+                                    th Sản phẩm
+                                    th Số lượng
+                                    th Giá
+
+                            tbody
+                                each item in myCart.product
+                                    tr
+                                        td
+                                            div(class="product-info")
+                                                div(class="product-thumb")
+                                                    img(src=item.image alt="")
+                                        td
+                                            span(class="product-name") #{item.productInfo.name}
+
+                                        td #{item.quantity}
+
+                                        td #{item.totalPrice.toLocaleString('vi-VN') + ' ₫'}
+
+                    .order-summary
+                        .summary-row.total
+                            span Tổng cộng
+                            span #{myCart.totalPrice.toLocaleString('vi-VN') + ' ₫'}
+
+                // Box 3: Phương thức thanh toán
+                div(class="info-box")
+                    h2.box-title Phương thức thanh toán
+                        .payment-methods
+                            label(class="payment-option")
+                                input(
+                                    type="radio" 
+                                    name="paymentMethod"
+                                    value="e-wallet"
+                                )
+                                span(class="payment-icon") 📱
+                                div
+                                    strong Ví điện tử
+                                    small Momo, ZaloPay, VNPAY
+
+                            label(class="payment-option")
+                                input(
+                                    type="radio" 
+                                    name="paymentMethod"
+                                    value="moneycash"
+                                )
+                                span(class="payment-icon") 🏪
+                                div
+                                    strong Thanh toán khi nhận hàng (COD)
+
+            button(
+                type="submit"
+                class="btn-complete"
+                ) Hoàn tất thanh toán
+    script(src="/client/JS/checkout.js") 

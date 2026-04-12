@@ -42,8 +42,11 @@ block content
                                 class="quantity" 
                                 type="number" 
                                 min="1"
+                                max=item.productInfo.stock
                                 name="quantity" 
                                 value=item.quantity
+                                quantity-product 
+                                id_product = item.product_id
                             )
                         td 
                             div(class="discount") -#{item.discountPercentage}%
@@ -61,6 +64,18 @@ block content
                                 //-     class="btn btn-primary flex-fill"
                                 //-     href=`/product/detail/${item.product_id}`
                                 //- ) Chi tiết
+    //- Checkout bar
+    .checkout-bar
+        .checkout-left
+            span(class="total-label") Tổng tiền:
+            span(class="total-price") 
+                | #{myCart.totalPrice ? myCart.totalPrice.toLocaleString('vi-VN') : '0'} ₫
+
+        .checkout-right
+            a(
+                href="/checkout"
+                class="btn-checkout"
+            ) Thanh toán
     form(
         action=`/cart/delete/`, 
         method="post"

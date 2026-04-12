@@ -1,0 +1,27 @@
+extends ../../layout/default.pug
+
+block content
+    .success-container
+        .success-card
+
+            .success-icon ✓
+
+            h1.success-title Đặt hàng thành công!
+
+            p.success-text
+                | Cảm ơn bạn đã mua hàng. Đơn hàng của bạn đã được ghi nhận.
+
+            .order-info
+                p
+                    strong Mã đơn hàng:
+                    |  #{order._id || "ORD123456"}
+                p
+                    strong Tổng tiền:
+                    |  #{order.totalPrice}đ
+                p
+                    strong Phương thức thanh toán:
+                    |  #{order.paymentMethod}
+
+            .action-buttons
+                a.btn-home(href="/") Về trang chủ
+                a.btn-order(href="/order") Xem đơn hàng
