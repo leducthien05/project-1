@@ -5,6 +5,7 @@ const filterStatus = require("../../helper/filterStatus.helper");
 const searchOrder = require("../../helper/search.helper");
 const criteria = require("../../helper/criteria.helper");
 const pagination = require("../../helper/pagination.helper");
+const helperPrice = require("../../helper/newPrice.helper");
 
 //[GET] /admin/orders
 module.exports.index = async (req, res) => {
@@ -154,6 +155,7 @@ module.exports.detail = async (req, res)=>{
         }
         item.name = product.name;
     }
+    order.product = helperPrice.newPriceArray(order.product);
     res.render("admin/page/order/detail", {
         titlePage: "Chi tiết đơn hàng", 
         order: order
