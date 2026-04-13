@@ -63,14 +63,23 @@ nav.navbar.navbar-expand-lg.fixed-top
             class="position-absolute translate-middle badge bg-danger rounded-pill" 
             style="font-size:0.7rem; margin-left: -8px;"
           ) #{cart.totalQuantity ? cart.totalQuantity : 0}
-
-        a(
-          class="text-light fs-4" 
-          href="/user/info"
-        )
-          i(class="fas fa-user")
-        a(
-          class="text-light fs-1"
-          href="/user/logout"
-        )
-          i(class="fa-solid fa-right-from-bracket fa-xs")
+        if(user)
+          a(
+            class="text-light fs-4" 
+            href="/user/info"
+          )
+            i(class="fas fa-user")
+          a(
+            class="text-light fs-1"
+            href="/user/logout"
+          )
+            i(class="fa-solid fa-right-from-bracket fa-xs")
+        else 
+          a(
+            href="/user/register"
+          )
+            i(class="fa-solid fa-user-plus fa-lg")
+          a(
+            href="/user/login"
+          )
+            i(class="fa-solid fa-user fa-lg")

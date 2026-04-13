@@ -73,9 +73,6 @@ module.exports.detail = async (req, res)=>{
     const product = await Product.findOne({
         _id: id
     });
-    if(product.brand_id){
-        
-    }
     const brand = await Brand.findOne({
         id: product.brand_id,
         deleted: false,
@@ -100,7 +97,7 @@ module.exports.category = async (req, res)=>{
         status: "active",
         deleted: false
     });
-    const arrCategory = await subCategoryHelper.subCategory(category._id);
+    const arrCategory = await subCategoryHelper.subCategory(category.id);
     const idCategory = arrCategory.map(item => item._id);
     const product = await Product.find({
         category_id: {$in: [category._id, ...idCategory]},
