@@ -7,14 +7,13 @@ block content
             .success-icon ✓
 
             h1.success-title Đặt hàng thành công!
-
             p.success-text
                 | Cảm ơn bạn đã mua hàng. Đơn hàng của bạn đã được ghi nhận.
 
             .order-info
                 p
                     strong Mã đơn hàng:
-                    |  #{order._id || "ORD123456"}
+                    |  #{order.order_id || "ORD123456"}
                 p
                     strong Tổng tiền:
                     |  #{order.totalPrice}đ
@@ -23,5 +22,11 @@ block content
                     |  #{order.paymentMethod}
 
             .action-buttons
-                a.btn-home(href="/") Về trang chủ
-                a.btn-order(href="/order") Xem đơn hàng
+                a(
+                    class="btn-home" 
+                    href="/"
+                ) Về trang chủ
+                a(
+                    class="btn-order" 
+                    href="/order"
+                ) Xem đơn hàng

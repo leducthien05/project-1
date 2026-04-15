@@ -30,11 +30,28 @@ module.exports.index = async (req, res) => {
 }
 // [POST] /checkout
 module.exports.payment = async (req, res) => {
-    console.log(req.body)
+    // Tạo mã đơn hàng
     const order_id = `DH${Date.now()}`;
     const cart = await Cart.findOne({
         _id: req.cookies.cartID
     });
+    console.log(cart)
+    // Cập nhật số lượng tồn kho
+    for (const product of cart.product) {
+        const productInfo = await Product.findOne({
+            _id: product.product_id
+        }).select("name");
+        const updateProduct = await Product.updateOne({
+            _id: product.product_id,
+            stock: { $gte: product.quantity } //So sánh số lượng trong kho: lớn hơn hoặc bằng
+        }, {
+            $inc: { stock: -product.quantity } // trừ trực tiếp vào trong database
+        });
+        if (updateProduct.modifiedCount === 0) {
+            req.flash("error", `Sản phẩm ${productInfo.name} không đủ hàng`);
+            return res.redirect("/cart");
+        }
+    }
     const order = {
         userInfo: {
             userName: req.body.userName,
@@ -56,14 +73,16 @@ module.exports.payment = async (req, res) => {
             product: []
         }
     });
+
     res.redirect(`/checkout/success/${order.order_id}`);
 }
-// [POST] /checkout/success/:id
+// [POST] /checkout/success/:order_id
 module.exports.success = async (req, res) => {
-    const order_id = req.params.id
+    const order_id = req.params.order_id
     const order = await Order.findOne({
         order_id: order_id
     });
+    console.log(order)
     res.render("client/page/checkout/success", {
         titlePage: "Đặt hàng thành công",
         order: order

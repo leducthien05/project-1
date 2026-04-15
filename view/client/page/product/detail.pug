@@ -33,33 +33,30 @@ block content
 
                     p(class="product-desc") !{product.description}
 
-                    
-                    form(
-                            action=`/cart/add/${product._id}`
-                            method="POST"
-                        )
-                            div(class="quantity-box")
-                                input(
-                                    type="number" 
-                                    value=1
-                                    name="quantity"
-                                    min=1
-                                    max=product.stock
-                                )
-                            button(
-                                class = "btn btn-add"
-                                type="submit"
-                            ) Thêm vào giỏ hàng
+                    if(product.stock > 0)
+                        form(
+                                action=`/cart/add/${product._id}`
+                                method="POST"
+                            )
+                                div(class="quantity-box")
+                                    input(
+                                        type="number" 
+                                        value=
+                                        name="quantity"
+                                        min=1
+                                        max=product.stock
+                                    )
+                                button(
+                                    class = "btn btn-add"
+                                    type="submit"
+                                ) Thêm vào giỏ hàng
+                    else 
+                        div(class="product-price")
+                            span(class="price-new") Hết hàng
                     
 
         //- Mô tả chi tiết
         div(class="product-detail mt-5")
             h4 Mô tả chi tiết
             p #{product.detail}
-        .d-flex.justify-content-end.mt-4
-            a(
-                href="/cart/checkout"
-                class="btn btn-success btn-lg"
-                id="btnCheckout"
-            ) Thanh toán
     script(src="/admin/JS/product.js") 
