@@ -840,3 +840,233 @@ font-size: 14px; /* ✅ thêm dòng này */
     background: #00d4ff;
     color: #000;
 }
+
+/* btn list order */
+.cart-container .cart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cart-container .order-title {
+    margin: 0;
+}
+/* order index */
+.section-order {
+  padding: 30px;
+  background: #0f172a;
+  min-height: 100vh;
+  color: #e5e7eb;
+  font-family: Arial, sans-serif;
+}
+
+.order-container {
+  max-width: 1100px;
+  margin: auto;
+}
+
+.order-title {
+  font-size: 26px;
+  margin: 24px;
+  font-weight: bold;
+}
+
+/* Table */
+.order-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #1e293b;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* Header */
+.order-table thead {
+  background: #020617;
+}
+
+.order-table th,
+.order-table td {
+  padding: 14px;
+  text-align: left;
+  border-bottom: 1px solid #334155;
+}
+
+/* Row hover */
+.order-table tbody tr:hover {
+  background: #334155;
+}
+
+/* Status */
+.status {
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  display: inline-block;
+}
+
+.status.done {
+  background: #16a34a;
+  color: #fff;
+}
+
+.status.pending {
+  background: #facc15;
+  color: #000;
+}
+
+.status.cancel {
+  background: #dc2626;
+  color: #fff;
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+.btn {
+  padding: 6px 10px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 13px;
+  transition: 0.2s;
+}
+
+.btn.view {
+  background: #3b82f6;
+  color: white;
+}
+
+.btn.view:hover {
+  background: #2563eb;
+}
+
+.btn.delete {
+  background: #ef4444;
+  color: white;
+}
+
+.btn.delete:hover {
+  background: #dc2626;
+}
+/* detail order */
+.section-order-detail {
+  padding: 30px;
+  background: #0f172a;
+  min-height: 100vh;
+  color: #e5e7eb;
+}
+
+.detail-container {
+  max-width: 1000px;
+  margin: auto;
+}
+
+.detail-title {
+  font-size: 26px;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.sub-title {
+  margin: 25px 0 10px;
+  font-size: 20px;
+}
+
+/* INFO BOX */
+.order-info {
+  background: #1e293b;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #334155;
+}
+
+.info-row:last-child {
+  border-bottom: none;
+}
+
+.label {
+  color: #94a3b8;
+}
+
+/* TABLE */
+.order-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #1e293b;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.order-table th,
+.order-table td {
+  padding: 12px;
+  border-bottom: 1px solid #334155;
+  text-align: left;
+}
+
+.order-table thead {
+  background: #020617;
+}
+
+.order-table tbody tr:hover {
+  background: #334155;
+}
+
+/* STATUS */
+.status {
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  display: inline-block;
+}
+
+.status.done {
+  background: #16a34a;
+  color: white;
+}
+
+.status.pending {
+  background: #facc15;
+  color: black;
+}
+
+.status.cancel {
+  background: #dc2626;
+  color: white;
+}
+
+/* TOTAL */
+.total-box {
+  margin-top: 20px;
+  padding: 15px;
+  background: #1e293b;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 18px;
+}
+
+/* BACK BUTTON */
+.back-btn {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 14px;
+  background: #3b82f6;
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+}
+
+.back-btn:hover {
+  background: #2563eb;
+}

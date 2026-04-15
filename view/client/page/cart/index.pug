@@ -1,9 +1,14 @@
 extends ../../layout/default.pug
 
 block content
-    div.cart-container
-        h2(class="title") Giỏ hàng của bạn
-
+    div(class="cart-container")
+        div(class="cart-header")
+            h2(class="title") Giỏ hàng của bạn
+            if(user)
+                a(
+                    class="btn btn-primary"
+                    href="/order"
+                ) Đơn hàng của bạn
         table(class="cart-table")
             thead
                 tr

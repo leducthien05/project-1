@@ -1,0 +1,57 @@
+extends ../../layout/default.pug
+include ../../mixin/converTime.pug
+
+block content
+    .section-order-detail
+        div(class="detail-container")
+            h1(class="detail-title") Chi tiết đơn hàng
+            //- Thông tin đơn
+            .order-info
+                .info-row
+                    span.label Mã đơn:
+                    span.value #{myOrder.order_id}
+
+                .info-row
+                    span.label Khách hàng:
+                    span.value #{myOrder.userInfo.userName}
+
+                .info-row
+                    if(myOrder.createdBy.createdAt)
+                        span(class="label") Ngày đặt:
+                        span(class="value") 
+                            +date(myOrder.createdBy.createdAt)
+
+                .info-row
+                    if (myOrder.status === 'finish')
+                        span(class="status done") Hoàn thành
+                    else if (myOrder.status === 'pending')
+                        span(class="status pending") Đang xử lý
+                    else
+                        span(class="status cancel") Đã hủy
+
+            h2.sub-title Sản phẩm trong đơn hàng
+
+            table(class="order-table")
+                thead
+                    tr
+                    th Sản phẩm
+                    th Số lượng
+                    th Giá
+                    th Thành tiền
+
+                tbody
+                    each item in myOrder.product
+                        tr
+                            td #{item.productInfo.name}
+                            td #{item.quantity}
+                            td #{item.productInfo.newPrice}₫
+                            td #{item.quantity * item.productInfo.newPrice}₫
+
+        //- Tổng tiền
+        .total-box
+            span Tổng thanh toán:
+            strong #{myOrder.totalPrice}₫
+
+            a(class="back-btn" href="/order") ← Quay lại danh sách
+    
+    

@@ -1,0 +1,55 @@
+extends ../../layout/default.pug
+include ../../mixin/converTime.pug
+
+block content
+    //- Order List Page
+    .section-order
+        div(class="order-container")
+            h1(class="order-title") Danh sách đơn hàng
+
+            table(class="order-table")
+                thead
+                    tr
+                    th Mã đơn
+                    th Khách hàng
+                    th Ngày
+                    th Tổng tiền
+                    th Trạng thái
+                    th Hành động
+
+                tbody
+                    each order in myOrder
+                        tr
+                            td #{order.order_id}
+                            td #{order.userInfo.userName}
+                            td
+                                if(order.createdBy.createdAt)
+                                    p 
+                                        +date(order.createdBy.createdAt)
+                            td #{order.totalPrice}₫
+
+                            td
+                                if (order.status === 'finish')
+                                    span(class="status done") Hoàn thành
+                                else if (order.status === 'pending')
+                                    span(class="status pending") Đang xử lý
+                                else
+                                    span(class="status cancel") Đã hủy
+
+                            td
+                                a(
+                                    class="btn view"
+                                    href=`/order/detail/${order._id}`
+                                ) Xem
+                                if(order.status === "pending")
+                                    button(
+                                        class="btn delete" 
+                                        btn-delete
+                                        btn-id = order._id
+                                    ) Hủy
+    form(
+        action = `/order/cacel`
+        method="post"
+        form-delete
+    )
+    script(src="/admin/JS/product.js") 

@@ -28,7 +28,13 @@ const orderSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    
+    createdBy: {
+        user_id: String,
+        createdAt: {
+            type: Date,
+            default: Date.now
+        }
+    },
     updatedBy: [
         {  
             account_id: String,

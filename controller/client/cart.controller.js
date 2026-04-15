@@ -3,7 +3,7 @@ const Product = require("../../model/product.model");
 
 const newPriceHelper = require("../../helper/newPrice.helper");
 
-// [GET] /cart/add/:id
+// [POST] /cart/add/:id
 module.exports.add = async (req, res) => {
     const id = req.params.id;
     const quantity = parseInt(req.body.quantity);

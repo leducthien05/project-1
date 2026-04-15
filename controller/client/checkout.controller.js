@@ -35,7 +35,6 @@ module.exports.payment = async (req, res) => {
     const cart = await Cart.findOne({
         _id: req.cookies.cartID
     });
-    console.log(cart)
     // Cập nhật số lượng tồn kho
     for (const product of cart.product) {
         const productInfo = await Product.findOne({
@@ -64,6 +63,16 @@ module.exports.payment = async (req, res) => {
         totalPrice: req.body.totalPrice,
         position: 1
     }
+    const user_id = res.locals.user.id;
+    const createdBy = {
+        createdAt: new Date()
+    }
+    if(user_id){
+        order.user_id = user_id;
+        createdBy.user_id = user_id;
+        order.createdBy = createdBy;
+    }
+    
     const infoOrder = new Order(order);
     await infoOrder.save();
     await Cart.updateOne({
@@ -82,7 +91,6 @@ module.exports.success = async (req, res) => {
     const order = await Order.findOne({
         order_id: order_id
     });
-    console.log(order)
     res.render("client/page/checkout/success", {
         titlePage: "Đặt hàng thành công",
         order: order
