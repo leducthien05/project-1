@@ -65,6 +65,7 @@ module.exports.payment = async (req, res) => {
     }
     const user_id = res.locals.user.id;
     const createdBy = {
+        user_id: user_id,
         createdAt: new Date()
     }
     if(user_id){

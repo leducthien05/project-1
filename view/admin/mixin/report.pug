@@ -1,0 +1,30 @@
+mixin report(record)
+    // Tổng đơn
+    .col-md-3
+        .card.shadow-sm.stat-card
+            .card-body
+                .d-flex.justify-content-between
+                    div
+                        p Tổng đơn
+                        h3.mb-1 #{record.length}
+                    i.bi.bi-receipt.fs-2.text-primary
+
+    // Hoàn thành
+    .col-md-3
+        .card.shadow-sm.stat-card
+            .card-body
+                .d-flex.justify-content-between
+                    div
+                        p Hoàn thành
+                        h3.mb-1 #{record.orderFinish}
+                    i.bi.bi-check-circle.fs-2.text-success
+
+    // Chờ xử lý
+    .col-md-3
+        .card.shadow-sm.stat-card
+            .card-body
+                .d-flex.justify-content-between
+                    div
+                        p Chờ xử lý
+                        h3.mb-1 #{record.orderPending}
+                    i.bi.bi-hourglass-split.fs-2.text-warning

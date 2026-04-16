@@ -121,8 +121,7 @@ module.exports.forgotPost = async (req, res) => {
 }
 // [GET] /user/forgot-password/otp
 module.exports.getOtp = async (req, res) => {
-    const email = req.query.email;
-    
+    const email = req.query.email; 
     res.render("client/page/auth/getOtp", {
         titlePage: "Nhập OTP",
         email: email

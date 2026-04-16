@@ -34,6 +34,15 @@ module.exports.index = async (req, res) => {
     order.forEach((item, index) => {
         item.indexItem = index + 1 + objectPage.skipRecord;
     });
+    const orderFinish = await Order.countDocuments({
+        status: "completed"
+    });
+    const orderPending = await Order.countDocuments({
+        status: "pending"
+    });
+    console.log(orderFinish, orderPending)
+    order.orderFinish = orderFinish;
+    order.orderPending = orderPending;
     res.render("admin/page/order/index", {
         titlePage: "Đơn hàng",
         order: order,
@@ -78,7 +87,7 @@ module.exports.changeMulti = async (req, res) => {
                 ); 
                 req.flash("success", `Cập nhật thành công ${ ids.length } đơn hàng`); 
                 break; 
-            case "processing":
+            case "finish":
                 await Order.updateMany(
                     { _id: {$in: ids} }, 
                     { 
@@ -88,17 +97,7 @@ module.exports.changeMulti = async (req, res) => {
                 ); 
                 req.flash("success", `Cập nhật thành công ${ ids.length } đơn hàng`); 
                 break; 
-            case "completed":
-                await Order.updateMany(
-                    { _id: {$in: ids} }, 
-                    { 
-                        $set: {status: status},
-                        $push: {updatedBy: updatedBy}
-                    }
-                ); 
-                req.flash("success", `Cập nhật thành công ${ ids.length } đơn hàng`); 
-                break; 
-            case "cancel": 
+            case "canceled": 
                 await Order.updateMany(
                     { _id: {$in: ids} }, 
                     { 
@@ -156,6 +155,7 @@ module.exports.detail = async (req, res)=>{
         item.name = product.name;
     }
     order.product = helperPrice.newPriceArray(order.product);
+    
     res.render("admin/page/order/detail", {
         titlePage: "Chi tiết đơn hàng", 
         order: order

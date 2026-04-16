@@ -46,7 +46,7 @@ module.exports.cacel = async (req, res) => {
         }, {
             $set: {
                 deleted: true,
-                status: "caceled"
+                status: "canceled"
             },
         });
     } catch (error) {

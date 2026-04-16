@@ -6,55 +6,14 @@ include ../../mixin/OptionChangeMulti.pug
 include ../../mixin/alert.pug
 include ../../mixin/sort.pug
 include ../../mixin/convertTime.pug
+include ../../mixin/report.pug
 
 block main
     +success(3000)
     if(roleAccount.permission.includes("order_view"))
         .row.mb-4
-
-            // Tổng đơn
-            .col-md-3
-                .card.shadow-sm.stat-card
-                    .card-body
-                        .d-flex.justify-content-between
-                            div
-                                p Tổng đơn
-                                h3.mb-1 #{order.length}
-                                span.text-success ▲ 8.2%
-                            i.bi.bi-receipt.fs-2.text-primary
-
-            // Hoàn thành
-            .col-md-3
-                .card.shadow-sm.stat-card
-                    .card-body
-                        .d-flex.justify-content-between
-                            div
-                                p Hoàn thành
-                                h3.mb-1 938
-                                span.text-success ▲ 5.1%
-                            i.bi.bi-check-circle.fs-2.text-success
-
-            // Chờ xử lý
-            .col-md-3
-                .card.shadow-sm.stat-card
-                    .card-body
-                        .d-flex.justify-content-between
-                            div
-                                p Chờ xử lý
-                                h3.mb-1 124
-                                span.text-danger ▼ 2.3%
-                            i.bi.bi-hourglass-split.fs-2.text-warning
-
-            // Doanh thu
-            .col-md-3
-                .card.shadow-sm.stat-card
-                    .card-body
-                        .d-flex.justify-content-between
-                            div
-                                p Doanh thu
-                                h3.mb-1 184M
-                                span.text-success ▲ 12.4%
-                            i.bi.bi-cash-stack.fs-2.text-info
+            +report(order)
+            
             .card.shadow-sm
                 .card-body
                     h5.mb-3 Bộ lọc và Tìm kiếm
@@ -135,75 +94,28 @@ block main
                                     class="text-success"
                                 ) #{item.totalPrice} VNĐ
                                 td
-                                    if(roleAccount.permission.includes("order_edit"))
-                                        -if (item.status == "pending")
-                                            a(
-                                                href="javascript:;"
-                                                class="badge bg-warning"
-                                                change-status
-                                                status=item.status
-                                                id=item.id
-                                            ) Chờ xử lý
-                                        -else if (item.status == "shipping")
-                                            a(
-                                                href="javascript:;"
-                                                class="badge bg-info"
-                                                change-status
-                                                status=item.status
-                                                id=item.id
-                                            ) Đang giao
-                                        -else if (item.status == "completed")
-                                            a(
-                                                href="javascript:;"
-                                                class="badge bg-success"
-                                                change-status
-                                                status=item.status
-                                                id=item.id
-                                            ) Hoàn thành
-                                        -else if(item.status== "processing")
-                                            a(
-                                                href="javascript:;"
-                                                class="badge bg-warning"
-                                                change-status
-                                                status=item.status
-                                                id=item.id
-                                            ) Đang xử lý
-                                        -else
-                                            a(
-                                                href="javascript:;"
-                                                class="badge bg-danger"
-                                                change-status
-                                                status=item.status
-                                                id=item.id
-                                            ) Đã hủy
-                                    else 
-                                        -if (item.status == "pending")
-                                            a(
-                                                href="javascript:;"
-                                                class="badge bg-warning"
-                                            ) Chờ xử lý
-                                        -else if (item.status == "shipping")
-                                            a(
-                                                href="javascript:;"
-                                                class="badge bg-info"
-                                            ) Đang giao
-                                        -else if (item.status == "completed")
-                                            a(
-                                                href="javascript:;"
-                                                class="badge bg-success"
-                                            ) Hoàn thành
-                                        -else if(item.status== "processing")
-                                            a(
-                                                href="javascript:;"
-                                                class="badge bg-warning"
-                                            ) Đang xử lý
-                                        -else
-                                            a(
-                                                href="javascript:;"
-                                                class="badge bg-danger"
-                                            ) Đã hủy
+                                    -if (item.status == "pending")
+                                        a(
+                                            href="javascript:;"
+                                            class="badge bg-warning"
+                                        ) Chờ xử lý
+                                    -else if (item.status == "shipping")
+                                        a(
+                                            href="javascript:;"
+                                            class="badge bg-info"
+                                        ) Đang giao
+                                    -else if (item.status == "finish")
+                                        a(
+                                            href="javascript:;"
+                                            class="badge bg-success"
+                                        ) Hoàn thành
+                                    -else if(item.status=="canceled")
+                                        a(
+                                            href="javascript:;"
+                                            class="badge bg-danger"
+                                        ) Đã hủy
                                 td 
-                                    +date(item.createAt)
+                                    +date(item.createdBy.createdAt)
 
                                 td
                                     a(
