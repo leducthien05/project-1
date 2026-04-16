@@ -1070,3 +1070,255 @@ font-size: 14px; /* ✅ thêm dòng này */
 .back-btn:hover {
   background: #2563eb;
 }
+
+/* Info user */
+.section-user {
+  padding: 30px;
+  background: #0f172a;
+  min-height: 100vh;
+  color: #e5e7eb;
+}
+
+.info-container {
+  max-width: 800px;
+  margin: auto;
+}
+
+.info-title {
+  font-size: 26px;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+/* Profile Box */
+.profile-box {
+  display: flex;
+  gap: 20px;
+  background: #1e293b;
+  padding: 20px;
+  border-radius: 12px;
+  align-items: center;
+}
+
+/* Avatar */
+.avatar img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #334155;
+}
+
+/* Info */
+.info {
+  flex: 1;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #334155;
+}
+
+.info-row:last-child {
+  border-bottom: none;
+}
+
+.label {
+  color: #94a3b8;
+}
+
+/* Actions */
+.actions {
+  margin-top: 20px;
+  display: flex;
+  gap: 15px;
+}
+
+.btn {
+  padding: 10px 14px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+.btn.edit {
+  background: #3b82f6;
+  color: white;
+}
+
+.btn.edit:hover {
+  background: #2563eb;
+}
+
+.btn.password {
+  background: #f59e0b;
+  color: black;
+}
+
+.btn.password:hover {
+  background: #d97706;
+}
+
+/* edit info user */
+.section-user-edit {
+  padding: 30px;
+  background: #0f172a;
+  min-height: 100vh;
+  color: #e5e7eb;
+}
+
+.edit-info-container {
+  max-width: 600px;
+  margin: auto;
+}
+
+.edit-info-title {
+  font-size: 26px;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+/* Form */
+.form {
+  background: #1e293b;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+/* Form group */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  margin-bottom: 6px;
+  color: #94a3b8;
+}
+
+/* Input */
+.form-group input {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #334155;
+  background: #020617;
+  color: #e5e7eb;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #3b82f6;
+}
+
+/* Button */
+.btn-submit {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: #3b82f6;
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-submit:hover {
+  background: #2563eb;
+}
+
+/* Back button */
+.back-btn {
+  display: inline-block;
+  margin-top: 15px;
+  color: #94a3b8;
+  text-decoration: none;
+}
+
+.back-btn:hover {
+  color: #e5e7eb;
+}
+/* change password */
+.section-change-password {
+  padding: 40px;
+  background: #0f172a;
+  min-height: 100vh;
+  color: #e5e7eb;
+}
+
+.change-password-container {
+  max-width: 500px;
+  margin: auto;
+}
+
+.change-password-title {
+  font-size: 26px;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+/* Form */
+.change-password-form {
+  background: #1e293b;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+/* Group */
+.change-password-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.change-password-group label {
+  margin-bottom: 6px;
+  color: #94a3b8;
+}
+
+/* Input */
+.change-password-group input {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #334155;
+  background: #020617;
+  color: #e5e7eb;
+}
+
+.change-password-group input:focus {
+  outline: none;
+  border-color: #3b82f6;
+}
+
+/* Button */
+.change-password-btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: #22c55e;
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.change-password-btn:hover {
+  background: #16a34a;
+}
+
+/* Back */
+.change-password-back {
+  display: inline-block;
+  margin-top: 15px;
+  color: #94a3b8;
+  text-decoration: none;
+}
+
+.change-password-back:hover {
+  color: #e5e7eb;
+}

@@ -8,7 +8,7 @@ const generalHelper = require("../../helper/general.helper");
 
 // [GET] /user/register
 module.exports.register = async (req, res) => {
-    res.render("client/page/auth/register", {
+    res.render("client/page/user/register", {
         titlePage: "Đăng ký"
     });
 }
@@ -21,7 +21,7 @@ module.exports.registerPost = async (req, res) => {
     });
     if (existEmail) {
         req.flash("error", "Email đã tồn tại! Vui lòng nhập emai khác");
-        res.redirect("/auth/register");
+        res.redirect("/user/register");
         return;
     } else {
         req.body.password = await passwordHelper.hashPassword(req.body.password);
@@ -41,7 +41,7 @@ module.exports.registerPost = async (req, res) => {
 }
 // [GET] /user/login
 module.exports.login = async (req, res) => {
-    res.render("client/page/auth/login", {
+    res.render("client/page/user/login", {
         titlePage: "Đăng nhập"
     });
 }
@@ -52,7 +52,7 @@ module.exports.loginPost = async (req, res) => {
     });
     if (!existEmail) {
         req.flash("error", "Email không tồn tại!");
-        res.redirect("/auth/login");
+        res.redirect("/user/login");
         return;
     } else {
         const isPassword = await passwordHelper.comparePassword(
@@ -61,12 +61,12 @@ module.exports.loginPost = async (req, res) => {
         );
         if (!isPassword) {
             req.flash("error", "Password không đúng!");
-            res.redirect("/auth/login");
+            res.redirect("/user/login");
             return
         }
         if (existEmail.status != "active") {
             req.flash("error", "Tài khoản đã bị khóa!");
-            res.redirect("/auth/login");
+            res.redirect("/user/login");
             return;
         }
     }
@@ -86,7 +86,7 @@ module.exports.logout = async (req, res) => {
 }
 // [GET] /user/forgot-password
 module.exports.forgot = async (req, res) => {
-    res.render("client/page/auth/forgot-password", {
+    res.render("client/page/user/forgot-password", {
         titlePage: "Quên mật khẩu"
     });
 }
@@ -122,7 +122,7 @@ module.exports.forgotPost = async (req, res) => {
 // [GET] /user/forgot-password/otp
 module.exports.getOtp = async (req, res) => {
     const email = req.query.email; 
-    res.render("client/page/auth/getOtp", {
+    res.render("client/page/user/getOtp", {
         titlePage: "Nhập OTP",
         email: email
     });
@@ -140,7 +140,7 @@ module.exports.getOtpPost = async (req, res) => {
         req.flash("error", "Mã OTP không đúng hoặc đã hết hạn");
         return res.redirect(req.get("referer") || "/");
     }
-    res.render("client/page/auth/reset-password", {
+    res.render("client/page/user/reset-password", {
         titlePage: "Đặt lại mật khẩu",
         email: email
     });
@@ -148,7 +148,7 @@ module.exports.getOtpPost = async (req, res) => {
 // [GET] /user/reset-password
 module.exports.resetPassword = async (req, res) => {
     const email = req.body.email;
-    res.render("client/page/auth/reset-password", {
+    res.render("client/page/user/reset-password", {
         titlePage: "Đặt lại mật khẩu",
         email: email
     });
@@ -173,4 +173,66 @@ module.exports.resetPasswordPost = async (req, res) => {
         console.log(error);
     }
     res.redirect("/");
+}
+// [GET] /user/info
+module.exports.info = async (req, res) => {
+    res.render("client/page/user/info", {
+        titlePage: "Thông tin người dùng"
+    });
+}
+// [GET] /user/info
+module.exports.edit = async (req, res) => {
+    res.render("client/page/user/edit", {
+        titlePage: "Thông tin người dùng"
+    });
+}
+// [PATCH] /user/edit
+module.exports.editPatch = async (req, res) => {
+    const id = res.locals.user._id;
+    const existUser = await User.findOne({
+        _id: {$ne: id},
+        email: req.body.email,
+        status: "active",
+        deleted: false
+    });
+    if(existUser){
+        req.flash("error", "Email đã tồn tại");
+        res.redirect(req.get("referer") || "/");
+        return;
+    }
+    await User.updateOne({
+        _id: id
+    }, req.body);
+    res.redirect("/user/info");
+}
+// [GET] /user/change-password
+module.exports.changePassword = async (req, res) => {
+    res.render("client/page/user/change-password", {
+        titlePage: "Thay đổi mật khẩu"
+    });
+}
+// [POST] /user/change-password
+module.exports.changePasswordPost = async (req, res) => {
+    try {
+        const user = await User.findOne({
+            tokenUser: req.cookies.tokenUser
+        });
+        const equalPassword = await passwordHelper.comparePassword(req.body.password, user.password)
+        if(equalPassword != true){
+            req.flash("error", "Mật khẩu hiện tại không đúng");
+            res.redirect(req.get("referer") || "/");
+            return;
+        }
+        const password = await passwordHelper.hashPassword(req.body.newPassword);
+        await User.updateOne({
+            _id: user._id
+        }, {
+            $set: {
+                password: password
+            }
+        });
+    } catch (error) {
+        console.log(error);
+    }
+    res.redirect("/user/info");
 }

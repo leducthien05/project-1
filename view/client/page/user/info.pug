@@ -1,0 +1,34 @@
+extends ../../layout/default.pug
+include ../../mixin/pagination.pug
+include ../../mixin/alert.pug
+
+//- ==================== PHẦN BODY ====================
+block content
+    .section-user
+        .info-container
+            h1.info-title Thông tin cá nhân
+
+            .profile-box
+                .avatar
+                    img(src=user.avatar || "https://i.pinimg.com/originals/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg")
+
+                .info
+                    .info-row
+                        span.label Họ tên:
+                        span.value #{user.userName}
+
+                    .info-row
+                        span.label Email:
+                        span.value #{user.email}
+
+                    .info-row
+                        span.label Số điện thoại:
+                        span.value #{user.phone}
+
+                    .info-row
+                        span.label Ngày tạo:
+                        span.value #{user.createdAt}
+
+            .actions
+                a.btn.edit(href="/user/edit") Chỉnh sửa thông tin
+                a.btn.password(href="/user/change-password") Đổi mật khẩu

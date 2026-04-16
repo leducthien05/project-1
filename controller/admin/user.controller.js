@@ -37,7 +37,6 @@ module.exports.index = async (req, res)=>{
     user.forEach((item, index) => {
         item.indexUser = index + 1 + objectPage.skipRecord;
     });
-    console.log(user)
     res.render("admin/page/user/index", {
         titlePage: "Người dùng",
         user: user,

@@ -1,0 +1,53 @@
+extends ../../layout/default.pug
+include ../../mixin/pagination.pug
+include ../../mixin/alert.pug
+
+//- ==================== PHẦN BODY ====================
+block content
+    .section-user-edit
+        .edit-info-container
+            h1.edit-info-title Chỉnh sửa thông tin
+
+            form(
+                class="form"
+                method="POST" 
+                action="/user/edit" 
+                enctype="multipart/form-data"
+            )
+            
+                .form-group
+                    label Họ tên
+                    input(
+                        type="text" 
+                        name="userName" 
+                        value=user.userName 
+                        required
+                    )
+
+                .form-group
+                    label Email
+                    input(
+                        type="email" 
+                        name="email" 
+                        value=user.email 
+                        required
+                    )
+
+                .form-group
+                    label Số điện thoại
+                    input(
+                        type="text" 
+                        name="phone" 
+                        value=user.phone
+                    )
+
+                .form-group
+                    label Ảnh đại diện
+                    input(
+                        type="file" 
+                        name="avatar"
+                    )
+
+                button.btn-submit(type="submit") Lưu thay đổi
+
+            a.back-btn(href="/user/info") ← Quay lại
