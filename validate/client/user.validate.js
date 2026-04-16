@@ -30,3 +30,12 @@ module.exports.login = (req, res, next)=>{
     }
     next();
 }
+
+module.exports.forgot = (req, res, next)=>{
+    if(!req.body.email){
+        req.flash("error", "Nhập email");
+        res.redirect(req.get("referer") || "/");
+        return;
+    }
+    
+}

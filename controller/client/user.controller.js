@@ -1,15 +1,16 @@
 const User = require("../../model/user.model");
 const Cart = require("../../model/cart.model");
+const ForgotPassword = require("../../model/forgot-password.model");
 
 const passwordHelper = require("../../helper/password.helper");
 
-// [GET] /auth/register
+// [GET] /user/register
 module.exports.register = async (req, res)=>{
     res.render("client/page/auth/register", {
         titlePage: "Đăng ký"
     });
 }
-// [POST] /auth/register
+// [POST] /user/register
 module.exports.registerPost = async (req, res)=>{
     const existEmail = await User.findOne({
         email: req.body.email,
@@ -36,13 +37,13 @@ module.exports.registerPost = async (req, res)=>{
     
     res.redirect("/");
 }
-// [GET] /auth/login
+// [GET] /user/login
 module.exports.login = async (req, res)=>{
     res.render("client/page/auth/login", {
         titlePage: "Đăng nhập"
     });
 }
-// [POST] /auth/login
+// [POST] /user/login
 module.exports.loginPost = async (req, res)=>{
     const existEmail = await User.findOne({
         email: req.body.email
@@ -80,4 +81,25 @@ module.exports.logout = async (req, res)=>{
     res.clearCookie("cartID");
     res.redirect("/");
 
+}
+// [GET] /user/forgot-password
+module.exports.forgot = async (req, res)=>{
+    res.render("client/page/auth/forgot-password", {
+        titlePage: "Quên mật khẩu"
+    });
+}
+// [POST] /user/forgot-password
+module.exports.forgotPost = async (req, res)=>{
+    console.log(req.body);
+    const user = await User.findOne({
+        email: req.body.email,
+        status: "active",
+        deleted: false
+    });
+    if(!user){
+        req.flash("error", "Email không tồn tại hoặc tài khoản đã bị khóa");
+        return res.redirect(req.get("referer") || "/");
+    }
+    
+    res.send("OK");
 }
