@@ -1,4 +1,54 @@
 extends ../../layout/default.pug
 
 block main
-    h3 Hello
+    .section-ad-dash
+
+        // ===== Thông tin tài khoản =====
+        .ad-dash-account
+            .ad-dash-account-title Thông tin tài khoản
+
+            .ad-dash-account-body
+                .ad-dash-avatar
+                    if accountAdmin.avatar
+                        img(src=accountAdmin.avatar alt="")
+                    else
+                        .ad-dash-avatar-placeholder
+
+                .ad-dash-info
+                    p
+                        span.label Email:
+                        b= accountAdmin.email
+
+                    p
+                        span.label Số điện thoại:
+                        b= accountAdmin.phone || '---'
+
+                    p
+                        span.label Phân quyền:
+                        b= roleAccount.name
+
+        // ===== Dashboard stats =====
+        .ad-dash-grid
+            each item in statistic
+                .ad-dash-box
+                    .ad-dash-box-title #{item.name}
+                    .ad-dash-box-body
+                        p Số lượng: 
+                            b #{item.total}
+                        p Hoạt động: 
+                            b #{item.active}
+                        p Dừng hoạt động: 
+                            b #{item.inactive}
+
+            .ad-dash-box
+                .ad-dash-box-title Đơn hàng
+                .ad-dash-box-body
+                    p Số lượng: 
+                        b #{statisticOrder.total}
+                    p Chờ xử lý: 
+                        b #{statisticOrder.pending}
+                    p Đang giao: 
+                        b #{statisticOrder.shipping}
+                    p Hoàn thành: 
+                        b #{statisticOrder.finish}
+            

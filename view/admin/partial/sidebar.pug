@@ -69,10 +69,13 @@
           |  Tài khoản
 
     // ===== Hệ thống =====
-    li.menu-title
+    li(class="menu-title")
       i(class="bi bi-gear")
       |  Hệ thống
-    if(roleAccount.permission.includes("settingsgeneral"))
-      
+    if(roleAccount.permission.includes("settinggeneral"))
+      li(class="menu-item")
+        a(href=`${prefixAdmin}/settinggeneral`)
+          i(class="bi bi-gear-wide-connected")
+          |  Cài đặt chung
       
   script(src="/admin/JS/sidebar.js") 

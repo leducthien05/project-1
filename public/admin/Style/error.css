@@ -1,0 +1,59 @@
+/* Reset nhẹ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Section */
+.nf404-section {
+  height: 100vh;
+  background: linear-gradient(135deg, #020617, #0f172a);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Arial, sans-serif;
+  color: #e2e8f0;
+}
+
+/* Container */
+.nf404-container {
+  text-align: center;
+}
+
+/* 404 number */
+.nf404-code {
+  font-size: 90px;
+  font-weight: bold;
+  color: #3b82f6;
+}
+
+/* Title */
+.nf404-title {
+  font-size: 22px;
+  margin: 10px 0;
+}
+
+/* Description */
+.nf404-desc {
+  font-size: 14px;
+  color: #94a3b8;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+/* Button */
+.nf404-btn {
+  display: inline-block;
+  padding: 10px 16px;
+  background: #3b82f6;
+  border-radius: 8px;
+  color: #fff;
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+.nf404-btn:hover {
+  background: #2563eb;
+  transform: translateY(-1px);
+}

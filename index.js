@@ -53,6 +53,11 @@ const routerClient = require("./router/client/index.router");
 //Gọi hàm sử dụng router
 routerClient(app);
 router(app);
+app.use((req, res)=>{
+    res.status(404).render("admin/page/error/404", {
+        titlePage: "404"
+    });
+});
 //Lắng nghe port
 app.listen(port, ()=>{
     console.log(`Server chạy ở ${port}`);

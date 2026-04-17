@@ -290,3 +290,4 @@ module.exports.detail = async (req, res) => {
         account: account
     });
 }
+

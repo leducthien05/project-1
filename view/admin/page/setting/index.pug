@@ -1,0 +1,86 @@
+extends ../../layout/default.pug
+
+block main
+    if(roleAccount.permission.includes("products_view"))
+        .section-ad-setting
+
+            h2.ad-setting-title Cài đặt chung
+
+                form(
+                    method="POST" 
+                    action=`${prefixAdmin}/settinggeneral?_method=PATCH`
+                    enctype="multipart/form-data"
+                )
+
+                    .ad-setting-card
+
+                        .ad-setting-group
+                            label Tên website
+                            input(
+                                type="text" 
+                                name="title" 
+                                value=setting.title
+                            )
+                        .ad-setting-group
+                            label Logo
+                            input(
+                                type="file" 
+                                name="logo" 
+                                id="logoInput"
+                            )
+                            .ad-setting-logo-preview
+                                if(setting.logo)
+                                    img(
+                                        img-preview
+                                        id="logoPreview"
+                                        src=setting.logo 
+                                        alt="logo"
+                                    )
+
+                        .ad-setting-group
+                            label Email
+                            input(
+                                type="email" 
+                                name="email" 
+                                value=setting.email
+                            )
+
+                        .ad-setting-group
+                            label Số điện thoại
+                            input(
+                                type="text" 
+                                name="phone" 
+                                value=setting.phone
+                            )
+
+                        .ad-setting-group
+                            label Địa chỉ
+                            textarea(
+                                name="address"
+                            )= setting.address
+
+                        .ad-setting-group
+                            label Trạng thái website
+
+                            select(name="status")
+                                option(
+                                    value="active" 
+                                    selected=(setting.status==='active')
+                                ) Hoạt động
+                                option(
+                                    value="inactive" 
+                                    selected=(setting.status==='inactive')
+                                ) Bảo trì
+                        
+                        .ad-setting-group
+                            label Bản quyền
+                            input(
+                                type="text" 
+                                name="copyright" 
+                                value=setting.copyright
+                            )
+                    button(
+                        class="ad-setting-btn"
+                        type="submit"
+                    ) Lưu cài đặt
+        script(src="/admin/JS/product.js") 

@@ -51,3 +51,11 @@ module.exports.createBrand = (req, res, next)=>{
    
     next();
 }
+module.exports.setting = (req, res, next)=>{
+    if(!req.body.title){
+        req.flash("error", "Vui lòng nhập đầy đủ tên web!");
+        res.redirect(req.get("referer") || "/");
+        return;
+    }
+    next();
+}
