@@ -62,23 +62,28 @@ module.exports.payment = async (req, res) => {
         totalPrice: totalPrice,
         status: "pending"
     }
-    const user_id = res.locals.user.id;
-    const createdBy = {
-        user_id: user_id,
-        createdAt: new Date()
+    if (res.locals.user) {
+        const user_id = res.locals.user.id;
+        const createdBy = {
+            user_id: user_id,
+            createdAt: new Date()
+        }
+        if (user_id) {
+            order.user_id = user_id;
+            createdBy.user_id = user_id;
+            order.createdBy = createdBy;
+        }
     }
-    if (user_id) {
-        order.user_id = user_id;
-        createdBy.user_id = user_id;
-        order.createdBy = createdBy;
-    }
+
 
     const infoOrder = new Order(order);
     await infoOrder.save();
+    console.log("đã chạy vào controller")
     // ==============================
     // 💳 THANH TOÁN MOMO
     // ==============================
     if (req.body.paymentMethod === "momo") {
+        console.log("đã chạy vào đây")
         const partnerCode = "MOMO";
         const accessKey = "F8BBA842ECF85";
         const secretKey = "K951B6PE1waDMi640xX08PD3vg6EkVlz";
@@ -87,8 +92,8 @@ module.exports.payment = async (req, res) => {
         const orderId = order_id;
         const orderInfo = "pay with MoMo";
 
-        const redirectUrl = "https://project-1-two-sooty.vercel.app/checkout/payment/return";
-        const ipnUrl = "https://project-1-two-sooty.vercel.app/checkout/payment/notify";
+        const redirectUrl = "http://localhost:5080/checkout/payment/return";
+        const ipnUrl = "http://localhost:5080/checkout/payment/notify";
 
         const amount = totalPrice.toString(); //Tổng tiền
         const requestType = "captureWallet";
@@ -127,14 +132,15 @@ module.exports.payment = async (req, res) => {
         };
 
         try {
+            console.log("đã gọi 1")
             const response = await axios.post(
                 "https://test-payment.momo.vn/v2/gateway/api/create",
                 requestBody
             );
-
+            console.log("đã gọi 2")
             // 🔥 Quan trọng nhất
             const payUrl = response.data.payUrl;
-
+            console.log("đã gọi 3")
             return res.redirect(payUrl);
 
         } catch (error) {
@@ -148,7 +154,7 @@ module.exports.payment = async (req, res) => {
     if (req.body.payment == "moneycash") {
         await Order.updateOne(
             { order_id },
-            { status: "paid" }
+            { status: "pending" }
         );
         // Cập nhật số lượng tồn kho
         for (const product of cart.product) {
@@ -179,7 +185,7 @@ module.exports.payment = async (req, res) => {
     res.redirect(`/checkout/success/${order.order_id}`);
 }
 
-// [POST] /checkout/payment/return
+// [GET] /checkout/payment/return
 module.exports.return = async (req, res) => {
     if (req.query.resultCode == 0) {
         res.send("Thanh toán thành công");
