@@ -13,42 +13,19 @@ module.exports.index = async (req, res) => {
         deleted: false,
         status: "active"
     };
+    const category = await Category.find(find);
+    if(category){
+        const idCategory = category.map(item=>item.id);
+        find.category_id =  {$in: idCategory}
+    }   
+    
     //Phân trang
     const count = await Product.countDocuments(find);
     const paginationPage = paginationHelper.pagination(req.query, count);
     const product = await Product.find(find).limit(paginationPage.limit).skip(paginationPage.skipRecord);
+    // Tạo giá mới
     const newProduct = priceNewHelper.newPriceArray(product);
-
-    // const idBrand = newProduct.filter(item => item.brand_id != "").map(item => {
-    //     return item.brand_id;
-    // });
-    // const newIdBrand = [...new Set(idBrand)];//Xóa trùng id
-    // const brand = await Brand.find({
-    //     _id: { $in: newIdBrand }
-    // }).select("title");
-    // const brandMap = [];
-    // brand.forEach(item => {
-    //     const br = {
-    //         id: item.id,
-    //         title: item.title
-    //     }
-    //     brandMap.push(br);
-    // });
-    // const objBrand = {};
-    // newIdBrand.forEach((item, index) => {
-    //     let count = 0;
-    //     newProduct.forEach(product => {
-    //         if(product.brand_id == item){
-    //             count++;
-    //         }
-    //     });
-    //     objBrand[item] = count;
-    //     count = 0;
-    // })
-    // brandMap.forEach(item=>{
-    //     item.totleProduct = objBrand[item.id];
-    // });
-    // console.log(brandMap);
+    // Thương hiệu
     const brand = await Brand.find({
         deleted: false
     }).select("title");
@@ -123,7 +100,7 @@ module.exports.category = async (req, res)=>{
         product: product
     });
 }
-// [GET] /product/category/:slug
+// [GET] /product/brand/:slug
 module.exports.brand = async (req, res)=>{
     const slug = req.params.slug;
     const brand = await Brand.findOne({

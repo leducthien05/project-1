@@ -77,10 +77,15 @@ block content
                 | #{myCart.totalPrice ? myCart.totalPrice.toLocaleString('vi-VN') : '0'} ₫
 
         .checkout-right
-            a(
-                href="/checkout"
-                class="btn-checkout"
-            ) Thanh toán
+            if(cart.product.length > 0)
+                a(
+                    href="/checkout"
+                    class="btn-checkout"
+                ) Thanh toán
+            else 
+                button(
+                    class="btn-checkout"
+                ) Thanh toán
     form(
         action=`/cart/delete/`, 
         method="post"

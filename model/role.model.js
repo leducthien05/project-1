@@ -7,15 +7,10 @@ const roleSchema = new mongoose.Schema({
         type: Array,
         default: []
     },
-    password: String,
-    token: String,
-    role_id: String,
-    avatar: String,
     status: {
         type: String,
         default: 'active'
     },
-    departments: [String],
     createdBy: {
         account_id: String,
         createdAt: {
