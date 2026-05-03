@@ -94,7 +94,7 @@ block main
                                     class="text-success"
                                 ) #{item.totalPrice} VNĐ
                                 td
-                                    -if (item.status == "pending")
+                                    -if (item.status == "pending" || item.status == "paid")
                                         a(
                                             href="javascript:;"
                                             class="badge bg-warning"
@@ -122,6 +122,7 @@ block main
                                         class="btn btn-sm btn-primary"
                                         href=`${prefixAdmin}/orders/detail/${item._id}`
                                     ) Xem
+        +pagination(pagination)
         form(
             action=`${prefixAdmin}/orders/change-status`, 
             method="post",

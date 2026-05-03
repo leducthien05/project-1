@@ -17,8 +17,10 @@ module.exports.index = async (req, res) => {
     if (req.query.status) {
         find.status = req.query.status
     }
-    const countProduct = await Product.countDocuments(find);
-    const objectPage = pagination.pagination(req.query, find, countProduct);
+    const countOrder = await Order.countDocuments(find);
+    console.log(countOrder)
+    const objectPage = pagination.pagination(req.query, countOrder);
+    console.log(objectPage)
     //Tìm kiếm
     const search = searchOrder.search(req.query);
     if (req.query.keyword) {
@@ -46,6 +48,7 @@ module.exports.index = async (req, res) => {
     res.render("admin/page/order/index", {
         titlePage: "Đơn hàng",
         order: order,
+        pagination: objectPage,
         listStatusOrder: filter,
         keyword: search.keyword
     });

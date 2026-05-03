@@ -26,7 +26,8 @@ block content
                     class="btn-home" 
                     href="/"
                 ) Về trang chủ
-                a(
-                    class="btn-order" 
-                    href="/order"
-                ) Xem đơn hàng
+                if(user)
+                    a(
+                        class="btn-order" 
+                        href="/order"
+                    ) Xem đơn hàng

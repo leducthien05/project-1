@@ -5,6 +5,7 @@ const Order = require("../../model/order.model");
 const axios = require("axios");
 const crypto = require("crypto");
 
+const paymentHelper = require("../../helper/payment.helper");
 const priceHelper = require("../../helper/newPrice.helper");
 // [GET] /checkout
 module.exports.index = async (req, res) => {
@@ -83,75 +84,20 @@ module.exports.payment = async (req, res) => {
     // 💳 THANH TOÁN MOMO
     // ==============================
     if (req.body.paymentMethod === "momo") {
-        console.log("đã chạy vào đây")
-        const partnerCode = "MOMO";
-        const accessKey = "F8BBA842ECF85";
-        const secretKey = "K951B6PE1waDMi640xX08PD3vg6EkVlz";
-
-        const requestId = partnerCode + Date.now();
-        const orderId = order_id;
-        const orderInfo = "pay with MoMo";
-
-        const redirectUrl = "http://localhost:5080/checkout/payment/return";
-        const ipnUrl = "http://localhost:5080/checkout/payment/notify";
-
-        const amount = totalPrice.toString(); //Tổng tiền
-        const requestType = "captureWallet";
-        const extraData = "";
-
-        const rawSignature =
-            `accessKey=${accessKey}` +
-            `&amount=${amount}` +
-            `&extraData=${extraData}` +
-            `&ipnUrl=${ipnUrl}` +
-            `&orderId=${orderId}` +
-            `&orderInfo=${orderInfo}` +
-            `&partnerCode=${partnerCode}` +
-            `&redirectUrl=${redirectUrl}` +
-            `&requestId=${requestId}` +
-            `&requestType=${requestType}`;
-
-        const signature = crypto
-            .createHmac("sha256", secretKey)
-            .update(rawSignature)
-            .digest("hex");
-
-        const requestBody = {
-            partnerCode,
-            accessKey,
-            requestId,
-            amount,
-            orderId,
-            orderInfo,
-            redirectUrl,
-            ipnUrl,
-            extraData,
-            requestType,
-            signature,
-            lang: "vi"
-        };
-
-        try {
-            console.log("đã gọi 1")
-            const response = await axios.post(
-                "https://test-payment.momo.vn/v2/gateway/api/create",
-                requestBody
-            );
-            console.log("đã gọi 2")
-            // 🔥 Quan trọng nhất
-            const payUrl = response.data.payUrl;
-            console.log("đã gọi 3")
-            return res.redirect(payUrl);
-
-        } catch (error) {
-            console.log(error.response?.data || error);
-            return res.send("Lỗi thanh toán MoMo");
-        }
+        console.log("Thanh toán bằng MOMO")
+        await paymentHelper.momo(order_id, totalPrice);
+    }
+    // ==============================
+    // 💳 THANH TOÁN VNPAY
+    // ==============================
+    if(req.body.paymentMethod === "vnpay"){
+        const url = await paymentHelper.vnpay(order_id, totalPrice);
+        return res.redirect(url);
     }
     // ==============================
     // 💵 COD (Thanh toán khi nhận hàng)
     // ==============================
-    if (req.body.payment == "moneycash") {
+    if (req.body.paymentMethod == "moneycash") {
         await Order.updateOne(
             { order_id },
             { status: "pending" }
@@ -179,22 +125,20 @@ module.exports.payment = async (req, res) => {
                 product: []
             }
         });
+        res.redirect(`/checkout/success/${order._id}`);
     }
-
-
-    res.redirect(`/checkout/success/${order.order_id}`);
 }
 
-// [GET] /checkout/payment/return
+// [GET] /checkout/payment-momo/return
 module.exports.return = async (req, res) => {
     if (req.query.resultCode == 0) {
-        res.send("Thanh toán thành công");
+        res.redirect(`/checkout/payment/notify?reusultCode=0&&order_id=${order.order_id}`);
     } else {
         res.send("Thanh toán thất bại");
     }
 }
 
-// [POST] /checkout/payment/notify
+// [POST] /checkout/payment-momo/notify
 module.exports.notify = async (req, res) => {
     const { resultCode, orderId } = req.body;
 
@@ -236,11 +180,54 @@ module.exports.notify = async (req, res) => {
     res.status(200).json({ message: "OK" });
 }
 
-// [POST] /checkout/success/:order_id
+// [POST] /checkout/payment-vnpay
+module.exports.vnpay = async (req, res) => {
+    const responseCode = req.query.vnp_ResponseCode;
+    const transactionStatus = req.query.vnp_TransactionStatus;
+    order_id = req.query.vnp_OrderInfo
+    if ( responseCode === "00" && transactionStatus === "00") {
+        const order = await Order.findOne({ order_id: order_id });
+
+        // trừ kho
+        for (const product of order.product) {
+            await Product.updateOne(
+                {
+                    _id: product.product_id,
+                    stock: { $gte: product.quantity }
+                },
+                {
+                    $inc: { stock: -product.quantity }
+                }
+            );
+        }
+
+        // ✅ update trạng thái
+        await Order.updateOne(
+            { order_id: order_id },
+            { status: "paid" }
+        );
+        await Cart.updateOne({
+            _id: req.cookies.cartID
+        }, {
+            $set: {
+                product: []
+            }
+        });
+        return res.redirect(`/checkout/success/${order._id}`);
+    } else {
+        await Order.updateOne(
+            { order_id: order_id },
+            { status: "pending" }
+        );
+        return res.redirect("/checkout");
+    }
+}
+
+// [POST] /checkout/success/:id
 module.exports.success = async (req, res) => {
-    const order_id = req.params.order_id
+    const idOrder = req.params.id
     const order = await Order.findOne({
-        order_id: order_id
+        _id: idOrder
     });
     res.render("client/page/checkout/success", {
         titlePage: "Đặt hàng thành công",

@@ -9,7 +9,7 @@ if(formChangeStatus){
             let status;
             if (value === "pending") {
                 status = "processing";
-            } else if (value === "processing") {
+            } else if (value === "processing" || value === "paid") {
                 status = "shipping";
             } else if (value === "shipping") {
                 status = "completed";

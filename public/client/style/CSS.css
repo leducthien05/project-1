@@ -914,6 +914,10 @@ font-size: 14px; /* ✅ thêm dòng này */
   background: #facc15;
   color: #000;
 }
+.status.paid {
+  background: #facc15;
+  color: #000;
+}
 
 .status.cancel {
   background: #dc2626;
