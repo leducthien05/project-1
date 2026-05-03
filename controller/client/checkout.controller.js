@@ -145,33 +145,36 @@ module.exports.payment = async (req, res) => {
     // ==============================
     // 💵 COD (Thanh toán khi nhận hàng)
     // ==============================
-    await Order.updateOne(
-        { order_id },
-        { status: "paid" }
-    );
-    // Cập nhật số lượng tồn kho
-    for (const product of cart.product) {
-        const productInfo = await Product.findOne({
-            _id: product.product_id
-        }).select("name");
-        const updateProduct = await Product.updateOne({
-            _id: product.product_id,
-            stock: { $gte: product.quantity } //So sánh số lượng trong kho: lớn hơn hoặc bằng
+    if (req.body.payment == "moneycash") {
+        await Order.updateOne(
+            { order_id },
+            { status: "paid" }
+        );
+        // Cập nhật số lượng tồn kho
+        for (const product of cart.product) {
+            const productInfo = await Product.findOne({
+                _id: product.product_id
+            }).select("name");
+            const updateProduct = await Product.updateOne({
+                _id: product.product_id,
+                stock: { $gte: product.quantity } //So sánh số lượng trong kho: lớn hơn hoặc bằng
+            }, {
+                $inc: { stock: -product.quantity } // trừ trực tiếp vào trong database
+            });
+            if (updateProduct.modifiedCount === 0) {
+                req.flash("error", `Sản phẩm ${productInfo.name} không đủ hàng`);
+                return res.redirect("/cart");
+            }
+        }
+        await Cart.updateOne({
+            _id: req.cookies.cartID
         }, {
-            $inc: { stock: -product.quantity } // trừ trực tiếp vào trong database
+            $set: {
+                product: []
+            }
         });
-        if (updateProduct.modifiedCount === 0) {
-            req.flash("error", `Sản phẩm ${productInfo.name} không đủ hàng`);
-            return res.redirect("/cart");
-        }
     }
-    await Cart.updateOne({
-        _id: req.cookies.cartID
-    }, {
-        $set: {
-            product: []
-        }
-    });
+
 
     res.redirect(`/checkout/success/${order.order_id}`);
 }
