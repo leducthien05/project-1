@@ -68,15 +68,16 @@ module.exports.momo = async (order_id, totalPrice) => {
 }
 
 // Thanh toán qua VNPAY
+const vnpay = new VNPay({
+    tmnCode: 'AEU74WEN',
+    secureSecret: 'WHD7MMC3PN7HQRYPGDYUXLQ25J2JRKBF',
+    vnpayHost: 'https://sandbox.vnpayment.vn',
+    testMode: true, // tùy chọn
+    hashAlgorithm: 'SHA512', // tùy chọn
+    loggerFn: ignoreLogger, // tùy chọn
+});
 module.exports.vnpay = async (order_id, totalPrice) => {
-    const vnpay = new VNPay({
-        tmnCode: 'AEU74WEN',
-        secureSecret: 'WHD7MMC3PN7HQRYPGDYUXLQ25J2JRKBF',
-        vnpayHost: 'https://sandbox.vnpayment.vn',
-        testMode: true, // tùy chọn
-        hashAlgorithm: 'SHA512', // tùy chọn
-        loggerFn: ignoreLogger, // tùy chọn
-    });
+
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
     const vnpayResponse = await vnpay.buildPaymentUrl({
@@ -85,11 +86,14 @@ module.exports.vnpay = async (order_id, totalPrice) => {
         vnp_TxnRef: order_id,
         vnp_OrderInfo: order_id,
         vnp_OrderType: ProductCode.Other,
-        vnp_ReturnUrl: `http://localhost:5080/checkout/payment-vnpay`,
+        vnp_ReturnUrl: `https://project-1-two-sooty.vercel.app/checkout/payment-vnpay`,
+        // vnp_IpnUrl: "http://localhost:5080/checkout/vnpay_ipn",
         vnp_Locale: VnpLocale.VN, // 'vn' hoặc 'en'
         vnp_CreateDate: dateFormat(new Date()), // tùy chọn, mặc định là hiện tại
         vnp_ExpireDate: dateFormat(tomorrow), // tùy chọn
     });
-
     return vnpayResponse;
 }
+module.exports.verifyReturnUrl = (query) => {
+    return vnpay.verifyReturnUrl(query);
+};

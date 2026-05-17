@@ -45,7 +45,7 @@ const path = require('path');
 app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
 //Cấu hình express-flash
 const flash = require('express-flash');
-app.use(flash());;
+app.use(flash());
 //Cấu hình router
 const router = require("./router/admin/index.router");
 const routerClient = require("./router/client/index.router");

@@ -79,7 +79,6 @@ module.exports.payment = async (req, res) => {
 
     const infoOrder = new Order(order);
     await infoOrder.save();
-    console.log("đã chạy vào controller")
     // ==============================
     // 💳 THANH TOÁN MOMO
     // ==============================
@@ -90,7 +89,7 @@ module.exports.payment = async (req, res) => {
     // ==============================
     // 💳 THANH TOÁN VNPAY
     // ==============================
-    if(req.body.paymentMethod === "vnpay"){
+    if (req.body.paymentMethod === "vnpay") {
         const url = await paymentHelper.vnpay(order_id, totalPrice);
         return res.redirect(url);
     }
@@ -182,6 +181,14 @@ module.exports.notify = async (req, res) => {
 
 // [POST] /checkout/payment-vnpay
 module.exports.vnpay = async (req, res) => {
+    const isValid = paymentHelper.verifyReturnUrl(req.query);
+
+    if (!isValid) {
+        return res.json({
+            RspCode: "97",
+            Message: "Invalid signature"
+        });
+    }
     const responseCode = req.query.vnp_ResponseCode;
     const transactionStatus = req.query.vnp_TransactionStatus;
     order_id = req.query.vnp_OrderInfo
